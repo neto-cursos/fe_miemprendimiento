@@ -1,4 +1,4 @@
-const loginFields=[
+export const loginFields=[
     {
         labelText:"Correo Electronico",
         labelFor:"email",
@@ -35,7 +35,7 @@ const loginFields=[
     isRequired:true,
     placeholder:"Ingrese nuevamente su Password"   
 },*/
-const signupFields=[
+export const signupFields=[
     {
         labelText:"Nombre",
         labelFor:"name",
@@ -78,7 +78,7 @@ const signupFields=[
     }    
 ]
 
-const emprendimientoFields=[
+export const emprendimientoFields=[
     {
         labelText:"Nombre De Emprendimiento",
         labelFor:"empr_nomb",
@@ -90,4 +90,3 @@ const emprendimientoFields=[
         placeholder:"nombre de su emprendimiento"   
     }
 ]
-export {loginFields,signupFields,emprendimientoFields}
