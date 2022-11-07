@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import BrandLinkText from './BrandLinkText'
-import IconFacebook from './../../assets/Icons/iconFacebook';
-import IconYoutube from './../../assets/Icons/iconYoutube';
-import IconInstagram from './../../assets/Icons/iconInstagram';
-import IconWhatsapp from './../../assets/Icons/iconWhatsapp';
-import IconTwitter from './../../assets/Icons/iconTwitter';
+import IconFacebook from './../../assets/icons/iconFacebook';
+import IconYoutube from './../../assets/icons/iconYoutube';
+import IconInstagram from './../../assets/icons/iconInstagram';
+import IconWhatsapp from './../../assets/icons/iconWhatsapp';
+import IconTwitter from './../../assets/icons/iconTwitter';
 
 const Footer = () => {
     
