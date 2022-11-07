@@ -12,7 +12,15 @@ import {Children} from "./components/SideBar/SideBar.Style";
 import { setDataFromLocalSave } from './redux/reducers/userSlice';
 import RequireAuth from './components/RequireAuth/RequireAuth';
 import RequireNoAuth from './components/RequireNoAuth/RequireNoAuth';
-
+import Signup from './pages/Signup';
+import MainMenu from './pages/MainMenu';
+import SecondMenu from './pages/SecondMenu';
+import RegisterEmprendimiento from './pages/RegisterEmprendimiento';
+import MbCanvas from './pages/MbCanvas';
+import MisEmprendimientos from './pages/MisEmprendimientos';
+import EmprendUpdate from './components/Crud/CrudEmprend/EmprendUpdate';
+import EmprendList from './components/Crud/CrudEmprend/EmprendList';
+import LogOut from './components/LogOut';
 function App() {
   
   // const [auth, setAuth] = useState(false);
@@ -39,6 +47,18 @@ function App() {
           <Switch>
             <Route exact path="/" element={<Home />} />
             <Route path="/login" element={<RequireNoAuth><Login /></RequireNoAuth>} />
+            <Route path="/signup" element={<RequireNoAuth><Signup /></RequireNoAuth>}/>
+            <Route path="/welcome" element={<RequireAuth><MainMenu/></RequireAuth>}/>
+            <Route path="/emprendimiento/:empr_id" element={<SecondMenu></SecondMenu>}></Route>
+
+            <Route path="/nuevoemprendimiento" element={<RegisterEmprendimiento></RegisterEmprendimiento>}></Route>
+            <Route path="/emprendimiento/:empr_id/update" element={<EmprendUpdate></EmprendUpdate>}></Route>
+            <Route path="/emprendimiento/:empr_id/bmc" element={<MbCanvas></MbCanvas>}></Route>
+            <Route path="/logout" element={<LogOut></LogOut>} />
+            <Route exact path="/misemprendimientos" element={<MisEmprendimientos></MisEmprendimientos>} />
+            {/* <Route exact path="/emprendimiento/:empr_id/cronograma" element={<Cronograma></Cronograma>} /> */}
+            <Route exact path="/misemprendimientos/:user_id" element={<EmprendList></EmprendList>} />
+            {/* <Route exact path="/misemprendimientos/fill/:empr_id/:modu_nume/:bmc_type" element={<ModelCanvasPreguntas></ModelCanvasPreguntas>} /> */}
             <Route path="*" 
             element={<main style={{ padding: "1rem" }}><p>No hay nada aquí!</p></main>}/>
           </Switch>
