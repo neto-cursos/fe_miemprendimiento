@@ -5,8 +5,8 @@ import { isLoggedIn } from '../../utils/UtilsAuth';
 import BrandLink from './BrandLink';
 import BriefcaseIcon from './../../assets/icons/BriefcaseIcon';
 import NavLinks from './NavLinks';
-import NavbarLogout from './NavbarLogout';
-import NavbarSesion from './NavbarSession';
+import NavBarLogout from './NavBarLogout';
+import NavBarSession from './NavBarSession';
 
 const NavBar = ({ showLogin}) => {
        const { auth, userInfo} = useSelector(state => state.usuarios);   
@@ -27,9 +27,9 @@ const NavBar = ({ showLogin}) => {
                 </div>
             </div>
             <div className='flex items-center flex-col justify-center md:flex-row'>
-                {showLogin ? <NavbarLogout userName={userName} userApellido={userApellido}></NavbarLogout>/*<NavLink className='mr-2 text-xs' to="/logout">
+                {showLogin ? <NavBarLogout userName={userName} userApellido={userApellido}></NavBarLogout>/*<NavLink className='mr-2 text-xs' to="/logout">
                     cerrar sesión*/
-                    : <NavbarSesion></NavbarSesion>}
+                    : <NavBarSession></NavBarSession>}
 
             </div>
         </nav>
