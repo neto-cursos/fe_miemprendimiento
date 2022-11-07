@@ -6,34 +6,38 @@
   font-family: 'KronaOneRegular';
   src: local('KronaOneRegular'), url(./assets/fonts/KronaOneRegular.ttf) format('truetype');
 }
+
 @font-face {
   font-family: 'AnekTeluguRegular';
   src: local('AnekteluguRegular'), url(./assets/fonts/AnekTeluguRegular.ttf) format('truetype');
 }
+
 @font-face {
   font-family: 'Poppins';
   src: local('Poppins'), url(./assets/fonts/Poppins.ttf) format('truetype');
 }
 
-:root{
-  --main-radius:5px;
-  --main-padding:5px;
-  }
-.container {
-  display: grid;
-  height: 100vh;
-  grid-template-columns: 1fr 1 fr 1fr 1fr;
-  grid-template-rows: 0.2fr 1.5fr 1.2fr 0.8 fr;
-  grid-template-areas: "nav nav nav nav"
-    "sidebar main main main"
-    "sidebar content1 content2 content3"
-    "footer footer footer footer";
-  grid-gap: 0.2rem;
-  grid-gap: 0.2rem;
-  font-family: "Inter", sans-serif;
-  font-weight: 800;
-  text-transform: uppercase;
-  font-size: 12px;
-  color: #004d40;
-  text-align: center;
+:root {
+  --main-radius: 5px;
+  --main-padding: 5px;
 }
+#root {
+  display: flex;
+  flex-direction: column;
+  /* height: 100vh; */
+ }
+ 
+ body{
+  @apply font-poppins;
+  /* position: relative; */
+  /* min-height: 100vh; */
+}
+#main {
+  width: 100vw;
+  /* height: 100vh; */
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+

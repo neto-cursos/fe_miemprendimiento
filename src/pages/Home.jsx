@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import ChkWindowSize from '../components/ChkWindowSize';
-import bmcportada from './../assets/image/img_business_model_canvas.jpg';
+import bmcportada from './../assets/images/img_business_model_canvas.jpg';
 import {getWindowSize} from './../utils/checkWindow';
 const Home = () => {
     const [windowSize, setWindowSize] = React.useState(getWindowSize());

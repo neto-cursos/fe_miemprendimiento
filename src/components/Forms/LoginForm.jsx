@@ -7,8 +7,6 @@ import Error from '../Error';
 import * as yup from "yup";
 import { userLogin } from './../../redux/actions/userActions';
 
-
-
 const fields = loginFields;
 let fieldsState = {};
 fields.forEach(field => fieldsState[field.id] = '');
