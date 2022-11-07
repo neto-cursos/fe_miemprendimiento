@@ -8,7 +8,8 @@ const ApiAuth = () => {
     
     const api = axios.create({
         //baseURL: 'http://localhost:8000/api',
-        baseURL: 'http://44.202.39.9/public/api',
+        // baseURL: 'http://44.202.39.9/public/api',
+        baseURL: '/api',
         withCredentials: true,
         headers:{
             Authorization:`${token}`,
