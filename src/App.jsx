@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import reactLogo from './assets/svg/react.svg'
+import { useState } from 'react';
+import reactLogo from './assets/svg/react.svg';
 import './App.css';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Routes as Switch, Route } from 'react-router-dom';

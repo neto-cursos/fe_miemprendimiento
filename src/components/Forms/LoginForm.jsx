@@ -2,8 +2,8 @@ import { FormAction, FormExtra, Input, Header } from "./Elements";
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { loginFields } from './../../constants/formFields'
-import Error from '../Error'
+import { loginFields } from './../../constants/formFields';
+import Error from '../Error';
 import * as yup from "yup";
 import { userLogin } from './../../redux/actions/userActions';
 
