@@ -9,11 +9,11 @@ import IconTwitter from './../../assets/icons/iconTwitter';
 const Footer = () => {
     
     return (
-        <footer className=' bg-bglogotext p-2'>
+        <footer className='bg-darkish p-2'>
             <div className='container relative justify-between flex items-center'>
-                <BrandLinkText classes='text-darkish' />
-                {window.innerWidth>920&&<div className='text-xs md:text-2xl'>Fundación Educar para la vida 2022</div>}
-                <div className='flex'>
+                <BrandLinkText classes='text-bglogotext' />
+                {window.innerWidth>920&&<div className='text-xs md:text-2xl text-bglogotext'>Fundación Educar para la vida 2022</div>}
+                <div className='flex text-bglogotext'>
                     <a className="hover:bg-blue-300 rounded-md" href='https://www.facebook.com/Fundaci%C3%B3n-Educar-para-La-Vida-108972277335908'>
                         <IconFacebook></IconFacebook>
                     </a>

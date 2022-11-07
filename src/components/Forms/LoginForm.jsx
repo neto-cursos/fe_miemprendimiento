@@ -16,7 +16,12 @@ const LoginForm = (props) => {
     const dispatch = useDispatch();
     const schema = yup.object({
         email: yup.string().required().typeError('Debe ingresar un email válido'),
-        password: yup.string().required().typeError('Debe ingresar su password'),
+        password: yup.string().required()
+        .trim('su password no debe incluir espacios al inicio o final')
+        .strict(true)
+        .min(5, 'su password debe tener un mínimo de 5 caracteres')
+        .max(50, 'su password no debe exceder el máximo de 50 caracteres')
+        .typeError('Debe ingresar su password'),
     }).required();
 
     const { register, handleSubmit, formState: { errors } } = useForm({
@@ -28,7 +33,7 @@ const LoginForm = (props) => {
     console.log("==Login Form==")
 
     const submitForm = (data) => {
-       // dispatch(userLogin(data));
+       dispatch(userLogin(data));
     }
 
 
@@ -36,8 +41,8 @@ const LoginForm = (props) => {
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit(submitForm)}>
             {error && <Error>{errores}</Error>}
-            {errors.email?.message}
-            {errors.password?.message}
+            {/* {errors.email?.message}
+            {errors.password?.message} */}
             <div className="-space-y-px">
                 {
                     fields.map(field =>
@@ -53,6 +58,7 @@ const LoginForm = (props) => {
                             type={field.type}
                             isRequired={field.isRequired}
                             placeholder={field.placeholder}
+                            errors={errors}
                         />
                     )
                 }

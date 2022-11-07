@@ -12,7 +12,8 @@ React.forwardRef(
        isRequired,
        placeholder,
        customClass,
-       value
+       value,
+       errors
      }, ref)=> {
     return (
         <div className="my-5">
@@ -30,7 +31,8 @@ React.forwardRef(
                 className={fixedInputClass + customClass}
                 placeholder={placeholder}
                 value={value}
-            />
+            /><span className='text-red-700'>
+            {errors[name]?.message}</span>
         </div>
     );
 });

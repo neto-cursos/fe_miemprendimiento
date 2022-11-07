@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { nanoid } from 'nanoid';
 import { checkLoggedIn, getUserDetails, logOutSession, 
     registerUser, userLogin } from '../actions/userActions';
-
+    import { logOut, OpLogIn } from './../../utils/UtilsAuth'
 
 
 const initialState = {
@@ -59,9 +59,9 @@ const userSlice = createSlice({
         builder
             .addCase(userLogin.pending, (state, action) => {
                 console.log('USERLOGIN PENDING');
-                state.loading = true
-                state.error = null
-                state.auth = false
+                state.loading = true;
+                state.error = null;
+                state.auth = false;
                 state.errores = [{}];
                 localStorage.removeItem('usr_dt');
                 localStorage.setItem('auth', state.auth);

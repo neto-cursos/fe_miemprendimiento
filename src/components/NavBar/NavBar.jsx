@@ -7,7 +7,7 @@ import BriefcaseIcon from './../../assets/icons/BriefcaseIcon';
 import NavLinks from './NavLinks';
 import NavBarLogout from './NavBarLogout';
 import NavBarSession from './NavBarSession';
-
+import NavBarFondo from './../../assets/svg/NavBarFondo'
 const NavBar = ({ showLogin}) => {
        const { auth, userInfo} = useSelector(state => state.usuarios);   
     console.log("NavBar .. auth from useRedux:" + auth);
@@ -17,7 +17,9 @@ const NavBar = ({ showLogin}) => {
     console.log("NavBar .. Shows islogged()?:" + islogged)
 
     return (
-        <nav className='font-krona flex justify-between py-2 bg-bglogo text-whitish'>
+        <nav className='font-krona flex justify-between py-2 bg-gradient-to-r from-naranja-fondo via-rojo to-naranja-fondo text-whitish'>
+            {/* <div className="relative flex">
+            <NavBarFondo></NavBarFondo></div> */}
             <BrandLink>
             </BrandLink>
             <div className='flex items-center flex-col md:flex-row'>

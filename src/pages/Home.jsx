@@ -1,8 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import ChkWindowSize from '../components/ChkWindowSize';
-import bmcportada from './../assets/images/img_business_model_canvas.jpg';
 import {getWindowSize} from './../utils/checkWindow';
+import bmcportada from './../assets/images/img_business_model_canvas.jpg';
+
 const Home = () => {
     const [windowSize, setWindowSize] = React.useState(getWindowSize());
     const clase1 = `md:h-full container flex items-center flex-row`;
@@ -11,7 +12,7 @@ const Home = () => {
         <>
             <ChkWindowSize setWindowSize={setWindowSize}></ChkWindowSize>
             <div className={`${windowSize.innerWidth > 640 ? clase2 : clase1}`}>
-                <div className='bg-redish px-12 py-16 w-full md:w-1/2 items-center md:h-full'>
+                <div className='bg-naranja-fondo px-12 py-16 w-full md:w-1/2 items-center md:h-full'>
                     <h1 className='font-krona text-lg mb-2 mt-10 md:mt-32'>
                         Crea tu plan de negocios
                     </h1>

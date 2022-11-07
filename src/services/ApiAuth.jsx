@@ -1,13 +1,14 @@
 import axios from 'axios';
-import { logOut } from './../utils/UtilsAuth';
 
 const ApiAuth = () => {
     //window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     let token='';
     localStorage.getItem('bearertoken')?token=localStorage.getItem('bearertoken'):token='';
     console.log('token: '+token);
+    
     const api = axios.create({
-        baseURL: 'http://localhost:8000/api',
+        //baseURL: 'http://localhost:8000/api',
+        baseURL: 'http://44.202.39.9/public/api',
         withCredentials: true,
         headers:{
             Authorization:`${token}`,

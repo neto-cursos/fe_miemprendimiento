@@ -3,7 +3,7 @@ import React from 'react';
 const IconFacebook = () => {
     return (
         <svg 
-        fill="#000000" 
+        fill="#FFFFFF" 
         xmlns="http://www.w3.org/2000/svg"  
         viewBox="0 0 24 24" 
         width="48px" 
