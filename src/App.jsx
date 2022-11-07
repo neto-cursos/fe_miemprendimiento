@@ -7,7 +7,8 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
-
+import { SideBarComp} from "./components/SideBar";
+import {Children} from "./components/SideBar/SideBar.Style";
 function App() {
   const [auth, setAuth] = useState(false);
   const [count, setCount] = useState(0);
@@ -20,12 +21,17 @@ function App() {
       {!auth ? <NavBar showLogin={false} auth={auth}></NavBar> :
         <NavBar showLogin={true} auth={auth}></NavBar>}
       <div id="main">
-        <Switch>
-          <Route exact path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-        </Switch>
+        {auth && (<SideBarComp displaySidebar={displaySidebar} setDisplaySidebar={setDisplaySidebar}>
+        </SideBarComp>)}
+        <Children displaySidebar={displaySidebar} sidebar={auth ? true : false}>
+
+          <Switch>
+            <Route exact path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+          </Switch>
+        </Children>
       </div>
-      <Footer></Footer> 
+      <Footer></Footer>
     </Router>
 
   </>
