@@ -1,34 +1,25 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import reactLogo from './assets/svg/react.svg'
+import './App.css';
+import { useDispatch } from 'react-redux';
+import { BrowserRouter as Router, Routes as Switch, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Login from './pages/Login';
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
+  const [count, setCount] = useState(0);
+  const [displaySidebar, setDisplaySidebar] = useState(false);
+  // const { auth } = useSelector(state => state.usuarios);
+  const dispatch = useDispatch();
+  return (<>
+    <Router>
+      <Switch>
+        <Route exact path="/" element={<Home />}/>
+        <Route path="/login" element={<Login/>}/>
+      </Switch>
+    </Router>
+  </>
   )
 }
-
 export default App
+
