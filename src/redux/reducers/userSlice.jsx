@@ -1,8 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { nanoid } from 'nanoid';
-import { checkLoggedIn, getUserDetails, logOutSession, 
-    registerUser, userLogin } from '../actions/userActions';
-    import { logOut, OpLogIn } from './../../utils/UtilsAuth'
+import {
+    checkLoggedIn, getUserDetails, logOutSession,
+    registerUser, userLogin
+} from '../actions/userActions';
+import { logOut, OpLogIn } from './../../utils/UtilsAuth'
 
 
 const initialState = {
@@ -14,7 +16,7 @@ const initialState = {
         access_token: '',
         access_type: ''
     },
-    userToken:null,
+    userToken: null,
     auth: false,
     status: 'idle',//idle|loading|succeeded|failed
     error: null,
@@ -44,14 +46,24 @@ const userSlice = createSlice({
         setDataFromLocalSave: (state, action) => {
             const userInfo = localStorage.getItem('usr_dt') ?
                 JSON.parse(localStorage.getItem('usr_dt')) :
-                defaultValues().userInfo;
-            state.userInfo = {
-                user_name: userInfo.user_name,
-                user_id: userInfo.user_id,
-                user_apellido: userInfo.user_apellido,
-                access_token: userInfo.access_token,
-                access_type: userInfo.token_type
-            };
+                initialState;
+            state = {
+                ...state, userInfo: {
+                    ...state.userInfo,
+                    user_name: userInfo.user_name,
+                    user_id: userInfo.user_id,
+                    user_apellido: userInfo.user_apellido,
+                    access_token: userInfo.access_token,
+                    access_type: userInfo.token_type
+                },auth:localStorage.getItem('auth')? true : false,
+            }
+            // state.userInfo = {
+            //     user_name: userInfo.user_name,
+            //     user_id: userInfo.user_id,
+            //     user_apellido: userInfo.user_apellido,
+            //     access_token: userInfo.access_token,
+            //     access_type: userInfo.token_type
+            // };
         }
     },
     extraReducers(builder) {
