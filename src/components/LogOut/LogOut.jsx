@@ -1,76 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, Navigate, useNavigate } from "react-router-dom";
-import ApiAuth from './../../services/ApiAuth';
-
 import { isLoggedIn, logOut } from './../../utils/UtilsAuth';
 import { logOutSession } from './../../redux/actions/userActions';
 import { getauth, logout, updateAuth, updateLoading } from './../../redux/reducers/userSlice';
 //import { useAuth } from "../hooks/Auth";
 
 //({children})
-const LogOut = ({children }) => {
+const LogOut = ({ children }) => {
   const navigate = useNavigate();
-  
   //let { user } = isLoggedIn();
-  const {loading}=useSelector(state=>state.usuarios);
+  const { loading } = useSelector(state => state.usuarios);
   //const usuarios = useSelector(state => state.usuarios);
-
   const auth = useSelector(getauth);
   const dispatch = useDispatch();
   const location = useLocation();
   const [isLogOut, setIsLogOut] = useState(false);
-  const [isAuth, setIsAuth] =useState(auth?auth:false);
-  const [redirect, setRedirect] = useState(false);
-  console.log("ISAUTH");
-  console.log(isAuth);
+  // const [redirect, setRedirect] = useState(false);
   useEffect(() => {
-    console.log('Entró usuarioAuth');
-    console.log(auth);
-
-    if (isAuth === false) {
+    if (auth === true) {
       dispatch(logOutSession());
-      console.log("AUTH FALSE logout")
-       logOut();
-       //window.location.reload();
-     }
-     return setIsLogOut(true)
-
-  }, [isAuth]);
-
-
-  // useEffect(() => {
-  //   if (isAuth === true)
-  //     setIsLogOut(true);
-  // }, [isAuth]);
-
-  useEffect(() => {
-    // setIsAuth(false);
-    localStorage.clear();
-    // console.log("localstorage");
-    // console.log(localStorage);
-     
-    // console.log('Entró dispatch logoutSession');
-     setIsAuth(false);
-    //dispatch(updateAuth(false));
-
+      localStorage.clear();
+      logOut();
+      //window.location.reload();
+      //navigate(`/login`);
+    }
+    return setIsLogOut(true)
   }, []);
-
-  useEffect(() => {
-      // window.location.reload();
-      
-      if(isLogOut===true){
-        console.log("WAIIT")
-        window.location.reload();
-        //navigate(`/login`);
-      }
-      
-  }, [isLogOut]);
-
-//   useEffect(() => {
-//     if (redirect === true)
-//         navigate(`/login`);
-// }, [redirect])
 
 
   return isLogOut && <Navigate to="/login" state={{ from: location }} replace />;

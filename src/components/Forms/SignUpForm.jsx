@@ -8,7 +8,6 @@ import Input from './Elements/Input';
 
 const fields = signupFields;
 let fieldsState = {};
-
 fields.forEach(field => fieldsState[field.id] = '');
 const SignUpform = () => {
   const [navigate, setNavigate] = useState(false);

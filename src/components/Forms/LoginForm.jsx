@@ -30,7 +30,7 @@ const LoginForm = (props) => {
     /**
      * Console log
      */
-    console.log("==Login Form==")
+    // console.log("==Login Form==")
 
     const submitForm = (data) => {
        dispatch(userLogin(data));

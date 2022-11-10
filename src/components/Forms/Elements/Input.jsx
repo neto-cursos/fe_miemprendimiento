@@ -32,7 +32,7 @@ React.forwardRef(
                 placeholder={placeholder}
                 value={value}
             /><span className='text-red-700'>
-            {errors[name]?.message}</span>
+            {errors&&errors[name]?.message}</span>
         </div>
     );
 });

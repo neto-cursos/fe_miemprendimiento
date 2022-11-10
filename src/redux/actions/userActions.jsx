@@ -5,9 +5,16 @@ export const userLogin = createAsyncThunk('usuarios/login',
   async (datos) => {
         const data=await ApiAuth().post('/auth/token',datos).then(response => {
         return response.data;
-    })
-      const token = `Bearer ${data['access_token']}`;
-      localStorage.setItem('bearertoken',token);  
+    });
+    //.catch(error=>{console.log(error); return []})
+    if(typeof(data)==='object'){
+     if (data.hasOwnProperty('access_token'))
+     {
+      console.log("YAY");
+     }else{console.log("NO YAY");}
+    }else console.log("no es un objeto");
+      // const token = data['access_token']?`Bearer ${data['access_token']}`:'';
+      // localStorage.setItem('bearertoken',token);  
       return data
   }
 )

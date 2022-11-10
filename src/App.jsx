@@ -7,8 +7,8 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
-import { SideBarComp} from "./components/SideBar";
-import {Children} from "./components/SideBar/SideBar.Style";
+import { SideBarComp } from "./components/SideBar";
+import { Children } from "./components/SideBar/SideBar.Style";
 import { setDataFromLocalSave } from './redux/reducers/userSlice';
 import RequireAuth from './components/RequireAuth/RequireAuth';
 import RequireNoAuth from './components/RequireNoAuth/RequireNoAuth';
@@ -30,9 +30,14 @@ function App() {
   // const { auth } = useSelector(state => state.usuarios);
   const dispatch = useDispatch();
   useLayoutEffect(() => {
-    if (localStorage.getItem('auth'))
-    dispatch(setDataFromLocalSave());
-  }, [auth, dispatch]);
+    // console.log("ingreso a useLayoutEffect on App.js")
+    
+    if (localStorage.getItem('auth')) {
+      
+      console.log("auth detected")
+      dispatch(setDataFromLocalSave());
+    }
+  }, [auth]);
 
   return (<>
 
@@ -47,8 +52,8 @@ function App() {
           <Switch>
             <Route exact path="/" element={<Home />} />
             <Route path="/login" element={<RequireNoAuth><Login /></RequireNoAuth>} />
-            <Route path="/signup" element={<RequireNoAuth><Signup /></RequireNoAuth>}/>
-            <Route path="/welcome" element={<RequireAuth><MainMenu/></RequireAuth>}/>
+            <Route path="/signup" element={<RequireNoAuth><Signup /></RequireNoAuth>} />
+            <Route path="/welcome" element={<RequireAuth><MainMenu /></RequireAuth>} />
             <Route path="/emprendimiento/:empr_id" element={<SecondMenu></SecondMenu>}></Route>
 
             <Route path="/nuevoemprendimiento" element={<RegisterEmprendimiento></RegisterEmprendimiento>}></Route>
@@ -59,8 +64,8 @@ function App() {
             {/* <Route exact path="/emprendimiento/:empr_id/cronograma" element={<Cronograma></Cronograma>} /> */}
             <Route exact path="/misemprendimientos/:user_id" element={<EmprendList></EmprendList>} />
             {/* <Route exact path="/misemprendimientos/fill/:empr_id/:modu_nume/:bmc_type" element={<ModelCanvasPreguntas></ModelCanvasPreguntas>} /> */}
-            <Route path="*" 
-            element={<main style={{ padding: "1rem" }}><p>No hay nada aquí!</p></main>}/>
+            <Route path="*"
+              element={<main style={{ padding: "1rem" }}><p>No hay nada aquí!</p></main>} />
           </Switch>
         </Children>
       </div>

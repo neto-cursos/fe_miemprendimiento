@@ -29,13 +29,11 @@ const userSlice = createSlice({
     name: 'usuarios',
     initialState,
     reducers: {
-
         logout: (state) => {
             localStorage.removeItem('bearerToken');
             state = initialState;
-            state.userToken = null;
-            state.loading = false;
             logOut();
+            return state;
         },
         updateLoading: (state, action) => {
             state.loading = action.payload;
@@ -43,11 +41,12 @@ const userSlice = createSlice({
         updateAuth: (state, action) => {
             state.auth = action.payload;
         },
-        setDataFromLocalSave: (state, action) => {
+        setDataFromLocalSave: {
+            reducer(state, action) {
             const userInfo = localStorage.getItem('usr_dt') ?
                 JSON.parse(localStorage.getItem('usr_dt')) :
-                initialState;
-            state = {
+                {user_name:'',user_id:'',user_apellido:'',access_token:'',token_type:''};
+            state= {
                 ...state, userInfo: {
                     ...state.userInfo,
                     user_name: userInfo.user_name,
@@ -56,15 +55,12 @@ const userSlice = createSlice({
                     access_token: userInfo.access_token,
                     access_type: userInfo.token_type
                 },auth:localStorage.getItem('auth')? true : false,
-            }
-            // state.userInfo = {
-            //     user_name: userInfo.user_name,
-            //     user_id: userInfo.user_id,
-            //     user_apellido: userInfo.user_apellido,
-            //     access_token: userInfo.access_token,
-            //     access_type: userInfo.token_type
-            // };
-        }
+            };
+            console.log("State CHANGED");
+            console.log(state);
+            console.log("CHANGED FINISHED");
+            return state;
+        }}
     },
     extraReducers(builder) {
         // login user
@@ -98,14 +94,17 @@ const userSlice = createSlice({
                 OpLogIn();
             })
             .addCase(userLogin.rejected, (state, action) => {
+                
                 console.log('USERLOGIN REJECTEDS');
+                console.log(action);
                 state.loading = false
                 state.error = action
                 state.auth = false
                 localStorage.removeItem('usr_dt');
                 localStorage.setItem('auth', state.auth);
                 console.log('STATEERROR')
-                console.log(action.error.message);
+                if(action.error)
+                console.log(action);
                 if (action.error.message === 'Request failed with status code 401')
                     state.errores = [{ id: nanoid(), msg: 'usuario o password incorrecto' }]
 
@@ -165,10 +164,12 @@ const userSlice = createSlice({
                 };
                 console.log("USERSLICE STATE");
                 console.log(state);
+                return state;
             })
             .addCase(logOutSession.rejected, (state, { payload }) => {
-                state.loading = false
+                state={...state,loading:false,auth:false};
                 console.log("LOGOUT SESSION FALLÍDA");
+                return state;
             })
     },
 
