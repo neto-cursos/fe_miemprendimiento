@@ -51,15 +51,15 @@ function App() {
 
           <Switch>
             <Route exact path="/" element={<Home />} />
-            <Route path="/login" element={<RequireNoAuth><Login /></RequireNoAuth>} />
-            <Route path="/signup" element={<RequireNoAuth><Signup /></RequireNoAuth>} />
-            <Route path="/welcome" element={<RequireAuth><MainMenu /></RequireAuth>} />
-            <Route path="/emprendimiento/:empr_id" element={<SecondMenu></SecondMenu>}></Route>
+            <Route exact path="/login" element={<RequireNoAuth><Login /></RequireNoAuth>} />
+            <Route exact path="/signup" element={<RequireNoAuth><Signup /></RequireNoAuth>} />
+            <Route exact path="/welcome" element={<RequireAuth><MainMenu /></RequireAuth>} />
+            <Route exact path="/emprendimiento/:empr_id" element={<SecondMenu></SecondMenu>}></Route>
 
-            <Route path="/nuevoemprendimiento" element={<RegisterEmprendimiento></RegisterEmprendimiento>}></Route>
-            <Route path="/emprendimiento/:empr_id/update" element={<EmprendUpdate></EmprendUpdate>}></Route>
-            <Route path="/emprendimiento/:empr_id/bmc" element={<MbCanvas></MbCanvas>}></Route>
-            <Route path="/logout" element={<LogOut></LogOut>} />
+            <Route exact path="/nuevoemprendimiento" element={<RegisterEmprendimiento></RegisterEmprendimiento>}></Route>
+            <Route exact path="/emprendimiento/:empr_id/update" element={<EmprendUpdate></EmprendUpdate>}></Route>
+            <Route exact path="/emprendimiento/:empr_id/bmc" element={<MbCanvas></MbCanvas>}></Route>
+            <Route exact path="/logout" element={<LogOut></LogOut>} />
             <Route exact path="/misemprendimientos" element={<MisEmprendimientos></MisEmprendimientos>} />
             {/* <Route exact path="/emprendimiento/:empr_id/cronograma" element={<Cronograma></Cronograma>} /> */}
             <Route exact path="/misemprendimientos/:user_id" element={<EmprendList></EmprendList>} />
