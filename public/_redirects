@@ -1,3 +1,4 @@
 /api/* http://44.202.39.9/public/api/:splat 200
-*/api/* http://44.202.39.9/public/api 200!
+/misemprendimientos/api/* http://44.202.39.9/public/api/:splat 200!
+/emprendimiento/:id/api/* http://44.202.39.9/public/api/:splat 200!
 /* /index.html 200
