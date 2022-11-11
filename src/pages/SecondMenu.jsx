@@ -1,9 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
+import { queryEmpr } from '../redux/reducers/emprendSlice';
 import ApiAuth from './../services/ApiAuth';
 
 const SecondMenu = () => {
+    const {empr_nomb_activo}=useSelector(state=>state.emprendimientos)
+    const dispatch=useDispatch();
     const [userData, setUserData] = useState({
         user_name: '',
         user_apellido: '',
@@ -19,17 +23,6 @@ const SecondMenu = () => {
 
     const [emprNomb, setEmprNomb] = useState('');
 
-    const query = async () => {
-
-        await ApiAuth().post('/queryempr', datos).then(response => {
-        console.log(JSON.stringify(datos))
-        console.log("SecondMenu Response:")
-        console.log(response)
-        if(response.status===201)
-        setEmprNomb(response.data['empr_nomb']);
-        
-    })
-}
     useEffect(() => {
         if (localStorage.getItem('usr_dt')) {
             const getData = JSON.parse(localStorage.getItem('usr_dt'));
@@ -51,7 +44,8 @@ const SecondMenu = () => {
 
     useEffect(()=>{
         console.log("secondmenu datosuseeffect:" + datos.empr_id)
-        query();
+        dispatch(queryEmpr(datos))
+        
     },[datos])
 
     useEffect(()=>{
@@ -63,7 +57,7 @@ const SecondMenu = () => {
             <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
                 
                 <div className="max-w-md w-full space-y-8">
-                <div className='text-center font-bold text-bluenavish text-transform: uppercase'>{emprNomb}</div>
+                <div className='text-center font-bold text-bluenavish text-transform: uppercase'>{empr_nomb_activo}</div>
                     
                     <div>
                         <Link to={`/emprendimiento/${empr_id}/bmc`} className='relative block w-full px-3 py-4 bg-redish rounded-lg font-bold font-krona text-xs text-darkish text-center'>

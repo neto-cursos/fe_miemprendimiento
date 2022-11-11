@@ -42,6 +42,26 @@ export const updateEmprs = createAsyncThunk('emprs/updateEmprs', async (datos) =
     })
     return response;
 });
+
+export const queryEmpr = createAsyncThunk('emprs/queryEmprs', async (datos) => {
+    const response = await ApiAuth().post('/queryempr', datos).then(response => {
+        return response.data;
+    })
+    return response;
+});
+
+// const query = async () => {
+
+//     await ApiAuth().post('/queryempr', datos).then(response => {
+//     console.log(JSON.stringify(datos))
+//     console.log("SecondMenu Response:")
+//     console.log(response)
+//     if(response.status===201)
+//     setEmprNomb(response.data['empr_nomb']);
+    
+// })
+
+
 export const emprendSlice = createSlice({
     name: 'emprendimientos',
     //initialState:[],
@@ -221,6 +241,10 @@ export const emprendSlice = createSlice({
                 state.status = 'failed'
                 console.log("FAILED")
 
+            })
+            .addCase(queryEmpr.fulfilled,(state,action)=>{
+                state={...state,empr_nomb_activo:action.payload.empr_nomb};
+                return state;
             })
     }
 
