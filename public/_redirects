@@ -1,6 +1,8 @@
 /api/* http://44.202.39.9/public/api/:splat 200
+/api/* http://44.202.39.9/public/api/:splat 400
 /*/api/* http://44.202.39.9/public/api/:splat 200
+/*/api/* http://44.202.39.9/public/api/:splat 400
 /*/*/api/* http://44.202.39.9/public/api/:splat 200
-/*/*/*/api/* http://44.202.39.9/public/api/:splat 200
+/*/*/api/* http://44.202.39.9/public/api/:splat 400
 /* /index.html 200
   
