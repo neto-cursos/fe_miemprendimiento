@@ -49,19 +49,6 @@ export const queryEmpr = createAsyncThunk('emprs/queryEmprs', async (datos) => {
     })
     return response;
 });
-
-// const query = async () => {
-
-//     await ApiAuth().post('/queryempr', datos).then(response => {
-//     console.log(JSON.stringify(datos))
-//     console.log("SecondMenu Response:")
-//     console.log(response)
-//     if(response.status===201)
-//     setEmprNomb(response.data['empr_nomb']);
-    
-// })
-
-
 export const emprendSlice = createSlice({
     name: 'emprendimientos',
     //initialState:[],

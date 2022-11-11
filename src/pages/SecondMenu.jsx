@@ -3,7 +3,6 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { queryEmpr } from '../redux/reducers/emprendSlice';
-import ApiAuth from './../services/ApiAuth';
 
 const SecondMenu = () => {
     const {empr_nomb_activo}=useSelector(state=>state.emprendimientos)
@@ -17,12 +16,8 @@ const SecondMenu = () => {
     const [datos, setDatos] = useState({
         empr_id: ''
     })
-    
     const { empr_id } = useParams();
     console.log("empr_id:" + empr_id)
-
-    const [emprNomb, setEmprNomb] = useState('');
-
     useEffect(() => {
         if (localStorage.getItem('usr_dt')) {
             const getData = JSON.parse(localStorage.getItem('usr_dt'));
@@ -48,10 +43,6 @@ const SecondMenu = () => {
         dispatch(queryEmpr(datos))
         
     },[datos])
-
-    useEffect(()=>{
-        console.log("secondmenu emprNombuseeffect:" + emprNomb)
-    },[emprNomb])
 
     return (
         <>
