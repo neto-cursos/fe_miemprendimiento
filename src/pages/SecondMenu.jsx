@@ -5,8 +5,8 @@ import { Link, useParams } from 'react-router-dom';
 import { queryEmpr } from '../redux/reducers/emprendSlice';
 
 const SecondMenu = () => {
-    const {empr_nomb_activo}=useSelector(state=>state.emprendimientos)
-    const dispatch=useDispatch();
+    const { empr_nomb_activo } = useSelector(state => state.emprendimientos)
+    const dispatch = useDispatch();
     const [userData, setUserData] = useState({
         user_name: '',
         user_apellido: '',
@@ -34,23 +34,22 @@ const SecondMenu = () => {
     useEffect(() => {
         setDatos({ ...datos, empr_id: empr_id })
         console.log("entrouseeffect1:" + datos.empr_id)
-        
+
     }, [empr_id]);
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log("secondmenu datosuseeffect:" + datos.empr_id)
-        if(datos.empr_id!=='')
-        dispatch(queryEmpr(datos))
-        
-    },[datos])
+        if (datos.empr_id !== '')
+            dispatch(queryEmpr(datos));
+    }, [datos])
 
     return (
         <>
             <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-                
+
                 <div className="max-w-md w-full space-y-8">
-                <div className='text-center font-bold text-bluenavish text-transform: uppercase'>{empr_nomb_activo}</div>
-                    
+                    <div className='text-center font-bold text-bluenavish text-transform: uppercase'>{empr_nomb_activo}</div>
+
                     <div>
                         <Link to={`/emprendimiento/${empr_id}/bmc`} className='relative block w-full px-3 py-4 bg-redish rounded-lg font-bold font-krona text-xs text-darkish text-center'>
                             Plan de negocios
