@@ -44,6 +44,7 @@ const SecondMenu = () => {
 
     useEffect(()=>{
         console.log("secondmenu datosuseeffect:" + datos.empr_id)
+        if(datos.empr_id!=='')
         dispatch(queryEmpr(datos))
         
     },[datos])
