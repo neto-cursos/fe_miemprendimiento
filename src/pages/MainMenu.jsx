@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Alert } from '@mui/material';
 import { nanoid } from 'nanoid';
-
+import {motion} from 'framer-motion';
 const MainMenu = () => {
     const msgNotif = "Su lista de emprendimientos se ha cargado correctamente";
     const [showNotif, setShowNotif] = React.useState(false);
@@ -71,7 +71,9 @@ const MainMenu = () => {
         })
 
         }
-            <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            <motion.div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+            initial={{width:0,opacity:0}} animate={{width:"100%",opacity:2}} exit={{x:window.innerWidth, transition:{duration:0.1}}}
+            >
                 <div className="max-w-md w-full space-y-8">
                     <h1 className='text-2xl mb-16 text-center'>Bienvenido <span className='font-extrabold'>{usuarios.userInfo.user_name}&nbsp;
                         {usuarios.userInfo.user_apellido}
@@ -90,7 +92,7 @@ const MainMenu = () => {
                     <p className='mb-32 pb-32' />
 
                 </div>
-            </div>
+            </motion.div>
         </>
     );
 }

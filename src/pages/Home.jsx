@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import ChkWindowSize from '../components/ChkWindowSize';
 import {getWindowSize} from './../utils/checkWindow';
 import bmcportada from './../assets/images/img_business_model_canvas.jpg';
+import {motion} from 'framer-motion';
 
 const Home = () => {
     const [windowSize, setWindowSize] = React.useState(getWindowSize());
@@ -11,7 +12,9 @@ const Home = () => {
     return (
         <>
             <ChkWindowSize setWindowSize={setWindowSize}></ChkWindowSize>
-            <div className={`${windowSize.innerWidth > 640 ? clase2 : clase1}`}>
+            <motion.div className={`${windowSize.innerWidth > 640 ? clase2 : clase1}`}
+            initial={{width:0,opacity:0}} animate={{width:"100%",opacity:2}} exit={{x:window.innerWidth, transition:{duration:0.1}}}
+            >
                 <div className='bg-naranja-fondo px-12 py-16 w-full md:w-1/2 items-center md:h-full'>
                     <h1 className='font-krona text-lg mb-2 mt-10 md:mt-32'>
                         Crea tu plan de negocios
@@ -28,7 +31,7 @@ const Home = () => {
                 {windowSize.innerWidth > 640 && <div className='w-full md:w-1/2 md:h-full bg-fondoimghome'>
                     <img className='mx-auto object-fill h-full sm:object-scale-down' src={bmcportada} alt="Modelo de negocios canvas" />
                 </div>}
-            </div>
+            </motion.div>
         </>
     );
 }

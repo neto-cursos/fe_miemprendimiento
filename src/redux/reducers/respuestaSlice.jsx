@@ -63,8 +63,8 @@ export const respuestaSlice=createSlice({
             .addCase(listRespuestas.fulfilled, (state, action) => {
                 console.log("Getrespuestas Fullfilled");
                 action.payload.map(data => {
-                    console.log("data from add respuestas:")
-                    console.log(data);
+                    // console.log("data from add respuestas:")
+                    // console.log(data);
                     if(!state.find(respuesta => respuesta.resp_id === data.resp_id))
                     state.push(data);
                     return state;

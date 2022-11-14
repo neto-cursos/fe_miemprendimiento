@@ -3,7 +3,7 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { queryEmpr } from '../redux/reducers/emprendSlice';
-
+import {motion} from 'framer-motion';
 const SecondMenu = () => {
     const { empr_nomb_activo } = useSelector(state => state.emprendimientos)
     const dispatch = useDispatch();
@@ -45,7 +45,9 @@ const SecondMenu = () => {
 
     return (
         <>
-            <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            <motion.div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+            initial={{width:0,opacity:0}} animate={{width:"100%",opacity:2}} exit={{x:window.innerWidth, transition:{duration:0.8}}}
+            >
 
                 <div className="max-w-md w-full space-y-8">
                     <div className='text-center font-bold text-bluenavish text-transform: uppercase'>{empr_nomb_activo}</div>
@@ -74,7 +76,7 @@ const SecondMenu = () => {
                     <p className='md:mb-16 md:pb-24' />
                     <p className='md:mb-16 md:pb-16' />
                 </div>
-            </div>
+            </motion.div>
         </>
     );
 }

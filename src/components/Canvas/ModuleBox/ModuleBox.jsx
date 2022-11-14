@@ -2,12 +2,17 @@ import React from 'react';
 import plussign from './../../../assets/images/plus-svgrepo-com.svg'
 import EditEntry from './../../../assets/icons/editEntry';
 import EraseEntry from './../../../assets/icons/eraseEntry';
+import { nanoid } from 'nanoid';
 
 const ModuleBox = ({respuestas,onMouseEnter,onMouseLeave,handleDelete,handleEdit,handleModulo,moduloNumber,moduloDB,imageName,buttonActiveHovering,classExtra, nameModulo,bgcolor,preguntas,
 downlImage}) => {
     //console.log("__________preguntas")
     //console.log(preguntas);
     let pregIdOld=null;
+    // console.log("modulos: ")
+    // console.log(moduloDB)
+    // console.log("modulo ")
+    // console.log(moduloNumber)
     return (
         <>
             <div className={`text-lg font-black text-center rounded-lg ${classExtra}`}>
@@ -42,7 +47,7 @@ downlImage}) => {
                                                   
                                 if (respuesta.modu_nume == moduloDB && respuesta.preg_id==pregunta.preg_id) {
                                     pregIdOld=pregIdOld+1;
-                                    return (<>{pregIdOld===1?<span>{pregunta.preg_text}</span>:''}                                            
+                                    return (<>{pregIdOld===1?<span key={nanoid()}>{pregunta.preg_text}</span>:''}                                            
                                         <div key={respuesta.resp_id} className={`pt-1 py-1 ${bgcolor}`}>
                                             <div className='flex justify-between '>
                                                 <h3 className='hover:text-red-700 cursor-pointer focus:ring-blue-500 text-bluenavish' onClick={() => handleEdit(respuesta.resp_id,moduloDB)}>{respuesta.resp_text}</h3>

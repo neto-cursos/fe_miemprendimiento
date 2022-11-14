@@ -7,7 +7,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { nanoid } from '@reduxjs/toolkit';
 import { modulos } from './../constants/modulos'
-
+import {motion} from 'framer-motion';
 const MbCanvas = () => {
 
     const [select, setSelect] = React.useState({
@@ -25,7 +25,9 @@ const MbCanvas = () => {
     }
     const { empr_id } = useParams();
     return (
-        <div className='flex relative flex-col'>
+        <motion.div className='flex relative flex-col'
+        initial={{width:0,opacity:0}} animate={{width:"100%",opacity:2}} exit={{x:window.innerWidth, transition:{duration:0.1}}}
+        >
 
             <h1 className="text-4xl text-darkish text-center">PLAN NEGOCIOS</h1>
             <div className='pb-4 flex flex-row justify-center items-center'>
@@ -63,7 +65,7 @@ const MbCanvas = () => {
 
             </Canvas>
 
-        </div>
+        </motion.div>
     );
 }
 

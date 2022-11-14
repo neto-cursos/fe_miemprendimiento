@@ -2,18 +2,21 @@ import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addRespuesta, deleteRespuesta, updateRespuesta } from "./../../../redux/reducers/respuestaSlice";
-import {modulos} from './../../../constants/modulos'
+import { modulos } from './../../../constants/modulos'
 import { nanoid } from "@reduxjs/toolkit";
-const ModalCreateEntry = ({ message, isOpen, onClose, modulo, idRespuesta, setIdRespuesta,idCanvas ,preguntas}) => {
-    
+import SelectCustom from "../../Forms/Elements/SelectCustom";
+
+const ModalCreateEntry = ({ message, isOpen, onClose, modulo, idRespuesta, setIdRespuesta, idCanvas, preguntas,readySelect,setReadySelect}) => {
+    const [pregSel,setPregSel]=useState({
+        preg_id:'',
+        preg_text:'',
+    });
+    const [idPreg, setIdPreg] = useState('');
     const modu_nomb2 = modulos.find((nodo => nodo.modu_id == modulo))
-    
     const inputTitle = useRef(null);
-    const inputDesc = useRef(null);
-    const inputIdPreg=useRef(null);
     const dispatch = useDispatch();
     const respuestas = useSelector(state => state.respuestas);
-    const [isReadyToSend,setIsReadyToSend]=useState(false);
+    const [isReadyToSend, setIsReadyToSend] = useState(false);
 
     const [respuesta, setRespuesta] = useState({
         resp_id: '',
@@ -25,77 +28,76 @@ const ModalCreateEntry = ({ message, isOpen, onClose, modulo, idRespuesta, setId
         resp_desc: '',
         resp_esta: ''
     });
-    console.log("Modal CreateEntry .. Respuesta")
-    console.log(respuesta);
-
-    
+    // console.log("Modal CreateEntry .. Respuesta")
+    // console.log(respuesta);
     const onClicAccion = () => {
         setRespuesta({
             ...respuesta,
             resp_text: inputTitle.current.value,
-            //resp_desc: inputDesc.current.value,
-            preg_id: inputIdPreg.current.value,
+            preg_id: idPreg,
         })
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const resp = {
-            resp_id: '',
-            modu_nume: modulo,
-            canv_id: idCanvas,
-            resp_nume: '',
-            resp_text: inputTitle.current.value,
-            //resp_desc: inputDesc.current.value,
-            preg_id: inputIdPreg.current.value,
-            resp_esta: ''
-        }
+        console.log('idrespuesta: ', idRespuesta);
         if (idRespuesta !== 0) {
             console.log("ModalCreateEntry .. updateRespuesta")
             console.log(respuesta);
-            //dispatch(updateRespuesta(respuesta))
             setIsReadyToSend(true);
             onClicAccion();
         } else {
             dispatch(addRespuesta({
-                ...resp, resp_id: nanoid(),
+                ...respuesta, resp_id: nanoid(),
+                modu_nume: modulo,
+                canv_id: idCanvas,
+                resp_nume: '',
+                resp_text: inputTitle.current.value,
+                resp_esta: '',
+                preg_id:idPreg,
             }));
             onClose();
         }
     }
     useEffect(() => {
+        console.log("readytoSelect2323:");
+        console.log(readySelect);
         if (idRespuesta !== 0) {
-            setRespuesta(respuestas.find(resp => resp.resp_id === idRespuesta && resp.modu_nume ==modulo));
+            const resp=respuestas.find(resp => resp.resp_id === idRespuesta && resp.modu_nume == modulo);
+            setRespuesta(resp);
+            setIdPreg(resp.preg_id);
             console.log("ModalcreateEntry .. Respuestas ")
             console.log(respuestas)
             console.log("ModalcreateEntry .. Modulo ")
             console.log(modulo)
             console.log("ModalcreateEntry .. respuesta encontrada ")
-            console.log(respuestas.find(resp => resp.resp_id === idRespuesta && resp.modu_nume ==modulo))
+            console.log(respuestas.find(resp => resp.resp_id === idRespuesta && resp.modu_nume == modulo))
         }
-        //console.log('cargo')
-    }, [idRespuesta,modulo,respuestas])
+    }, [idRespuesta, modulo, respuestas])
 
     useEffect(() => {
         if (idRespuesta !== 0) {
             inputTitle.current.value = respuesta.resp_text;
-            //inputDesc.current.value = respuesta.resp_desc;
-            inputIdPreg.current.value=respuesta.preg_id;
-            
+            //inputDesc.current.value = respuesta.resp_desc;            
             console.log("ModalCreateEntry .. valor de st respuesta")
             console.log(respuesta);
-            if(isReadyToSend){
-            dispatch(updateRespuesta(respuesta));
-            setIsReadyToSend(false)
-            onClose()}
+            if (isReadyToSend) {
+                dispatch(updateRespuesta(respuesta));
+                setIsReadyToSend(false)
+                onClose()
+            }
         }
-    }, [respuesta,idRespuesta,isReadyToSend,dispatch])
+        if(respuesta.resp_id===idRespuesta){
+            setReadySelect(true);
+            console.log("readytoselect: " + readySelect);
+        }
+    }, [respuesta, idRespuesta, isReadyToSend, dispatch])
 
 
     if (!isOpen) return null;
-    return preguntas!=null&&ReactDOM.createPortal(
+    return preguntas != null && ReactDOM.createPortal(
         <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative w-auto my-2 mx-auto max-w-3xl">
+            <div className="relative my-2 mx-auto max-w-3xl w-[27rem]">
                 {/*content*/}
                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                     {/*header*/}
@@ -118,16 +120,18 @@ const ModalCreateEntry = ({ message, isOpen, onClose, modulo, idRespuesta, setId
                             <label>Respuesta</label>
                             <input type="text" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" ref={inputTitle} />
     </p>*/}
-                        <p>
-                            <select className="flex flex-wrap my-4 text-lg leading-relaxed text-bluenavish" name="pregunta" id="pregunta" ref={inputIdPreg}>
+                        {/* <p> */}
+                            {((readySelect&&idRespuesta!==0)||idRespuesta===0)&&<SelectCustom options={preguntas} modulo={modulo} respuesta={respuesta} idPreg={idPreg} setIdPreg={setIdPreg} idRespuesta={idRespuesta}
+                            ></SelectCustom>}
+                            {/* <select className="form-select form-select-lg flex flex-wrap my-4 text-lg leading-relaxed text-bluenavish" name="pregunta" id="pregunta" ref={inputIdPreg}>
                                 {preguntas.map(preg=>{
-                                    return (preg.modu_id==modulo&&<option value={preg.preg_id}>
+                                    return (preg.modu_id==modulo&&<option className="flex flex-wrap" key={preg.preg_id} value={preg.preg_id}>
                                            {preg.preg_text} 
                                     </option>)
                                 })}
                                 
-                            </select>
-                        </p>
+                            </select> */}
+                        {/* </p> */}
                         <p className="my-4 text-slate-500 text-lg leading-relaxed">
                             <label>Respuesta</label>
                             <textarea id="message" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Su respuesta..." ref={inputTitle}></textarea>

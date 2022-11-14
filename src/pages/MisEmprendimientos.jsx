@@ -3,7 +3,7 @@ import { Provider, useDispatch, useSelector } from "react-redux";
 import { Navigate, useLocation, useParams } from "react-router-dom";
 import { setDataFromLocalSave, updateLoading } from '../redux/reducers/userSlice';
 import Spinner from '../components/Spinner/Spinner';
-
+import {motion} from 'framer-motion';
 const MisEmprendimientos = () => {    
     const { auth, userInfo, loading } = useSelector(state => state.usuarios);
     const { empr_id,user_id,params } = useParams();

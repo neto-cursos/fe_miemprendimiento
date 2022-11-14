@@ -19,7 +19,7 @@ export const createRespuestas = createAsyncThunk(
     'respuestas/create',
     async (datos) => {
         const data = await ApiAuth().post('/respuestas/create', datos).then(response => {
-            console.log("response resuestaActions create:")
+            console.log("response respuestaActions create:")
             console.log(response);
             return response.data;
         })
@@ -30,7 +30,7 @@ export const createRespuestas = createAsyncThunk(
 export const updateRespuestas = createAsyncThunk('respuestas/update',
     async (datos) => {
         const data = await ApiAuth().post('/respuestas/update', datos).then(response => {
-            console.log("response resuestaActions update:")
+            console.log("response respuestaActions update:")
             console.log(response);
             return response.data;
         })
@@ -41,7 +41,7 @@ export const deleteRespuestas = createAsyncThunk(
     'respuestas/delete',
     async (datos) => {
         const data = await ApiAuth().post('/respuestas/delete', datos).then(response => {
-            console.log("response resuestaActions delete:")
+            console.log("response respuestaActions delete:")
             console.log(response);
             return response.data;
         })
