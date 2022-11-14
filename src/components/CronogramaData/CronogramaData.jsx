@@ -34,7 +34,7 @@ import { ConstructionOutlined, VerticalAlignTopRounded } from "@mui/icons-materi
 import { listCronogramas, updateCronogramas, deleteCronogramas, createCronogramas } from './../../redux/actions/cronogramaActions';
 import Notifications from './../Notifications';
 import ConfirmDialog from './../Dialog';
-import { getSchema } from '../../utils/Validation/validation';
+import { getSchema } from '../../utils/Validation/Validation';
 
 // import { set } from "date-fns";
 const padTo2Digits = (num) => {
