@@ -2,5 +2,5 @@
 /misemprendimientos/api/* http://44.202.39.9/public/api/:splat 200!
 /emprendimiento/api/* http://44.202.39.9/public/api/:splat 200!
 /emprendimiento/:id/api/* http://44.202.39.9/public/api/:splat 200!
-/misemprendimientos/fill/:empr_id/:modu_nume/:bmc_type/api/* http://44.202.39.9/public/api/:splat 200!
+/misemprendimientos/fill/:empr/api/* http://44.202.39.9/public/api/:splat 200!
 /* /index.html 200
