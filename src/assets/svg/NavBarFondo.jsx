@@ -4,9 +4,9 @@ const NavBarFondo = () => {
   //change viewbox last parameter 174 to 45
     return (
     <svg 
-    width="960px"
-    height="280px"
-    viewBox="0 0 1428 45" 
+    width="100%"
+    // height="180px"
+    viewBox="0 0 1428 180" 
     version="1.1" 
     xmlns="http://www.w3.org/2000/svg">
             <g stroke="none" 

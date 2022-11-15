@@ -15,7 +15,7 @@ const Home = () => {
             <motion.div className={`${windowSize.innerWidth > 640 ? clase2 : clase1}`}
             initial={{width:0,opacity:0}} animate={{width:"100%",opacity:2}} exit={{x:window.innerWidth, transition:{duration:0.1}}}
             >
-                <div className='bg-naranja-fondo px-12 py-16 w-full md:w-1/2 items-center md:h-full'>
+                <div className='rounded-3xl bg-naranja-fondo mx-2 my-2 px-12 py-16 w-full md:w-1/2 items-center md:h-full'>
                     <h1 className='font-krona text-lg mb-2 mt-10 md:mt-32'>
                         Crea tu plan de negocios
                     </h1>
@@ -28,7 +28,7 @@ const Home = () => {
                     <p className='mb-32'></p>
                 </div>
 
-                {windowSize.innerWidth > 640 && <div className='w-full md:w-1/2 md:h-full bg-fondoimghome'>
+                {windowSize.innerWidth > 640 && <div className='mx-2 my-2 overflow-hidden rounded-3xl w-full md:w-1/2 md:h-full bg-fondoimghome'>
                     <img className='mx-auto object-fill h-full sm:object-scale-down' src={bmcportada} alt="Modelo de negocios canvas" />
                 </div>}
             </motion.div>
