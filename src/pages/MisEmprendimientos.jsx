@@ -19,7 +19,7 @@ const MisEmprendimientos = () => {
             <>
 
                 <div>
-                    <span className='text-4xl'>Mis Emprendimientos</span>
+                    <span className='text-xl sm:text-2xl lg:text-4xl'>Mis Emprendimientos</span>
                 </div>
                 {auth ? <Navigate to={`/misemprendimientos/${userInfo.user_id}`} replace={true}/> : <Navigate to='/' />}
 

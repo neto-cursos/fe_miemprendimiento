@@ -7,8 +7,9 @@ import BriefcaseIcon from './../../assets/icons/BriefcaseIcon';
 import NavLinks from './NavLinks';
 import NavBarLogout from './NavBarLogout';
 import NavBarSession from './NavBarSession';
-import NavBarFondo from './../../assets/svg/NavBarFondo';
+import NavBarFondo from './../../assets/svg/FondoNavBar';
 import navbarfondo from './../../assets/svg/navbarfondo.svg';
+import SideBar2 from '../SideBar2/SideBar2';
 
 const NavBar = ({ showLogin }) => {
     const { auth, userInfo } = useSelector(state => state.usuarios);
@@ -19,8 +20,9 @@ const NavBar = ({ showLogin }) => {
     console.log("NavBar .. Shows islogged()?:" + islogged)
 
     return (
-        <nav className='font-krona  pt-2 bg-gradient-to-r from-naranja-fondo 
+        <nav className='font-krona  pt-0 md:pt-2 bg-gradient-to-r from-naranja-fondo 
         via-rojo to-naranja-fondo text-whitish relative' >
+            <SideBar2></SideBar2>            
             <div className='flex justify-between'>
                 {/* style={{backgroundImage: `url(data:image/svg+xml;base64,${btoa(navbarfondo)})`}} */}
                 {/* <div className="relative flex">
@@ -28,7 +30,7 @@ const NavBar = ({ showLogin }) => {
 
                 <BrandLink>
                 </BrandLink>
-                <div className='flex items-center flex-col md:flex-row'>
+                <div className='hidden items-center  lg:flex lg:flex-row'>
                     <NavLinks></NavLinks>
                     <div className='flex'>
                         <BriefcaseIcon color="redish"></BriefcaseIcon>

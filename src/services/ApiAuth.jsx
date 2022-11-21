@@ -45,7 +45,8 @@ const ApiAuth = () => {
             if (error.response && 422 === error.response.status) {
                 console.log(error.response);
                 console.log("BUUU2")
-                return Promise.reject(() => error.response.data.map(t => new Error(t)))
+                // return Promise.reject(() => error.response.data?.map(t => new Error(t)))
+                return Promise.reject(error.response.data);
             }
             if (error.response && 419 === error.response.status) {
                 //window.location.reload()

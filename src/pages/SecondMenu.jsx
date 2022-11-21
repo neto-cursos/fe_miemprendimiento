@@ -3,7 +3,9 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { queryEmpr } from '../redux/reducers/emprendSlice';
-import {motion} from 'framer-motion';
+import { motion } from 'framer-motion';
+import canvasImagen2 from './../assets/images/Canvas2.png';
+import scheduling from './../assets/images/scheduling.png';
 const SecondMenu = () => {
     const { empr_nomb_activo } = useSelector(state => state.emprendimientos)
     const dispatch = useDispatch();
@@ -46,28 +48,40 @@ const SecondMenu = () => {
     return (
         <>
             <motion.div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
-            initial={{width:0,opacity:0}} animate={{width:"100%",opacity:2}} exit={{x:window.innerWidth, transition:{duration:0.8}}}
+                initial={{ width: 0, opacity: 0 }} animate={{ width: "100%", opacity: 2 }} exit={{ x: window.innerWidth, transition: { duration: 0.8 } }}
             >
 
                 <div className="max-w-md w-full space-y-8">
                     <div className='text-center font-bold text-bluenavish text-transform: uppercase'>{empr_nomb_activo}</div>
 
-                    <div>
-                        <Link to={`/emprendimiento/${empr_id}/bmc`} className='relative block w-full px-3 py-4 bg-redish rounded-lg font-bold font-krona text-xs text-darkish text-center'>
+                    <div className="relative bg-gradient-to-b from-teal-500 rounded-2xl w-60 h-40 mt-10 mx-auto overflow-hidden">
+                        <Link to={`/emprendimiento/${empr_id}/bmc`}>
+                            <img src={canvasImagen2} alt="business model canvas" layout="fill" className='object-cover' />
+                            <span
+                                className='absolute top-28 w-full px-3 py-2 bg-redish rounded-lg font-bold font-krona text-xs text-darkish text-center'>
+                                Plan de negocios
+                            </span>
+                        </Link>
+                        {/* <Link to={`/emprendimiento/${empr_id}/bmc`} className='relative block w-full px-3 py-2 bg-redish rounded-lg font-bold font-krona text-xs text-darkish text-center'>
                             Plan de negocios
-                        </Link>
+                        </Link> */}
                     </div>
-                    <div>
-                        <Link to="/planfinanciamiento" className='relative block w-full px-3 py-4 bg-redish rounded-lg font-bold font-krona text-xs text-darkish text-center'>
-                            Estructura de Financiamiento
-                        </Link>
+                    <div className="relative bg-gradient-to-b from-teal-500 rounded-2xl w-60 h-40 mt-10 mx-auto overflow-hidden">
+                        {/* <Link to={`/emprendimiento/${empr_id}/cronograma`} > */}
+                            <img src={scheduling} alt="Cronograma imagen"
+                            className='object-cover'
+                            layout="fill" />
+                            <span className='absolute top-28 w-full px-3 py-2 bg-redish rounded-lg font-bold font-krona text-xs text-darkish text-center'>
+                                Cronograma</span>
+                        {/* </Link> */}
                     </div>
 
-                    <div>
-                        <Link to={`/emprendimiento/${empr_id}/cronograma`} className='relative block w-full px-3 py-4 bg-redish rounded-lg font-bold font-krona text-xs text-darkish text-center'>
-                            Cronograma
+                    {/* <div>
+                        <Link to="/planfinanciamiento" className='relative block w-full px-3 py-4 bg-redish rounded-lg font-bold font-krona text-xs text-darkish text-center'>
+                            
+                            Estructura de Financiamiento
                         </Link>
-                    </div>
+                    </div> */}
                     {/*<div>
                         <Link to="/Actividades claves" className='relative block w-full px-3 py-4 bg-redish rounded-lg font-bold font-krona text-xs text-darkish text-center'>
                             Actividades claves

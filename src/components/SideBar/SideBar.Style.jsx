@@ -5,7 +5,7 @@ export const Children = styled.div`
   width: 100vw;
   //height: 100%;
   position:relative;
-  margin-left: ${({ displaySidebar,sidebar }) => {
+  padding-left: ${({ displaySidebar,sidebar }) => {
     if(displaySidebar && sidebar) return "15rem" 
     else if(!displaySidebar && sidebar)return  "6rem"
     else return "0rem"
@@ -14,7 +14,12 @@ export const Children = styled.div`
   //position:${({ displaySidebar }) => (displaySidebar ? "absolute" : "static")};
   //left: ${({ displaySidebar }) => (displaySidebar ? "15rem" : "5rem")};
   @media (max-width: 468px) {
-    margin-left: 5rem;
+    padding-left: ${({ displaySidebar,sidebar }) => {
+    if(displaySidebar && sidebar) return "0rem" 
+    else if(!displaySidebar && sidebar)return  "0rem"
+    else return "0rem"
+    }}
+   
   }
 `;
 //div siderbarwrapper w-max h-max flex direction column font-size 0.9rem

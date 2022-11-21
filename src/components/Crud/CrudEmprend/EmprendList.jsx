@@ -1,8 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { Link, Navigate, useParams } from 'react-router-dom';
-import { deleteEmprend, fetchEmprs, getEmprsError, 
-    getEmprsStatus, removeEmpr, setEmprStatus } from './../../../redux/reducers/emprendSlice';
+import {
+    deleteEmprend, fetchEmprs, getEmprsError,
+    getEmprsStatus, removeEmpr, setEmprStatus
+} from './../../../redux/reducers/emprendSlice';
 import EditCard from './../../../assets/icons/editCard';
 import RemoveCard from './../../../assets/icons/removeCard';
 import Button from '@mui/material/Button';
@@ -21,17 +23,17 @@ const EmprendList = () => {
     const [navigate, setNavigate] = useState(false);
     const updateEmpr = (id) => {
         //dispatch(updateEmpr(id));
-        
-       // return <Navigate to={`/emprendimiento/${id}/update`} />;
+
+        // return <Navigate to={`/emprendimiento/${id}/update`} />;
     }
     const handleDelete = (id) => {
         console.log(id)
         dispatch(deleteEmprend(id));
         dispatch(removeEmpr({ empr_id: id }));
     }
-    
+
     useEffect(() => {
-        if (emprsStatus === 'idle'||emprsStatus === 'fulfilled') {
+        if (emprsStatus === 'idle' || emprsStatus === 'fulfilled') {
             let items = {}; let dataid = 0;
             if (localStorage.getItem('usr_dt')) {
                 items = JSON.parse(localStorage.getItem('usr_dt'));
@@ -43,21 +45,21 @@ const EmprendList = () => {
         if (emprsStatus === 'succeeded') {
             setShowNotif(true);
         }
-        
-        
+
+
     }, [emprsStatus, dispatch])
-    const [changeEmprs,setChangeEmprs]=useState(false);
+    const [changeEmprs, setChangeEmprs] = useState(false);
     useEffect(() => {
-      setChangeEmprs(true);
+        setChangeEmprs(true);
     }, [emprends])
-    
+
     return (
         <>
             {showNotif && <Notifications msgNotif={msgNotif} showNotif={showNotif} setShowNotif={setShowNotif} severity="info" />}
-            <div><h2 className='text-center font-bold text-4xl'>Mis Emprendimientos</h2>
+            <div className='ml-2 sm:ml-0'><h2 className='text-xl sm:text-2xl lg:text-4xl text-center font-bold'>Mis Emprendimientos</h2>
                 {/*<Link to='/reduxexample/taskform'><h3>Nuevo Emprendimiento</h3></Link>*/}
                 <Link to='/nuevoemprendimiento' className='text-canvas2Txt font-bold'>
-                <Button variant="contained" sx={{ mb: 2 }} color="secondary">Nuevo Emprendimiento</Button>
+                    <Button variant="contained" sx={{ mb: 2 }} color="secondary">Nuevo Emprendimiento</Button>
                 </Link>
 
                 {/*<div className="overflow-x-auto relative shadow-md sm:rounded-lg">
@@ -84,15 +86,16 @@ const EmprendList = () => {
                 {
                     emprends.map((emprends) => {
                         return (
-                            <div className="flex items-center bg-gray-100 mb-4 shadow" key={emprends.empr_id}>
-                                <Link to={`/emprendimiento/${emprends.empr_id}`}>
-                                    <div className="flex-auto text-left px-4 py-2 m-2">
-                                        <p className="text-gray-900 leading-none">{emprends.empr_nomb}</p>
+                            <div className="flex items-center bg-gray-100 mb-4 shadow text-base" key={emprends.empr_id}>
+                                <div className="flex-auto text-left px-4 py-2 m-1 w-3/4">
+                                    <Link to={`/emprendimiento/${emprends.empr_id}`}>
+                                        <p className="text-gray-900 leading-none font-bold">{emprends.empr_nomb}</p>
                                         <p className="text-gray-600">Rubro: {emprends.empr_rubro} - Tipo: {emprends.empr_tipo}</p>
                                         <span className="inline-block text-sm font-semibold mt-1">{emprends.empr_desc}</span>
-                                    </div>
-                                </Link>
-                                <div className="flex-auto text-right px-4 py-2 m-2">
+                                    </Link>
+                                </div>
+
+                                <div className="flex-auto text-left sm:text-right px-2 py-2 m-1 w-1/4">
                                     <Link to={`/emprendimiento/${emprends.empr_id}/update`}>
                                         <button title="Editar" onClick={() => updateEmpr(emprends.empr_id)} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold mr-3 py-2 px-4 rounded-full inline-flex items-center">
                                             <EditCard></EditCard>

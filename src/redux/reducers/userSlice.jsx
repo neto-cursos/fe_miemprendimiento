@@ -9,6 +9,7 @@ import { logOut, OpLogIn } from './../../utils/UtilsAuth'
 
 const initialState = {
     loading: false,
+    success:false,
     userInfo: {
         user_name: '',
         user_id: '',
@@ -29,6 +30,10 @@ const userSlice = createSlice({
     name: 'usuarios',
     initialState,
     reducers: {
+        changeSuccess:(state,action)=>{
+            state.success=action.payload;
+            return state;
+        },
         logout: (state) => {
             localStorage.removeItem('bearerToken');
             state = initialState;
@@ -111,16 +116,29 @@ const userSlice = createSlice({
             })
             // register user
             .addCase(registerUser.pending, (state, action) => {
-                state.loading = true
-                state.error = null
+                state.loading = true;
+                state.error = null;
+                state.auth = false;
+                state.errores = [{}];
             })
             .addCase(registerUser.fulfilled, (state, action) => {
-                state.loading = false
                 state.success = true // registration successful
+                console.log('USERLOGIN FULLFLLLED');
+                state.loading = false;
             })
             .addCase(registerUser.rejected, (state, action) => {
-                state.loading = false
-                state.error = action
+                console.log('USERLOGIN REJECTEDS');
+                console.log(action);
+                state.success=false;
+                state.loading = false;
+                state.error = action.error;
+                console.log('STATEERROR')
+                if(action.error)
+                console.log(action);
+                if (action.error.message)
+                    state.errores = [{ id: nanoid(), msg: action.error.message }]
+
+                
             })
             // get user details
             .addCase(getUserDetails.pending, (state, action) => {
@@ -175,6 +193,6 @@ const userSlice = createSlice({
 
 });
 
-export const { logout, updateLoading, setDataFromLocalSave, updateAuth } = userSlice.actions
+export const { logout, updateLoading, setDataFromLocalSave, updateAuth,changeSuccess } = userSlice.actions
 export const getauth = (state) => state.usuarios.auth;
 export default userSlice.reducer;

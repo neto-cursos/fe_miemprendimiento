@@ -72,6 +72,10 @@ module.exports = {
         canvas7Txt: '#3987C7',
         canvas8Txt: '#F5C201',
         canvas9Txt: '#A5D028',
+      },
+      boxShadow: {
+        'custom1': '0px 1px 5px 0px rgba(0, 0, 0, 0.3)',
+        'custom2': '0px 1px 35px 0px rgba(0, 0, 0, 0.3)',
       }
     },
   },

@@ -3,9 +3,10 @@ import SignUpForm from "./../components/Forms/SignUpForm";
 import React from 'react';
 import {motion} from 'framer-motion';
 const Signup = () => {
+    //min-h-full h-screen
     return (
         <>
-            <motion.div className="min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+            <motion.div className=" flex items-center justify-center pt-6 pb-12 px-4 sm:px-6 lg:px-8"
             initial={{width:0,opacity:0}} animate={{width:"100%",opacity:2}} exit={{x:window.innerWidth, transition:{duration:0.8}}}
             >
                 <div className="max-w-md w-full space-y-8">

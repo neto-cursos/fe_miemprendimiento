@@ -26,6 +26,10 @@ import loadable from '@loadable/component';
 import AnimatedRoute from './components/Animation/AnimatedRoute';
 import ModelCanvasPreguntas from './pages/ModelCanvasPreguntas';
 import Cronogramas from './pages/Cronogramas';
+import SideBar2 from './components/SideBar2/SideBar2';
+import ChkWindowSize from './components/ChkWindowSize';
+import { getWindowSize } from './utils/checkWindow';
+
 // const Home = loadable(() => import('./pages/Home'));
 // const Login = loadable(() => import('./pages/Login'));
 function App() {
@@ -34,6 +38,7 @@ function App() {
   const { auth } = useSelector(state => state.usuarios);
   const [count, setCount] = useState(0);
   const [displaySidebar, setDisplaySidebar] = useState(false);
+  const [windowSize, setWindowSize] = useState(getWindowSize());
   // const { auth } = useSelector(state => state.usuarios);
   const dispatch = useDispatch();
   useLayoutEffect(() => {
@@ -45,14 +50,15 @@ function App() {
       dispatch(setDataFromLocalSave());
     }
   }, [auth]);
-
+//
+//
   return (<>
-
+    <ChkWindowSize setWindowSize={setWindowSize}></ChkWindowSize>
     <Router>
       {!auth ? <NavBar showLogin={false} auth={auth}></NavBar> :
-        <NavBar showLogin={true} auth={auth}></NavBar>}
+        <NavBar showLogin={true} auth={auth}></NavBar> }
       <div id="main">
-        {auth && (<SideBarComp displaySidebar={displaySidebar} setDisplaySidebar={setDisplaySidebar}>
+        {(auth && windowSize.innerWidth>720)&&(<SideBarComp displaySidebar={displaySidebar} setDisplaySidebar={setDisplaySidebar}>
         </SideBarComp>)}
         <Children displaySidebar={displaySidebar} sidebar={auth ? true : false}>
           <AnimatedRoute>
@@ -63,7 +69,7 @@ function App() {
               <Route exact path="/signup" element={<RequireNoAuth><Signup /></RequireNoAuth>} />
               <Route exact path="/welcome" element={
                 <Suspense fallback={<LoadingScreen />}>
-                  <RequireAuth><MainMenu /></RequireAuth>
+                  <RequireAuth><MainMenu windowSize={windowSize}/></RequireAuth>
                 </Suspense>} />
               <Route exact path="/emprendimiento/:empr_id" element={<RequireAuth><SecondMenu /></RequireAuth>}></Route>
               <Route exact path="/nuevoemprendimiento" element={<RequireAuth><RegisterEmprendimiento /></RequireAuth>}></Route>
@@ -81,7 +87,7 @@ function App() {
           </AnimatedRoute>
         </Children>
       </div>
-      <Footer></Footer>
+      <Footer windowSize={windowSize}></Footer>
     </Router>
 
   </>

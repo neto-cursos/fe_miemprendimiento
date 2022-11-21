@@ -26,9 +26,15 @@ import SkipNextIcon from '@mui/icons-material/SkipNext';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Divider from '@mui/material/Divider';
 import { accordionSummaryClasses } from '@mui/material';
+import ToolTip from '../ToolTip/ToolTip';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import ToolTipBasic from '../ToolTip/ToolTipBasic';
+
 
 
 const ModelCanvasPreguntas = () => {
+    const [showButton, setShowButton] = useState(0);
+
     const theme = useTheme();
 
     const { empr_id, user_id, modu_nume, bmc_type = '' } = useParams();
@@ -228,10 +234,12 @@ const ModelCanvasPreguntas = () => {
     const updateInputs = () => {
         setRelInputRef(auxInput);
     }
+    //grid-auto-fit-[10rem]
+    //&& suge.suge_rubro == bmc_type
     return (
         <>
-            <section className="grid gap-1 grid-auto-fit-[10rem]">
-                <div className="py-3 pr-3 pl-10 col-span-5 bg-whitish rounded-md">
+            <section className="grid gap-1 grid-cols-2 md:grid-cols-2">
+                <div className="py-3 pr-3 pl-10 col-span-2 md:col-span-2 bg-whitish rounded-md">
                     <h3 className='text-center text-2xl font-bold'>
                         Módulo {modu_nume}: {modu_nomb2.modulo}
                     </h3>
@@ -266,63 +274,156 @@ const ModelCanvasPreguntas = () => {
                             })}
                             {sumarC2()}
                             {c2 === 1 &&
-                                <div className="flex flex-row text-left">
-                                    <div className='w-11/12'>
+                                <div className="">
+                                    <div className='col-span-2 row-span-2'>
                                         <div className="flex items-center border-b border-teal-500 py-2">
                                             <textarea id="respuesta" key={nanoid()} rows="2" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="su respuesta" aria-label="Respuesta" name="resp_text" ref={input1} />
+                                            <button className="flex bg-sky-500 hover:bg-sky-700 border-sky-500 hover:border-sky-700 text-sm border-1 text-white rounded" type="button" onClick={() => addResponse(pregunta.preg_id)}>
+                                                <AddEntry></AddEntry>
+                                            </button>
                                         </div>{updateAuxInputs({ ...auxInput, input1: pregunta.preg_id })}
+
                                     </div>
-                                    <div className='w-1/12 text-right flex items-center'>
-                                        <button className="flex bg-sky-500 hover:bg-sky-700 border-sky-500 hover:border-sky-700 text-sm border-1 text-white rounded" type="button" onClick={() => addResponse(pregunta.preg_id)}>
-                                            <AddEntry></AddEntry>Agregar
-                                        </button>
-                                    </div>
+
+                                    {sugerencias.map((suge) => {
+                                        return <>
+                                            {(suge.preg_id == pregunta.preg_id && suge.suge_tipo == 'Ejemplo' && (<>
+                                                <button class="h-4 text-[0.5rem] bg-blue-500 hover:bg-blue-700 text-white mx-[0.1rem] my-0 py-0 px-0 rounded" key={suge.suge_id} onClick={() => updateFormInput(suge.suge_text, suge.preg_id)}>
+                                                    {suge.suge_text}
+                                                </button>
+                                            </>))}
+                                        </>
+                                    })}
+                                    {sugerencias.map((suge) => {
+                                        return <>
+
+                                            {(suge.preg_id == pregunta.preg_id && suge.suge_tipo == 'Video' && (<>
+                                                <ToolTipBasic tooltip={suge.suge_text}>
+                                                    <Link to={`/videoplayer/${suge.suge_id}`}>
+                                                        <button className="key={suge.suge_id} text-white p-0 m-0 bg-rojo-dark rounded">
+                                                            <YouTubeIcon></YouTubeIcon>
+                                                        </button>
+                                                    </Link>
+                                                </ToolTipBasic>
+                                            </>
+                                            ))}
+                                        </>
+                                    })}
                                 </div>
                             }
                             {c2 === 2 &&
-                                <div className="flex flex-row text-left">
-                                    <div className='w-11/12'>
+                                <div className="">
+                                    <div className='col-span-2 row-span-2'>
                                         <div className="flex items-center border-b border-teal-500 py-2">
                                             <textarea id="respuesta" key={nanoid()} rows="2" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="su respuesta" aria-label="Respuesta" name="resp_text" ref={input2} />
-                                        </div>
-                                        {updateAuxInputs({ ...auxInput, input2: pregunta.preg_id })}
+                                            <button className="flex bg-sky-500 hover:bg-sky-700 border-sky-500 hover:border-sky-700 text-sm border-1 text-white rounded" type="button" onClick={() => addResponse2(pregunta.preg_id)}>
+                                                <AddEntry></AddEntry>
+                                            </button>
+                                        </div>{updateAuxInputs({ ...auxInput, input2: pregunta.preg_id })}
+
                                     </div>
-                                    <div className='w-1/12 text-right flex items-center'>
-                                        <button className="flex bg-sky-500 hover:bg-sky-700 border-sky-500 hover:border-sky-700 text-sm border-1 text-white rounded" type="button" onClick={() => addResponse2(pregunta.preg_id)}>
-                                            <AddEntry></AddEntry>Agregar
-                                        </button>
-                                    </div>
+
+                                    {sugerencias.map((suge) => {
+                                        return <>
+                                            {(suge.preg_id == pregunta.preg_id && suge.suge_tipo == 'Ejemplo' && (<>
+                                                <button class="h-4 text-[0.5rem] bg-blue-500 hover:bg-blue-700 text-white mx-[0.1rem] my-0 py-0 px-0 rounded" key={suge.suge_id} onClick={() => updateFormInput(suge.suge_text, suge.preg_id)}>
+                                                    {suge.suge_text}
+                                                </button>
+                                            </>))}
+                                        </>
+                                    })}
+                                    {sugerencias.map((suge) => {
+                                        return <>
+
+                                            {(suge.preg_id == pregunta.preg_id && suge.suge_tipo == 'Video' && (<>
+                                                <ToolTipBasic tooltip={suge.suge_text}>
+                                                    <Link to={`/videoplayer/${suge.suge_id}`}>
+                                                        <button className="key={suge.suge_id} text-white p-0 m-0 bg-rojo-dark rounded">
+                                                            <YouTubeIcon></YouTubeIcon>
+                                                        </button>
+                                                    </Link>
+                                                </ToolTipBasic>
+                                            </>
+                                            ))}
+                                        </>
+                                    })}
                                 </div>
                             }
                             {c2 === 3 &&
-                                <div className="flex flex-row text-left">
-                                    <div className='w-11/12'>
-                                        <div className="flex items-center border-b border-teal-500 py-2">
-                                            <textarea id="respuesta" key={nanoid()} rows="2" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="su respuesta" aria-label="Respuesta" name="resp_text" ref={input3} />
-                                        </div>
-                                        {updateAuxInputs({ ...auxInput, input3: pregunta.preg_id })}
-                                    </div>
-                                    <div className='w-1/12 text-right flex items-center'>
+                                <div className="">
+                                <div className='col-span-2 row-span-2'>
+                                    <div className="flex items-center border-b border-teal-500 py-2">
+                                        <textarea id="respuesta" key={nanoid()} rows="2" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="su respuesta" aria-label="Respuesta" name="resp_text" ref={input3} />
                                         <button className="flex bg-sky-500 hover:bg-sky-700 border-sky-500 hover:border-sky-700 text-sm border-1 text-white rounded" type="button" onClick={() => addResponse3(pregunta.preg_id)}>
-                                            <AddEntry></AddEntry>Agregar
+                                            <AddEntry></AddEntry>
                                         </button>
-                                    </div>
+                                    </div>{updateAuxInputs({ ...auxInput, input3: pregunta.preg_id })}
+
                                 </div>
+
+                                {sugerencias.map((suge) => {
+                                    return <>
+                                        {(suge.preg_id == pregunta.preg_id && suge.suge_tipo == 'Ejemplo' && (<>
+                                            <button class="h-4 text-[0.5rem] bg-blue-500 hover:bg-blue-700 text-white mx-[0.1rem] my-0 py-0 px-0 rounded" key={suge.suge_id} onClick={() => updateFormInput(suge.suge_text, suge.preg_id)}>
+                                                {suge.suge_text}
+                                            </button>
+                                        </>))}
+                                    </>
+                                })}
+                                {sugerencias.map((suge) => {
+                                    return <>
+
+                                        {(suge.preg_id == pregunta.preg_id && suge.suge_tipo == 'Video' && (<>
+                                            <ToolTipBasic tooltip={suge.suge_text}>
+                                                <Link to={`/videoplayer/${suge.suge_id}`}>
+                                                    <button className="key={suge.suge_id} text-white p-0 m-0 bg-rojo-dark rounded">
+                                                        <YouTubeIcon></YouTubeIcon>
+                                                    </button>
+                                                </Link>
+                                            </ToolTipBasic>
+                                        </>
+                                        ))}
+                                    </>
+                                })}
+                            </div>
                             }
                             {c2 === 4 &&
-                                <div className="flex flex-row text-left">
-                                    <div className='w-11/12'>
-                                        <div className="flex items-center border-b border-teal-500 py-2">
-                                            <textarea id="respuesta" key={nanoid()} rows="2" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="su respuesta" aria-label="Respuesta" name="resp_text" ref={input4} />
-                                        </div>
-                                        {updateAuxInputs({ ...auxInput, input4: pregunta.preg_id })}
-                                    </div>
-                                    <div className='w-1/12 text-right flex items-center'>
+                                <div className="">
+                                <div className='col-span-2 row-span-2'>
+                                    <div className="flex items-center border-b border-teal-500 py-2">
+                                        <textarea id="respuesta" key={nanoid()} rows="2" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="su respuesta" aria-label="Respuesta" name="resp_text" ref={input4} />
                                         <button className="flex bg-sky-500 hover:bg-sky-700 border-sky-500 hover:border-sky-700 text-sm border-1 text-white rounded" type="button" onClick={() => addResponse4(pregunta.preg_id)}>
-                                            <AddEntry></AddEntry>Agregar
+                                            <AddEntry></AddEntry>
                                         </button>
-                                    </div>
+                                    </div>{updateAuxInputs({ ...auxInput, input4: pregunta.preg_id })}
+
                                 </div>
+
+                                {sugerencias.map((suge) => {
+                                    return <>
+                                        {(suge.preg_id == pregunta.preg_id && suge.suge_tipo == 'Ejemplo' && (<>
+                                            <button class="h-4 text-[0.5rem] bg-blue-500 hover:bg-blue-700 text-white mx-[0.1rem] my-0 py-0 px-0 rounded" key={suge.suge_id} onClick={() => updateFormInput(suge.suge_text, suge.preg_id)}>
+                                                {suge.suge_text}
+                                            </button>
+                                        </>))}
+                                    </>
+                                })}
+                                {sugerencias.map((suge) => {
+                                    return <>
+
+                                        {(suge.preg_id == pregunta.preg_id && suge.suge_tipo == 'Video' && (<>
+                                            <ToolTipBasic tooltip={suge.suge_text}>
+                                                <Link to={`/videoplayer/${suge.suge_id}`}>
+                                                    <button className="key={suge.suge_id} text-white p-0 m-0 bg-rojo-dark rounded">
+                                                        <YouTubeIcon></YouTubeIcon>
+                                                    </button>
+                                                </Link>
+                                            </ToolTipBasic>
+                                        </>
+                                        ))}
+                                    </>
+                                })}
+                            </div>
                             }
 
                         </>
@@ -331,134 +432,7 @@ const ModelCanvasPreguntas = () => {
 
 
                 </div>
-                <div className="px-32 md:px-32 xl:px-32 pt-12 col-span-5 md:col-span-5 
-                lg:col-span-5
-                xl:col-span-5 2xl:col-span-2 bg-whitish rounded-md">
-                    <h3 className='font-bold text-lg'>
-                        {'Sugerencias'}
-                    </h3>
-                    {preguntas.preguntas.map((pregunta) => {
-                        c = c + 1;
-                        return pregunta.modu_id == modu_nume && <>
-                            <div className='pt-5 text-sm font-bold text-canvas2Txt'>Material de Apoyo Pregunta {c}</div>
 
-                            <Card sx={{ display: 'flex' }} className="flex-col">
-                                {sugerencias.map((suge) => {
-                                    return <>
-
-                                        {(suge.preg_id == pregunta.preg_id && suge.suge_tipo == 'Ejemplo' && suge.suge_rubro == bmc_type && (<>
-
-                                            <Box sx={{ display: 'flex', flexDirection: 'row' }}
-                                                className="items-center">
-
-                                                <Typography className="pl-2" component="div" variant="subtitle1" key={suge.suge_id}>
-                                                    {suge.suge_text}
-                                                </Typography>
-                                                <Typography className="pl-1 m-0" variant="caption" color="text.secondary" component="div">
-                                                    Ejemplo
-                                                </Typography>
-                                                <Box sx={{ display: 'flex', alignItems: 'center', pl: 0, pb: 0 }} className="m-0">
-                                                    {/* <IconButton aria-label="previous">
-                                                {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}
-                                            </IconButton> */}
-                                                    <IconButton aria-label="play/pause" onClick={() => updateFormInput(suge.suge_text, suge.preg_id)}>
-                                                        <ContentCopyIcon />
-                                                    </IconButton>
-                                                    {/* <IconButton aria-label="next">
-            {theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
-          </IconButton> */}
-                                                </Box>
-                                            </Box>
-                                            <Divider /></>))}
-                                    </>
-                                })}
-
-                            </Card>
-
-                            {/* <h3 className="text-orange-500 pt-3">Ejemplos</h3>
-                                {sugerencias.map((suge) => {
-                                    return <>
-
-                                        {(suge.preg_id == pregunta.preg_id && suge.suge_tipo == 'Ejemplo' && suge.suge_rubro == bmc_type && (
-                                            <div className="flex flex-row" key={suge.suge_id}>
-                                                {suge.suge_text}
-                                            </div>
-                                        ))}
-
-
-                                    </>
-                                })} */}
-
-                            <Card sx={{ display: 'flex' }} className="flex-col mt-1">
-                                {sugerencias.map((suge) => {
-                                    return <>
-
-                                        {(suge.preg_id == pregunta.preg_id && suge.suge_tipo == 'Video' && suge.suge_rubro == bmc_type && (<>
-
-                                            <Box sx={{ display: 'flex', flexDirection: 'row' }}
-                                                className="items-center">
-
-                                                <Typography className="pl-2" component="div" variant="subtitle1" key={suge.suge_id}>
-                                                    {suge.suge_text}
-                                                </Typography>
-                                                <Typography className="pl-1 m-0" variant="caption" color="text.secondary" component="div">
-                                                    Video
-                                                </Typography>
-                                                <Box sx={{ display: 'flex', alignItems: 'center', pl: 0, pb: 0 }} className="m-0">
-                                                    {/* <IconButton aria-label="previous">
-                                                {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}
-                                            </IconButton> */}
-                                                    <Link to={`/videoplayer/${suge.suge_id}`}>
-                                                        <IconButton aria-label="play/pause">
-                                                            <PlayArrowIcon />
-                                                        </IconButton>
-                                                    </Link>
-                                                    {/* <IconButton aria-label="next">
-            {theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
-          </IconButton> */}
-                                                </Box>
-                                            </Box>
-                                            <Divider /></>))}
-                                    </>
-                                })}
-
-                            </Card>
-
-                            {/* <h3 className="text-orange-500 pt-3">Ejemplos</h3>
-                                {sugerencias.map((suge) => {
-                                    return <>
-
-                                        {(suge.preg_id == pregunta.preg_id && suge.suge_tipo == 'Ejemplo' && suge.suge_rubro == bmc_type && (
-                                            <div className="flex flex-row" key={suge.suge_id}>
-                                                {suge.suge_text}
-                                            </div>
-                                        ))}
-
-
-                                    </>
-                                })} */}
-
-
-
-                            {/* <div>
-                                <h3 className="text-orange-500 pt-3">
-                                    Videos</h3>
-                                {sugerencias.map((suge) => {
-                                    return <>
-
-                                        {(suge.preg_id == pregunta.preg_id && suge.suge_tipo == 'Video' && suge.suge_rubro == bmc_type && (
-                                            <div className="flex flex-row" key={suge.suge_id}>
-                                                <button onClick={() => handleLinkVideo(suge.suge_link)}>{suge.suge_link}</button>
-                                            </div>
-                                        ))}
-
-                                    </>
-                                })}
-                            </div> */}
-
-                        </>
-                    })}
-                </div>
                 <div className="col-span-6 text-center">
                     <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-12 rounded" onClick={() => handleSubmit()}>GUARDAR</button>
                 </div>

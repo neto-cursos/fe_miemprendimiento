@@ -41,7 +41,16 @@ export const logOutSession = createAsyncThunk('usuarios/logOutSession',
   }
 )
 
-export const registerUser = createAsyncThunk(
+
+export const registerUser = createAsyncThunk('usuarios/register',  
+  async (datos) => {
+        const data=await ApiAuth().post('/auth/registro',datos).then(response => {
+        return response.data;
+    });
+      return data
+  }
+)
+export const registerUser2 = createAsyncThunk(
   'user/register',
   async ({ firstName, email, password }, { rejectWithValue }) => {
     try {

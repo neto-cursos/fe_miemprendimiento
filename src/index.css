@@ -40,4 +40,6 @@
   position: relative;
 }
 
-
+.svg_fix{
+  shape-renderer: crispEdges;
+}

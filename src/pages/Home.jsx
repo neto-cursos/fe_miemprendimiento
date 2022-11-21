@@ -17,13 +17,13 @@ const Home = () => {
             >
                 <div className='rounded-3xl bg-naranja-fondo mx-2 my-2 px-12 py-16 w-full md:w-1/2 items-center md:h-full'>
                     <h1 className='font-krona text-lg mb-2 mt-10 md:mt-32'>
-                        Crea tu plan de negocios
+                        Crea tu Plan de Negocios
                     </h1>
                     <p className='text-sm mb-6'>
                         Crea de manera rápida el plan de negocios para tu emprendimiento, cronogramas, presupuesto y mucho más
                     </p>
-                    <Link to="/login" className='py-2 bg-grayish rounded-xl font-bold font-krona px-2 text-xs text-darkish'>
-                        Iniciar Emprendimiento
+                    <Link to="/login" className='py-2 bg-grayish hover:text-whitish hover:bg-rojo-dark rounded-xl font-bold font-krona px-4 text-md text-darkish'>
+                        Inicio
                     </Link>
                     <p className='mb-32'></p>
                 </div>

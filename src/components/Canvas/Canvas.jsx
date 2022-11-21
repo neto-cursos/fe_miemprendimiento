@@ -189,7 +189,7 @@ const Canvas = () => {
     return (
         canvasSelect.datos.canv_id !== "" && preguntas.preguntas.length > 0 && <>
             {downlImage === true ?
-                <div id="micanvas" ref={domEl} className="w-[1280px] h-[720px]  grid gap-1
+                <div id="micanvas" ref={domEl} className="w-[1280px]  grid gap-1
         grid-cols-5 h-[40rem]">
                     <ModuleBox respuestas={respuestas}
                         onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}
@@ -401,7 +401,7 @@ const Canvas = () => {
 
 
             {windowSize.innerWidth > 640 ?
-                <div className='text-center absolute right-5 top-10 z-50 text-lg text-canvas4Txt'>
+                <div className='text-center absolute right-5 top-10 z-40 text-lg text-canvas4Txt'>
                     <Fab color="secondary" variant="extended" aria-label="Actualizar Canvas" onClick={() => updateTable()}>
                         <AddIcon> </AddIcon> <span className="text-xs">Actualizar Canvas</span>
                     </Fab>
@@ -409,7 +409,7 @@ const Canvas = () => {
                         <DownloadIcon> </DownloadIcon>
                     </Fab>
                 </div> :
-                <div className='text-center fixed left-4 top-[120px] z-50 text-lg text-canvas4Txt'>
+                <div className='text-center fixed left-4 top-[120px] z-40 text-lg text-canvas4Txt'>
                     <Fab color="secondary" variant="extended" aria-label="Actualizar Canvas" onClick={() => updateTable()}>
                         <AddIcon sx={{ fontSize: 20 }}> </AddIcon>
                     </Fab><br />
