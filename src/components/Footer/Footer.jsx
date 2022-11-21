@@ -5,7 +5,7 @@ import IconYoutube from './../../assets/icons/iconYoutube';
 import IconInstagram from './../../assets/icons/iconInstagram';
 import IconWhatsapp from './../../assets/icons/iconWhatsapp';
 import IconTwitter from './../../assets/icons/iconTwitter';
-import FondoFooter from '../../assets/svg/fondoFooter';
+import FondoFooter from '../../assets/svg/FondoFooter';
 import ChkWindowSize from '../ChkWindowSize';
 import { getWindowSize } from '../../utils/checkWindow';
 const Footer = ({windowSize}) => {

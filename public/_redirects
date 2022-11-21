@@ -1,7 +1,7 @@
-/api/* http://44.202.39.9/public/api/:splat 200
-/misemprendimientos/api/* http://44.202.39.9/public/api/:splat 200!
-/emprendimiento/api/* http://44.202.39.9/public/api/:splat 200!
-/emprendimiento/:id/api/* http://44.202.39.9/public/api/:splat 200!
-/misemprendimientos/fill/:empr/api/* http://44.202.39.9/public/api/:splat 200!
-/misemprendimientos/fill/:empr/:usr/api/* http://44.202.39.9/public/api/:splat 200!
+/api/* http://52.91.101.87/public/api/:splat 200
+/misemprendimientos/api/* http://52.91.101.87/public/api/:splat 200!
+/emprendimiento/api/* http://52.91.101.87/public/api/:splat 200!
+/emprendimiento/:id/api/* http://52.91.101.87/public/api/:splat 200!
+/misemprendimientos/fill/:empr/api/* http://52.91.101.87/public/api/:splat 200!
+/misemprendimientos/fill/:empr/:usr/api/* http://52.91.101.87/public/api/:splat 200!
 /* /index.html 200
