@@ -8,7 +8,7 @@ const Main = styled("div")`
 `;
 
 const DropDownContainer = styled("div")`
-  width: 25rem;
+  width: 20rem;
   margin: 0 auto;
 `;
 

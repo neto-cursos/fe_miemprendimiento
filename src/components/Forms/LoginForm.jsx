@@ -16,7 +16,7 @@ const LoginForm = (props) => {
     const dispatch = useDispatch();
     const schema = yup.object({
         email: yup.string().required().typeError('Debe ingresar un email válido'),
-        password: yup.string().required()
+        password: yup.string().required('el password es un campo obligatorio')
         .trim('su password no debe incluir espacios al inicio o final')
         .strict(true)
         .min(5, 'su password debe tener un mínimo de 5 caracteres')
