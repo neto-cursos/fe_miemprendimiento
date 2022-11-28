@@ -6,13 +6,17 @@ import { loginFields } from './../../constants/FormFields';
 import Error from '../Error';
 import * as yup from "yup";
 import { userLogin } from './../../redux/actions/userActions';
-
+import { useEffect } from "react";
+import LoadingScreen from "./../LoadingScreen/LoadingScreen"
+import SetTimeOut from "../../utils/SetTimeOut";
+import {updateAuth, changeSuccessLogin} from './../../redux/reducers/userSlice';
+import SuccessMessage from "../MessagesBox/SuccessMessage";
 const fields = loginFields;
 let fieldsState = {};
 fields.forEach(field => fieldsState[field.id] = '');
 
 const LoginForm = (props) => {
-    const { loading, userInfo, error, auth, errores } = useSelector((state) => state.usuarios)
+    const { loading, userInfo, error, auth, errores,successLogin } = useSelector((state) => state.usuarios)
     const dispatch = useDispatch();
     const schema = yup.object({
         email: yup.string().required().typeError('Debe ingresar un email válido'),
@@ -30,15 +34,12 @@ const LoginForm = (props) => {
     /**
      * Console log
      */
-    // console.log("==Login Form==")
-
     const submitForm = (data) => {
        dispatch(userLogin(data));
     }
+    
 
-
-    return (
-
+    return (<>{!successLogin?!loading?
         <form className="mt-8 space-y-6" onSubmit={handleSubmit(submitForm)}>
             {error && <Error>{errores}</Error>}
             {/* {errors.email?.message}
@@ -65,7 +66,9 @@ const LoginForm = (props) => {
             </div>
             <FormExtra />
             <FormAction action={'submit'} text="Iniciar Sesión" disabled={loading} />
-        </form>
+        </form>:<LoadingScreen/>:
+        <SetTimeOut condition={successLogin} timeDelay={1000} changeSuccess={updateAuth} changeCondition={changeSuccessLogin} value={true}>
+           <SuccessMessage></SuccessMessage> </SetTimeOut>}</>
     );
 }
 

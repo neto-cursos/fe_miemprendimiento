@@ -35,8 +35,8 @@ const EmprendList = () => {
     useEffect(() => {
         if (emprsStatus === 'idle' || emprsStatus === 'fulfilled') {
             let items = {}; let dataid = 0;
-            if (localStorage.getItem('usr_dt')) {
-                items = JSON.parse(localStorage.getItem('usr_dt'));
+            if (sessionStorage.getItem('usr_dt')) {
+                items = JSON.parse(sessionStorage.getItem('usr_dt'));
                 console.log("userData:" + items.user_name);
                 dataid = items.user_id;
             }

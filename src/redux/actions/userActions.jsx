@@ -14,7 +14,7 @@ export const userLogin = createAsyncThunk('usuarios/login',
      }else{console.log("NO YAY");}
     }else console.log("no es un objeto");
       // const token = data['access_token']?`Bearer ${data['access_token']}`:'';
-      // localStorage.setItem('bearertoken',token);  
+      // sessionStorage.setItem('bearertoken',token);  
       return data
   }
 )

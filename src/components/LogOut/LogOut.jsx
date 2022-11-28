@@ -20,7 +20,7 @@ const LogOut = ({ children }) => {
   useEffect(() => {
     if (auth === true) {
       dispatch(logOutSession());
-      localStorage.clear();
+      sessionStorage.clear();
       logOut();
       //window.location.reload();
       //navigate(`/login`);

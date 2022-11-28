@@ -30,11 +30,8 @@ export const respuestaSlice=createSlice({
             //fin devuelve undefined si no lo encuentra
             const nodo=state.find(respuesta=>respuesta.resp_id===action.payload)
             if (nodo){
-                state.splice(state.indexOf(nodo),1)
-
+                state.splice(state.indexOf(nodo),1);
             }
-                
-
         },
         updateRespuesta:(state,action)=>{
             const {resp_id,preg_id, modu_nume, canv_id, resp_nume, resp_text,resp_desc, resp_esta}=action.payload;
@@ -50,7 +47,12 @@ export const respuestaSlice=createSlice({
             }
         },
         resetRespuesta:(state,action) => {
+            console.log("STATE RESETBEFORE RESPUESTA: ");
+            console.log(state);
             state.length=0;
+            console.log("STATE RESET RESPUESTA: ");
+            console.log(state);
+            return state;
         },
 
     },

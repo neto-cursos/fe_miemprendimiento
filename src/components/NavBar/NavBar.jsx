@@ -10,7 +10,8 @@ import NavBarSession from './NavBarSession';
 import NavBarFondo from './../../assets/svg/FondoNavBar';
 import navbarfondo from './../../assets/svg/navbarfondo.svg';
 import SideBar2 from '../SideBar2/SideBar2';
-
+import WifiIcon from '@mui/icons-material/Wifi';
+import WifiOffIcon from '@mui/icons-material/WifiOff';
 const NavBar = ({ showLogin }) => {
     const { auth, userInfo } = useSelector(state => state.usuarios);
     console.log("NavBar .. auth from useRedux:" + auth);
@@ -18,6 +19,8 @@ const NavBar = ({ showLogin }) => {
     const userApellido = userInfo.user_apellido;
     const islogged = isLoggedIn();
     console.log("NavBar .. Shows islogged()?:" + islogged)
+    
+    const [isConnected, setIsConnected]=React.useState(false);
 
     return (
         <nav className='font-krona  pt-0 md:pt-2 bg-gradient-to-r from-naranja-fondo 
@@ -33,7 +36,8 @@ const NavBar = ({ showLogin }) => {
                 <div className='hidden items-center  lg:flex lg:flex-row'>
                     <NavLinks></NavLinks>
                     <div className='flex'>
-                        <BriefcaseIcon color="redish"></BriefcaseIcon>
+                        {/* <BriefcaseIcon color="redish"></BriefcaseIcon> */}
+                        {window.navigator.onLine?<WifiIcon/>:<WifiOffIcon/>}
                     </div>
                 </div>
                 <div className='flex items-center flex-col justify-center md:flex-row'>

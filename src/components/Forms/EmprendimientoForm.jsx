@@ -27,7 +27,7 @@ const EmprendimientoForm = () => {
         //console.log("LOLOl:"+aux1.user_id)
     }, []);
     useEffect(()=>{
-        const aux1 = JSON.parse(localStorage.getItem('usr_dt'));
+        const aux1 = JSON.parse(sessionStorage.getItem('usr_dt'));
         setFormInput({ ...formInput, id: aux1.user_id })
     },[])
     const emprendimientos = useSelector(state => state.emprendimientos);

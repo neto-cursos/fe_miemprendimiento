@@ -12,14 +12,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../redux/actions/userActions';
 import MessageRedirect from '../MessageRedirect/MessageRedirect';
-import { changeSuccess } from '../../redux/reducers/userSlice';
+import { changeSuccessRegister } from '../../redux/reducers/userSlice';
 
 const fields = signupFields;
 let fieldsState = {};
 
 fields.forEach(field => fieldsState[field.id] = '');
 const SignUpform = () => {
-  const { loading, userInfo, error, auth, errores, success } = useSelector((state) => state.usuarios)
+  const { loading, userInfo, error, auth, errores, successRegister } = useSelector((state) => state.usuarios)
   const [navigate, setNavigate] = useState(false);
   const [formInput, setFormInput] = useState({ name: '', apellido: '', email: '', password: '' });
   const dispatch = useDispatch();
@@ -56,16 +56,16 @@ const SignUpform = () => {
     // }).catch((err)=>{})
   }
   useEffect(() => {
-    console.log("yay2");
-    if (success === true) {
+    if (successRegister === true) {
       setShowSuccessMsg(true);
-      const timer = setTimeout(() => mostrarMensaje(), 5000);
+      const timer = setTimeout(() => mostrarMensaje(), 2000);
       return () => clearTimeout(timer);    
     }
-  }, [success])
+  }, [successRegister])
+  
 const [showSuccessMsg,setShowSuccessMsg]=useState(false);
   const mostrarMensaje=() => {
-    dispatch(changeSuccess(false));
+    dispatch(changeSuccessRegister(false));
     setNavigate(true);
     // return (setShowSuccessMsg(false));
   }

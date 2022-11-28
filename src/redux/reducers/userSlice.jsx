@@ -9,7 +9,9 @@ import { logOut, OpLogIn } from './../../utils/UtilsAuth'
 
 const initialState = {
     loading: false,
-    success:false,
+    successLogin: false,
+    successRegister:false,
+    successLogout:false,
     userInfo: {
         user_name: '',
         user_id: '',
@@ -29,13 +31,21 @@ const initialState = {
 const userSlice = createSlice({
     name: 'usuarios',
     initialState,
-    reducers: {
-        changeSuccess:(state,action)=>{
-            state.success=action.payload;
+    reducers: {        
+        changeSuccessRegister: (state, action) => {
+            state.successRegister = action.payload;
+            return state;
+        },
+        changeSuccessLogOut: (state, action) => {
+            state.successLogout = action.payload;
+            return state;
+        },
+        changeSuccessLogin: (state, action) => {
+            state.successLogin = action.payload;
             return state;
         },
         logout: (state) => {
-            localStorage.removeItem('bearerToken');
+            sessionStorage.removeItem('bearerToken');
             state = initialState;
             logOut();
             return state;
@@ -45,27 +55,29 @@ const userSlice = createSlice({
         },
         updateAuth: (state, action) => {
             state.auth = action.payload;
+            return state;
         },
         setDataFromLocalSave: {
             reducer(state, action) {
-            const userInfo = localStorage.getItem('usr_dt') ?
-                JSON.parse(localStorage.getItem('usr_dt')) :
-                {user_name:'',user_id:'',user_apellido:'',access_token:'',token_type:''};
-            state= {
-                ...state, userInfo: {
-                    ...state.userInfo,
-                    user_name: userInfo.user_name,
-                    user_id: userInfo.user_id,
-                    user_apellido: userInfo.user_apellido,
-                    access_token: userInfo.access_token,
-                    access_type: userInfo.token_type
-                },auth:localStorage.getItem('auth')? true : false,
-            };
-            console.log("State CHANGED");
-            console.log(state);
-            console.log("CHANGED FINISHED");
-            return state;
-        }}
+                const userInfo = sessionStorage.getItem('usr_dt') ?
+                    JSON.parse(sessionStorage.getItem('usr_dt')) :
+                    { user_name: '', user_id: '', user_apellido: '', access_token: '', token_type: '' };
+                state = {
+                    ...state, userInfo: {
+                        ...state.userInfo,
+                        user_name: userInfo.user_name,
+                        user_id: userInfo.user_id,
+                        user_apellido: userInfo.user_apellido,
+                        access_token: userInfo.access_token,
+                        access_type: userInfo.token_type
+                    }, auth: sessionStorage.getItem('auth') ? true : false,
+                };
+                console.log("State CHANGED");
+                console.log(state);
+                console.log("CHANGED FINISHED");
+                return state;
+            }
+        }
     },
     extraReducers(builder) {
         // login user
@@ -76,42 +88,54 @@ const userSlice = createSlice({
                 state.error = null;
                 state.auth = false;
                 state.errores = [{}];
-                localStorage.removeItem('usr_dt');
-                localStorage.setItem('auth', state.auth);
+                sessionStorage.removeItem('usr_dt');
+                sessionStorage.setItem('auth', state.auth);
+
             })
             .addCase(userLogin.fulfilled, (state, action) => {
                 console.log('USERLOGIN FULLFLLLED');
-                state.loading = false;
-                state.userInfo = {
-                    user_name: action.payload.user_name,
-                    user_id: action.payload.user_id,
-                    user_apellido: action.payload.user_apellido,
-                    access_token: action.payload.access_token,
-                    access_type: action.payload.token_type
-                };
-
-                state.userToken = `Bearer ${action.payload['access_token']}`;
-                localStorage.setItem('usr_dt', JSON.stringify(state.userInfo));
-                console.log(localStorage.getItem('usr_dt'))
-                state.auth = true;
-                localStorage.setItem('auth', state.auth);
-                state.errores = [{}];
+                state = {
+                    ...state,
+                    loading: false,
+                    successLogin: true,
+                    userInfo: {
+                        user_name: action.payload.user_name,
+                        user_id: action.payload.user_id,
+                        user_apellido: action.payload.user_apellido,
+                        access_token: action.payload.access_token,
+                        access_type: action.payload.token_type
+                    },
+                    userToken: `Bearer ${action.payload['access_token']}`,
+                    // auth : true,
+                    errores: [{}]
+                }
+                sessionStorage.setItem('usr_dt', JSON.stringify(state.userInfo));
+                console.log(sessionStorage.getItem('usr_dt'))
+                sessionStorage.setItem('auth', state.auth);
                 OpLogIn();
+                return state;
             })
             .addCase(userLogin.rejected, (state, action) => {
-                
                 console.log('USERLOGIN REJECTEDS');
                 console.log(action);
-                state.loading = false
-                state.error = action
-                state.auth = false
-                localStorage.removeItem('usr_dt');
-                localStorage.setItem('auth', state.auth);
+                sessionStorage.removeItem('usr_dt');
+                sessionStorage.setItem('auth', state.auth);
                 console.log('STATEERROR')
-                if(action.error)
-                console.log(action);
-                if (action.error.message === 'Request failed with status code 401')
-                    state.errores = [{ id: nanoid(), msg: 'usuario o password incorrecto' }]
+                if (action.error)
+                    console.log(action);
+                if (action.error.message === 'Request failed with status code 401') {
+                    state = {
+                        ...state, successLogin: false, loading: false,
+                        error: action, auth: false,
+                        errores: [{ id: nanoid(), msg: 'usuario o password incorrecto' }]
+                    }
+                } else {
+                    state = {
+                        ...state, successLogin: false, loading: false,
+                        error: action, auth: false,
+                    }
+                }
+                return state;
 
             })
             // register user
@@ -122,23 +146,23 @@ const userSlice = createSlice({
                 state.errores = [{}];
             })
             .addCase(registerUser.fulfilled, (state, action) => {
-                state.success = true // registration successful
+                state.successRegister = true // registration successful
                 console.log('USERLOGIN FULLFLLLED');
                 state.loading = false;
             })
             .addCase(registerUser.rejected, (state, action) => {
                 console.log('USERLOGIN REJECTEDS');
                 console.log(action);
-                state.success=false;
+                state.successRegister = false;
                 state.loading = false;
                 state.error = action.error;
                 console.log('STATEERROR')
-                if(action.error)
-                console.log(action);
+                if (action.error)
+                    console.log(action);
                 if (action.error.message)
                     state.errores = [{ id: nanoid(), msg: action.error.message }]
 
-                
+
             })
             // get user details
             .addCase(getUserDetails.pending, (state, action) => {
@@ -185,7 +209,7 @@ const userSlice = createSlice({
                 return state;
             })
             .addCase(logOutSession.rejected, (state, { payload }) => {
-                state={...state,loading:false,auth:false};
+                state = { ...state, loading: false, auth: false };
                 console.log("LOGOUT SESSION FALLÍDA");
                 return state;
             })
@@ -193,6 +217,7 @@ const userSlice = createSlice({
 
 });
 
-export const { logout, updateLoading, setDataFromLocalSave, updateAuth,changeSuccess } = userSlice.actions
+export const { logout, updateLoading, setDataFromLocalSave, updateAuth, 
+    changeSuccessLogin,changeSuccessRegister,changeSuccessLogout } = userSlice.actions
 export const getauth = (state) => state.usuarios.auth;
 export default userSlice.reducer;

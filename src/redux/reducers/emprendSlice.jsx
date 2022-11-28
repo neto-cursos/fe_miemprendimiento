@@ -179,17 +179,23 @@ export const emprendSlice = createSlice({
                 //state.posts.push(action.payload)
             })
             .addCase(removeEmpr.pending, (state, action) => {
-                state.status = 'failed'
-                console.log("FAILED")
+                state.status = 'pending'
+                console.log("Pending")
             })
             .addCase(removeEmpr.fulfilled, (state, action) => {
-                state.status = 'failed'
-                console.log("FAILED")
+                state.status = 'fulfilled'
+                console.log("fulfilled")
 
             })
             .addCase(removeEmpr.rejected, (state, action) => {
                 state.status = 'failed'
                 console.log("FAILED")
+                state.error = action.error;
+                console.log('STATEERROR')
+                if (action.error)
+                    console.log(action);
+                if (action.error.message)
+                    state.errores = [{ id: nanoid(), msg: action.error.message }]
 
             })
             .addCase(updateEmprs.pending, (state, action) => {

@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteRespuesta, resetRespuesta } from './../../redux/reducers/respuestaSlice';
 import ModuleBox from './ModuleBox/ModuleBox';
 import { useParams, useNavigate } from 'react-router-dom';
-import { listRespuestas, updateRespuestas } from './../../redux/actions/respuesta2Actions'
+import { listRespuestas, updateRespuestas } from './../../redux/actions/respuesta2Actions';
 import { createCanvas, getCanvas } from './../../redux/actions/CanvaActions';
 import { setEmpr_id, resetEstado } from './../../redux/reducers/canvasSlice';
 import { listPreguntas } from './../../redux/actions/preguntaActions';
@@ -105,7 +105,10 @@ const Canvas = () => {
     const canvasSelect = useSelector(state => state.canvas)
     const respuestas = useSelector(state => state.respuestas)
     const preguntas = useSelector(state => state.preguntas);
-
+    console.log("canvasInitial value: ")
+    console.log(canvasSelect);
+    console.log("respuestasInitial value: ")
+    console.log(respuestas);
     /**
      * Handle respuesta
      */
@@ -130,59 +133,62 @@ const Canvas = () => {
 
     const updateTable = () => {
         //is not necessary to JSON.stringify since Axios takes charge of that
-        setSendAction(true);
+
         if (canvasSelect.idState === 'new') {
             dispatch(createCanvas(canvasSelect.datos));
-        } /*else if (canvasSelect.idState === 'db') {
-            dispatch(updateRespuestas((respuestas)));
-        }*/
+        }
+        setSendAction(true);
     }
-    //console.log("openp::" + openp);
 
     /**
      * use effects */
 
     useLayoutEffect(() => {
-        dispatch(setEmpr_id(empr_id));
-        if (preguntas.loaded === false)
-            dispatch(listPreguntas());
+        dispatch(resetEstado());
+
     }, [])
 
     useEffect(() => {
         if (canvasSelect.estado === 'ready') {
             //      console.log("canvas ... loading first")
             //      console.log(empr_id);
-            dispatch(getCanvas({ empr_id: empr_id }));
+            dispatch(getCanvas({ empr_id: empr_id }));//change idState to new or db y estado to loaded
+        }
+        if (canvasSelect.estado === 'loading') {
+            dispatch(resetRespuesta());
+            dispatch(setEmpr_id(empr_id));//this put estado in ready
+            if (preguntas.loaded === false)
+                dispatch(listPreguntas());
         }
     }, [canvasSelect.estado])
 
     useEffect(() => {
         //dispatch(resetRespuesta());
-        if (canvasSelect.estado === 'loaded' && canvasSelect.idState === 'db') {
+        if (canvasSelect.estado === 'loadedCanvasID' && canvasSelect.idState === 'db' && canvasSelect.datos.empr_id==empr_id) {
             //    console.log("canvas ... loading when canvasSelect changes")
             console.log(canvasSelect);
             dispatch(listRespuestas({ canv_id: canvasSelect.datos.canv_id }))
         }
-    }, [canvasSelect.estado, canvasSelect.idState, dispatch])
+    }, [canvasSelect.estado, canvasSelect.idState])
 
-    useEffect(() => {
-        // console.log("rerender")
+    useEffect(() => {       
     }, [respuestas]);
 
     useEffect(() => {
-        console.log("__Canvas Sendaction__");
-        console.log(sendAction);
         if (canvasSelect.idState === 'db' && sendAction === true) {
             if (respuestas.length === 0) {
-                console.log("entro a actualizar canvas vacios")
-                dispatch(updateRespuestas([{canv_id: canvasSelect.datos.canv_id,
-                resp_id:''}]))
+                console.log("entro a actualizar canvas vacio")
+                dispatch(updateRespuestas([{
+                    canv_id: canvasSelect.datos.canv_id,
+                    resp_id: '',
+                }]))
             } else
                 dispatch(updateRespuestas((respuestas)));
             dispatch(resetRespuesta());
             dispatch(listRespuestas({ canv_id: canvasSelect.datos.canv_id }));
+            return (setSendAction(false));
         }
-        return (setSendAction(false));
+
     }, [canvasSelect.idState, sendAction]);
 
 

@@ -3,6 +3,8 @@ import { createCanvas, deleteCanvas, updateCanvas, getCanvas } from "./../action
 import {customAlphabet} from "nanoid"
 
 const initialState = {
+    loading:false,
+    successLoading:false,
     estado:'loading',
     idState:'pending',
     datos:{
@@ -36,11 +38,14 @@ export const canvasSlice = createSlice({
         },
         setEmpr_id: (state, action) => {
             state.datos.empr_id=action.payload;
-            state.estado='ready'
+            state.estado='ready';
+
         },
         resetEstado:(state,action)=>{
-            state.estado='loading';
-            state.idState='pending';
+            state=initialState;
+            console.log("resetEstado Canva")
+            console.log(state);
+            return state;
         }
     },
     extraReducers(builder) {
@@ -66,7 +71,7 @@ export const canvasSlice = createSlice({
                     console.log(state.datos.canv_id);
                     state.idState='new'
                 }
-                state.estado='loaded';
+                state.estado='loadedCanvasID';
             })
             .addCase(getCanvas.rejected, (state, action) => {
                 console.log("Getcanvas Rejected");
@@ -78,6 +83,7 @@ export const canvasSlice = createSlice({
             .addCase(createCanvas.fulfilled, (state, action) => {
                 console.log("createCanvas FullFilled");
                 state.idState='db';
+                return state;
             })
             .addCase(createCanvas.rejected, (state, action) => {
                 console.log("createCanvas Rejected");

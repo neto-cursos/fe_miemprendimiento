@@ -21,17 +21,19 @@
   --main-radius: 5px;
   --main-padding: 5px;
 }
+
 #root {
   display: flex;
   flex-direction: column;
   /* height: 100vh; */
- }
- 
- body{
+}
+
+body {
   @apply font-poppins;
   /* position: relative; */
   /* min-height: 100vh; */
 }
+
 #main {
   width: 100vw;
   /* height: 100vh; */
@@ -40,6 +42,45 @@
   position: relative;
 }
 
-.svg_fix{
+.svg_fix {
   shape-renderer: crispEdges;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.container .load {
+  margin-top: 1em;
+  color: white;
+}
+
+.container .document {
+  margin: 1em 0;
+}
+
+.react-pdf .Document {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.react-pdf .Page {
+  max-width: calc('100% - 2em');
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  margin: 1em;
+}
+
+.react-pdf .canvas {
+  max-width: 100%;
+  height: auto !important;
+}
+
+.react-pdf .message {
+  padding: 20px;
+  color: white;
 }

@@ -21,8 +21,8 @@ const SecondMenu = () => {
     const { empr_id } = useParams();
     console.log("empr_id:" + empr_id)
     useEffect(() => {
-        if (localStorage.getItem('usr_dt')) {
-            const getData = JSON.parse(localStorage.getItem('usr_dt'));
+        if (sessionStorage.getItem('usr_dt')) {
+            const getData = JSON.parse(sessionStorage.getItem('usr_dt'));
             setUserData({
                 ...userData,
                 user_name: getData.user_name,
