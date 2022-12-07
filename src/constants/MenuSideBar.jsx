@@ -21,6 +21,7 @@ export const menuPrincipalAuth =
         { id: 1, texto: 'Inicio', enlace: '/', icon: null,textoAlt:'',enable:true, },
         { id: 2, texto: 'Iniciar Sesión', enlace: '/welcome', icon: null,textoAlt:'',enable:false, },
         { id: 3, texto: 'Crear Cuenta', enlace: '/logout', icon: null,textoAlt:'',enable:false, },
+        { id: 3, texto: 'Sobre Nosotros', enlace: '/sobrenosotros', icon: null,textoAlt:'',enable:true, },
         { id: 4, texto: 'Soporte', enlace: '/contacto', icon: null,textoAlt:'Soporte',enable:true, },
         
     ];

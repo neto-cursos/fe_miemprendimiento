@@ -27,10 +27,32 @@ import { accordionSummaryClasses } from '@mui/material';
 import ToolTip from '../ToolTip/ToolTip';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import ToolTipBasic from '../ToolTip/ToolTipBasic';
+import VideoModal from '../VideoPlayer/VideoModal';
+import { Modal } from '@mui/material';
 
-
-
+function getWindowSize() {
+    const { innerWidth, innerHeight } = window;
+    return { innerWidth, innerHeight };
+}
 const ModelCanvasPreguntas = () => {
+
+    const [windowSize, setWindowSize] = React.useState(getWindowSize());
+    React.useEffect(() => {
+        function handleWindowResize() {
+            setWindowSize(getWindowSize());
+        }
+        window.addEventListener('resize', handleWindowResize);
+        return () => {
+            window.removeEventListener('resize', handleWindowResize);
+        };
+    }, []);
+
+    const videoDatos=useRef('');
+    
+    const [isOpen,setIsOpen]=useState(false);
+    const handleClose=()=>{
+        setIsOpen(false);
+    }
     const [yt, setYt] = useState(false);
     const [showButton, setShowButton] = useState(0);
 
@@ -293,7 +315,7 @@ const ModelCanvasPreguntas = () => {
                                             {(suge.preg_id == pregunta.preg_id && suge.suge_tipo == 'Video' && (<>
                                                 <ToolTipBasic tooltip={suge.suge_text}>
                                                     {/* <Link to={`/videoplayer/${suge.suge_id}`}> */}
-                                                        <button className="key={suge.suge_id} text-white p-0 m-0 bg-rojo-dark rounded">
+                                                        <button className="key={suge.suge_id} text-white p-0 m-0 bg-rojo-dark rounded" onClick={()=>{videoDatos.current=suge.suge_link;setIsOpen(true)}}>
                                                             <YouTubeIcon></YouTubeIcon>
                                                         </button>
                                                     {/* </Link> */}
@@ -331,7 +353,7 @@ const ModelCanvasPreguntas = () => {
                                             {(suge.preg_id == pregunta.preg_id && suge.suge_tipo == 'Video' && (<>
                                                 <ToolTipBasic tooltip={suge.suge_text}>
                                                     {/* <Link to={`/videoplayer/${suge.suge_id}`}> */}
-                                                        <button className="key={suge.suge_id} text-white p-0 m-0 bg-rojo-dark rounded">
+                                                        <button className="key={suge.suge_id} text-white p-0 m-0 bg-rojo-dark rounded" onClick={()=>{videoDatos.current=suge.suge_link;setIsOpen(true)}}>
                                                             <YouTubeIcon></YouTubeIcon>
                                                         </button>
                                                     {/* </Link> */}
@@ -369,7 +391,7 @@ const ModelCanvasPreguntas = () => {
                                         {(suge.preg_id == pregunta.preg_id && suge.suge_tipo == 'Video' && (<>
                                             <ToolTipBasic tooltip={suge.suge_text}>
                                                 {/* <Link to={`/videoplayer/${suge.suge_id}`}> */}
-                                                    <button className="key={suge.suge_id} text-white p-0 m-0 bg-rojo-dark rounded">
+                                                    <button className="key={suge.suge_id} text-white p-0 m-0 bg-rojo-dark rounded" onClick={()=>{videoDatos.current=suge.suge_link;setIsOpen(true)}}>
                                                         <YouTubeIcon></YouTubeIcon>
                                                     </button>
                                                 {/* </Link> */}
@@ -407,7 +429,7 @@ const ModelCanvasPreguntas = () => {
                                         {(suge.preg_id == pregunta.preg_id && suge.suge_tipo == 'Video' && (<>
                                             <ToolTipBasic tooltip={suge.suge_text}>
                                                 {/* <Link to={`/videoplayer/${suge.suge_id}`}> */}
-                                                    <button className="key={suge.suge_id} text-white p-0 m-0 bg-rojo-dark rounded" onClick={()=>{setYt(true)}}>
+                                                    <button className="key={suge.suge_id} text-white p-0 m-0 bg-rojo-dark rounded" onClick={()=>{videoDatos.current=suge.suge_link;setIsOpen(true);}}>
                                                         <YouTubeIcon></YouTubeIcon>
                                                     </button>
                                                 {/* </Link> */}
@@ -433,6 +455,37 @@ const ModelCanvasPreguntas = () => {
             </section>
             {/* {playVideo.play === true && playVideo.id !== null && <ModalVideos playVideo={playVideo} setPlayVideo={setPlayVideo}></ModalVideos>}
             <PreguntasBmc user_id={user_id} modu_nume={modu_nume} bmc_type={bmc_type}></PreguntasBmc> */}
+
+            
+            <Modal
+            open={isOpen}
+            onClose={() => handleClose()}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+
+        >
+            
+                <div className='pl-64 pt-16 text-center'>
+                    <div className='text-whitish pl-32 text-2xl cursor-pointer' onClick={handleClose}>X</div>
+                    <iframe
+                        id="video"
+                        width={windowSize.innerWidth > 640 ? "640" : "230"}
+                        height={windowSize.innerWidth > 640 ? "480" : "154"}
+                        src={"https://www.youtube.com/embed/" + videoDatos.current}
+                        frameBorder="0"
+                        allow="accelerometer, autoplay; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="pl-2"
+                    />
+                
+                </div>
+            
+
+
+        </Modal>
+    
+
+
         </>
     );
 }

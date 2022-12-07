@@ -1,10 +1,14 @@
+import { Modal } from '@mui/material';
 import React from 'react'
+import OutsideAlerter from '../../utils/OutsideAlerter';
 
 function getWindowSize() {
     const { innerWidth, innerHeight } = window;
     return { innerWidth, innerHeight };
 }
-const VideoModal = ({videoDatos}) => {
+const VideoModal = ({ videoDatos, isOpen, handleClose }) => {
+    // const [isOpen, setIsOpen] = React.useState(true);
+
     const [windowSize, setWindowSize] = React.useState(getWindowSize());
     React.useEffect(() => {
         function handleWindowResize() {
@@ -16,21 +20,32 @@ const VideoModal = ({videoDatos}) => {
         };
     }, []);
     return (
-        <div className="flex justify-center text-center p-5 rounded-lg shadow bg-white" style={{ boxShadow: "0 0 0 max(100vh, 100vw) rgba(0, 0, 0, .3)" }}>
-            <div className="svg-box">
-                <iframe
-                    id="video"
-                    width={windowSize.innerWidth > 640 ? "640" : "230"}
-                    height={windowSize.innerWidth > 640 ? "480" : "154"}
-                    src={"https://www.youtube.com/embed/" + videoDatos.suge_link}
-                    frameBorder="0"
-                    allow="accelerometer, autoplay; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="pl-2"
-                />
+        <Modal
+            open={isOpen}
+            onClose={() => handleClose()}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
 
-            </div>
-        </div>
+        >
+            
+                <div className='pl-64 pt-16 text-center'>
+                    <div className='text-whitish pl-32 text-2xl cursor-pointer' onClick={handleClose}>X</div>
+                    <iframe
+                        id="video"
+                        width={windowSize.innerWidth > 640 ? "640" : "230"}
+                        height={windowSize.innerWidth > 640 ? "480" : "154"}
+                        src={"https://www.youtube.com/embed/" + videoDatos}
+                        frameBorder="0"
+                        allow="accelerometer, autoplay; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="pl-2"
+                    />
+                
+                </div>
+            
+
+
+        </Modal>
     )
 }
 

@@ -31,7 +31,8 @@ import ChkWindowSize from './components/ChkWindowSize';
 import { getWindowSize } from './utils/checkWindow';
 import PdfViewer from './pages/PdfViewer';
 import ContactForm from './pages/ContactForm';
-
+import AboutUs from './pages/AboutUs';
+import VideoModal from './components/VideoPlayer/VideoModal';
 // const Home = loadable(() => import('./pages/Home'));
 // const Login = loadable(() => import('./pages/Login'));
 function App() {  
@@ -53,6 +54,7 @@ function App() {
   }, [auth]);
 //
 //
+
   return (<>
     <ChkWindowSize setWindowSize={setWindowSize}></ChkWindowSize>
     <Router>
@@ -66,7 +68,9 @@ function App() {
             <Switch>
               <Route exact path="/" element={<Home />} />
               <Route exact path="/loadingscreen" element={<LoadingScreen />} />
+              <Route exact path="/videomodal" element={<VideoModal />} />
               <Route exact path="/contacto" element={<ContactForm />} />
+              <Route exact path="/sobrenosotros" element={<AboutUs />} />
               <Route exact path="/login" element={<RequireNoAuth><Login /></RequireNoAuth>} />
               <Route exact path="/signup" element={<RequireNoAuth><Signup /></RequireNoAuth>} />
               <Route exact path="/welcome" element={
