@@ -69,8 +69,8 @@ const ContactForm = () => {
 
   return (
 
-    <section className="bg-white dark:bg-gray-900">
-  <div className="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+    <section className="bg-white ">
+  <div className="py-8 lg:py-16 px-4 mx-auto max-w-screen-md dark:bg-gray-900 rounded-md">
       <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Contáctanos</h2>
       <p className="mb-8 lg:mb-16 font-light text-justify text-gray-500 dark:text-gray-400 sm:text-xl">¿Encontró algún problema?, ¿Quiere que implementemos una nueva funcionalidad?, ¿Quiere reportarnos su experiencia con las herramientas provistas? o simplemente necesita contactarnos, escribanos por favor.</p>
       <form className="space-y-8" onSubmit={handleSubmit(onSubmit)} noValidate>

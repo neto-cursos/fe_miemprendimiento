@@ -91,6 +91,7 @@ const EmprendimientoForm = () => {
                     <optgroup label="Rubro al que pertenece"></optgroup>
                     <option>Comercial</option>
                     <option>Financiero</option>
+                    <option>Manufactura</option>
                     <option>Industrial</option>
                     <option>Tecnológico</option>
                     <option>Online</option>
