@@ -30,10 +30,11 @@ import SideBar2 from './components/SideBar2/SideBar2';
 import ChkWindowSize from './components/ChkWindowSize';
 import { getWindowSize } from './utils/checkWindow';
 import PdfViewer from './pages/PdfViewer';
+import ContactForm from './pages/ContactForm';
+
 // const Home = loadable(() => import('./pages/Home'));
 // const Login = loadable(() => import('./pages/Login'));
-function App() {
-
+function App() {  
   // const [auth, setAuth] = useState(false);
   const { auth } = useSelector(state => state.usuarios);
   const [count, setCount] = useState(0);
@@ -65,6 +66,7 @@ function App() {
             <Switch>
               <Route exact path="/" element={<Home />} />
               <Route exact path="/loadingscreen" element={<LoadingScreen />} />
+              <Route exact path="/contacto" element={<ContactForm />} />
               <Route exact path="/login" element={<RequireNoAuth><Login /></RequireNoAuth>} />
               <Route exact path="/signup" element={<RequireNoAuth><Signup /></RequireNoAuth>} />
               <Route exact path="/welcome" element={

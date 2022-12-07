@@ -59,6 +59,10 @@ export const Actividadeslice = createSlice({
     //initialState:[],
     initialState: initialState,
     reducers: {
+        reset:(state,action) => {
+            state=initialState;
+            return state;
+        },
         addCronograma: (state, action) => {
             //action.type or 
             //action.payload
@@ -213,5 +217,5 @@ export const Actividadeslice = createSlice({
             })
     },
 })
-export const { addCronograma, deleteCronograma, updateCronograma, agregarCronograma, resetCronograma,changeHideCronograma,changeProjectName,changeCron_done } = Actividadeslice.actions
+export const { addCronograma, deleteCronograma, updateCronograma, agregarCronograma, resetCronograma,changeHideCronograma,changeProjectName,changeCron_done,reset } = Actividadeslice.actions
 export default Actividadeslice.reducer;

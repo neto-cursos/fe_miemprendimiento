@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-
+import OutsideAlerter from "./../../../utils/OutsideAlerter";
 const Main = styled("div")`
   font-family: sans-serif;
   background: #f0f0f0;
@@ -114,7 +114,7 @@ const SelectCustom = ({ options, modulo, respuesta, setRespuesta,
             <DropDownHeader onClick={toggling}>
                 {selectedOption.preg_text || respuesta.preg_text}
             </DropDownHeader>
-            {isOpen && (
+            {isOpen && (<OutsideAlerter condition={isOpen} setCondition={setIsOpen}>
                 <DropDownListContainer>
                     <DropDownList>
                         {options.map(option => (
@@ -124,7 +124,7 @@ const SelectCustom = ({ options, modulo, respuesta, setRespuesta,
                             </ListItem>
                         ))}
                     </DropDownList>
-                </DropDownListContainer>
+                </DropDownListContainer></OutsideAlerter>
             )}
         </DropDownContainer>
     );

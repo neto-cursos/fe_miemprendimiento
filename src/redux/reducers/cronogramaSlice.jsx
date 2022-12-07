@@ -1,6 +1,8 @@
 import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
-import { listCronogramas, updateCronogramas, deleteCronogramas, 
-    createCronogramas, checkIfCronReg } from './../actions/cronogramaActions';
+import {
+    listCronogramas, listAllCronogramas, updateCronogramas, deleteCronogramas,
+    createCronogramas, checkIfCronReg
+} from './../actions/cronogramaActions';
 
 const formatDate = (date) => {
     console.log("DATE"); console.log(date);
@@ -22,62 +24,80 @@ const formatDate = (date) => {
     return (fecha)
 }
 const initialState = {
-    idState: 'new',
+    sendDb: false,
+    state: '',
+    list: '',
     usr_id: -1,
-    loaded: false,
-    project: '',
-    project_name:'',
-    statecron:'idle',
-    // cron:[{
-    //     cron_id:'',
-    //     empr_id:'28',
-    //     cron_fech_ini:'',
-    //     cron_fech_fin:'',
-    //     cron_proy:'',
-    //     cron_desc:'',
-    //     cron_type:'',
-    //     cron_hide_child:false,
-    //     cron_done:false,
-    //     cron_esta:false,
-    //     created_at:'',
-    //     updated_at:'',
-    // }]
-    cron: [
-        {
-            // id:nanoid(),
-            id: '1',
-            empr_id: '',
-            start: '28/10/2022',
-            end: '28/11/2022',
-            name: "",
-            progress: 0,
-            type: "project",
-            hideChildren: false,
-            displayOrder: 1,
-            crond_done: false,
-            cron_id:nanoid(),
-        },
+    current_cron_id: '',
+    current_cron: {
+        idState: 'new',
+        loaded: false,
+        project: '',
+        project_name: '',
+        statecron: 'idle',
+        empr_id: '',
+        cron_id: '',
+        cron: [
+            // {
+            //     // id:nanoid(),
+            //     id: '1',
+            //     empr_id: '',
+            //     start: '28/10/2022',
+            //     end: '28/11/2022',
+            //     name: "Holis",
+            //     progress: 0,
+            //     type: "project",
+            //     hideChildren: false,
+            //     displayorder: 1,
+            //     crond_done: false,
+            //     cron_id: nanoid(),
+            // },
+            // {
+            //     id:nanoid(),
+            //     empr_id:'28',
+            //     type:"task",
+            //     project:"Emprendimiento",
+            //     displayOrder:2,
+            //     name:"Comprar manzanas",
+            //     start:'02/10/2022',
+            //     end:'14/10/2022',
+            //     responsable:"Neto Rodriguez",
+            //     dependencies:[],
+            //     cantidad:"2",
+            //     unidad:"unidades",
+            //     monto:"400Bs",
+            //     notas:"se compró a tiempo",
+            //     progress:0,
+            //     cron_done:true,
+            //     estado:'ontime',        
+            // },
+        ]
+    },
+    cronogramas: [
         // {
-        //     id:nanoid(),
-        //     empr_id:'28',
-        //     type:"task",
-        //     project:"1",
-        //     displayOrder:2,
-        //     name:"Comprar manzanas",
-        //     start:'02/10/2022',
-        //     end:'14/10/2022',
-        //     responsable:"Neto Rodriguez",
-        //     dependencies:[],
-        //     acti_depen:[{
-        //         id:1,
-        //     }],
-        //     cantidad:"2",
-        //     unidad:"unidades",
-        //     monto:"400Bs",
-        //     notas:"se compró a tiempo",
-        //     progress:0,
-        //     cron_done:true,
-        //     estado:'ontime',        
+        //     idState: 'new',
+        //     loaded: false,
+        //     project: '',
+        //     project_name: '',
+        //     statecron: 'idle',
+        //     empr_id: '',
+        //     cron_id: '',
+        //     cron: [
+        //         // {
+        //         //     // id:nanoid(),
+        //         //     id: '1',
+        //         //     empr_id: '',
+        //         //     start: '28/10/2022',
+        //         //     end: '27/11/2022',
+        //         //     name: "",
+        //         //     progress: 0,
+        //         //     type: "project",
+        //         //     hideChildren: false,
+        //         //     displayorder: 1,
+        //         //     crond_done: false,
+        //         //     cron_id: nanoid(),
+        //         // },
+        //     ]
         // },
     ]
 }
@@ -86,31 +106,111 @@ export const cronogramaSlice = createSlice({
     //initialState:[],
     initialState: initialState,
     reducers: {
-        addCronograma: (state, action) => {
-            //action.type or 
-            //action.payload
-            console.log(state);
-            state.cron.push(action.payload);
-            state.statecron='created';
+        reset: (state, action) => {
+            state = initialState;
+            return state;
         },
-        agregarCronograma: (state, action) => {
-            action.payload.map(data => {
-                console.log("data from add respuestas:")
-                console.log(data);
-                if (!state.cron.find(cronograma => cronograma.id === data.id))
-                    state.cron.push(data);
-                return state;
-            });
+        iniciarCronograma: (state, action) => {
+            state.cronogramas.push(action.payload);
+            actual = action.payload.cron_id;
+            return { ...state, current_cron_id: actual }
+        },
+        checkCronogramaLocal: (state, action) => {
+            state.cronogramas.map((crons) => {
+
+                if (crons.empr_id == action.payload) {
+                    state.current_cron_id = crons.cron_id;
+                    state.state = 'found';
+                    console.log("ENCONTRADO CRONOS"+crons.cron_id);
+                }
+            })
+            if (state.state !== 'found') {
+                state.state = 'not found';
+                console.log("NO ENCONTRADO CRONOS")
+            }
+            return state;
+        },
+        findCronogramaLocal: (state, action) => {
+            const cronograma = state.cronogramas.find(cronograma => cronograma.cron_id === state.current_cron_id);
+            console.log(state.cronogramas);
+            console.log("FindCronogramaLocal")
+            console.log(state.current_cron_id);
+            console.log("FindCronogramaLocal")
+            console.log(cronograma)
+            if (cronograma) {
+                cronograma.cron.map(t => { t.dependencies = []; t.progress = 0 })
+                const cronograma_actual = {
+                    idState: 'db',
+                    loaded: false,
+                    project: '',
+                    project_name: '',
+                    statecron: 'idle',
+                    empr_id: '',
+                    cron_id: '',
+                    cron: cronograma.cron,
+
+                }
+                state.current_cron = cronograma;
+            } else {
+
+            }
+
+        },
+        addCronograma: (state, action) => {
+            console.log(state);
+            const cronograma = state.cronogramas.find(cronograma => cronograma.cron_id === state.current_cron_id);
+            if (cronograma) {
+                cronograma.cron.push(action.payload);
+                cronograma.statecron = 'created';
+                state.current_cron = cronograma;
+            }
+        },
+        iniciarNuevoCron: (state, action) => {
+            if (state.state === 'not found') {
+                const cronog = {
+                    idState: 'new',
+                    loaded: false,
+                    project: '',
+                    project_name: '',
+                    statecron: 'idle',
+                    empr_id: action.payload.empr_id,
+                    cron_id: action.payload.cron_id,
+                    cron:[action.payload],
+                }
+                state.cronogramas.push(cronog);
+                state.current_cron=cronog;
+                // state.state='found';
+                state.current_cron_id=action.payload.cron_id;
+            }
+            return state;
+        },
+        agregarActividad: (state, action) => {
+            const crons = state.cronogramas.find(cronograma => cronograma.cron_id === state.current_cron_id);
+            const cronogramaTask = crons.cron.find(cronograma => cronograma.cron_id === action.payload.cron_id);
+            // if (cronogramaTask) {
+
+            // }else{
+            //     cronogramaTask.cron.push(action.payload);
+            //     crons.statecron = 'created';
+            // }
+            // action.payload.map(data => {
+            //     if (!state.cron.find(cronograma => cronograma.id === data.id))
+            //         state.cron.push(data);
+            //     return state;
+            // });
             console.log("state last")
             console.log(state);
         },
         deleteCronograma: (state, action) => {
             console.log(action.payload);
             //fin devuelve undefined si no lo encuentra
-            const nodo = state.cron.find(cronograma => cronograma.id === action.payload)
+            const crons = state.cronogramas.find(cronograma => cronograma.cron_id === state.current_cron_id);
+            const nodo = crons.cron.find(cronograma => cronograma.id === action.payload)
             if (nodo) {
-                state.cron.splice(state.cron.indexOf(nodo), 1)
+                crons.cron.splice(crons.cron.indexOf(nodo), 1)
             }
+            if (crons)
+                state.current_cron = crons;
         },
         updateCronograma: (state, action) => {
             const { id, empr_id, name, start, end,
@@ -118,7 +218,8 @@ export const cronogramaSlice = createSlice({
                 notas, cron_done, progress, project, displayOrder
                 // ,color
             } = action.payload;
-            const cronogramaTask = state.cron.find(cronograma => cronograma.id === id)
+            const crons = state.cronogramas.find(cronograma => cronograma.cron_id === state.current_cron_id);
+            const cronogramaTask = crons.cron.find(cronograma => cronograma.id === id)
             if (cronogramaTask) {
                 cronogramaTask.empr_id = empr_id;
                 cronogramaTask.type = type;
@@ -136,58 +237,126 @@ export const cronogramaSlice = createSlice({
                 cronogramaTask.progress = progress;
                 cronogramaTask.project = project;
             }
-            state.statecron='updated';
+            crons.statecron = 'updated';
+            if (crons)
+                state.current_cron = crons;
+
+
         },
         resetCronograma: (state, action) => {
-            state.cron.length = 0;
+            const crons = state.cronogramas.find(cronograma => cronograma.cron_id === state.current_cron_id);
+            crons.cron.length = 0;
         },
         changeHideCronograma: (state, action) => {
+            const crons = state.cronogramas.find(cronograma => cronograma.cron_id === state.current_cron_id);
             console.log("ACTION changehidecronograma");
             console.log(action);
-            const cronogramaTask = state.cron.find(cronograma => cronograma.id === action.payload.id)
+            const cronogramaTask = crons.cron.find(cronograma => cronograma.id === action.payload.id)
             if (cronogramaTask) {
                 cronogramaTask.hideChildren = action.payload.hideChildren
             }
         },
         changeProjectName: (state, action) => {
-            const cronogramaTask = state.cron.find(cronograma => cronograma.id === '1')
+            const crons = state.cronogramas.find(cronograma => cronograma.cron_id === state.current_cron_id);
+            const cronogramaTask = crons.cron.find(cronograma => cronograma.id === '1')
             if (cronogramaTask) {
                 cronogramaTask.name = action.payload.project_name;
-                state.project_name = action.payload.project_name;
-                state.project=String(action.payload.project_id);
+                crons.project_name = action.payload.project_name;
+                crons.project = String(action.payload.project_id);
+                state.current_cron = crons;
             }
-
+            if (state.state == "not found") {
+                state.sendDb = true;
+            }
+            return state;
         },
         changeCron_done: (state, action) => {
-            const cronogramaTask = state.cron.find(cronograma => cronograma.id === action.payload.id)
+            const crons = state.cronogramas.find(cronograma => cronograma.cron_id === state.current_cron_id);
+            const cronogramaTask = crons.cron.find(cronograma => cronograma.id === action.payload.id)
             if (cronogramaTask) {
                 cronogramaTask.cron_done = action.payload.value;
             }
         },
-        changeStatecron:(state,action)=>{
-            state.statecron=action.payload;
+        changeStatecron: (state, action) => {
+            const crons = state.cronogramas.find(cronograma => cronograma.cron_id === state.current_cron_id);
+            if (crons) {
+                crons.statecron = action.payload;
+                state.current_cron = crons;
+            }
         },
-        changeIdState:(state,action)=>{
+        changeIdState: (state, action) => {
+            const crons = state.cronogramas.find(cronograma => cronograma.cron_id === state.current_cron_id);
+            crons.idState = action.payload;
             console.log("ACTION ID")
             console.log(action.payload);
-            state={...state,idState:action.payload};
+            return state;
+        },
+        resetCurrentCronograma: (state, action) => {
+            state.current_cron = {};
+            state.state='';
+            state.current_cron_id='';
+            return state;
         }
 
     },
     extraReducers(builder) {
         // login user
         builder
+            .addCase(listAllCronogramas.pending, (state, action) => {
+                console.log("ListCronogramas Pending");
+
+            })
+            .addCase(listAllCronogramas.fulfilled, (state, action) => {
+                console.log("ListCronogramas fulfilled");
+                console.log(action.payload);
+                if (action.payload.crons.length > 0) {
+                    action.payload.crons.map((e) => {
+                        const crons = state.cronogramas.find(cronograma => cronograma.cron_id === e[0].cron_id);
+                        console.log(e[0].id);
+                        if (crons) {
+                            crons.idState = 'db';
+                            crons.loaded = false;
+                            crons.project = '';
+                            crons.project_name = '';
+                            crons.statecron = 'idle';
+                            crons.empr_id = e[0].empr_id;
+                            crons.cron = e;
+
+                        } else {
+                            const object = {
+                                idState: 'db',
+                                loaded: false,
+                                project: '',
+                                project_name: '',
+                                statecron: 'idle',
+                                empr_id: e[0].empr_id,
+                                cron_id: e[0].cron_id,
+                                cron: e,
+                            };
+                            state.cronogramas.push(object);
+                        }
+                    })
+
+                }
+                state.list = 'ready';
+                return state;
+            })
+            .addCase(listAllCronogramas.rejected, (state, action) => {
+                console.log("GetCronograma rejected");
+
+            })
             .addCase(listCronogramas.pending, (state, action) => {
                 console.log("GetCronograma Pending");
             })
             .addCase(listCronogramas.fulfilled, (state, action) => {
                 console.log("GetCronograma Fullfilled");
+                const crons = state.cronogramas.find(cronograma => cronograma.cron_id === state.current_cron);
                 action.payload.map(data => {
                     console.log("data from add respuestas:")
                     console.log(data);
-                    if (!state.cron.find(cronograma => cronograma.id === data.id))
-                        state.cron.push(data);
-                    return state;
+                    if (!crons.cron.find(cronograma => cronograma.id === data.id))
+                        crons.cron.push(data);
+                    // return state;
                 });
                 console.log("state last")
                 console.log(state);
@@ -202,14 +371,18 @@ export const cronogramaSlice = createSlice({
             })
             .addCase(checkIfCronReg.fulfilled, (state, action) => {
                 console.log("checkIfCronReg FullFilled");
-                if(action.payload.habilitado=='yes'){
-                    state.idState='readytocreate';
-                }else if(action.payload.habilitado=='no'){
-                    state.idState='exists'
+
+                if (action.payload.habilitado == 'no') {
+                    // crons.idState = 'exists';
+                    state.current_cron_id = action.payload.cron_id;
+                    state.state = "in db";
+
                 }
-                
-                // if(action.payload)
-                // state.idState='new'
+                if (action.payload.habilitado == 'yes') {
+                    // crons.idState = 'readytocreate';
+                    state.state = "not found";
+                }
+
             })
             .addCase(listCronogramas.rejected, (state, action) => {
                 console.log("GetCronograma Rejected");
@@ -220,7 +393,17 @@ export const cronogramaSlice = createSlice({
             })
             .addCase(createCronogramas.fulfilled, (state, action) => {
                 console.log("Createcronogramas FullFilled");
-                state.idState='new';
+                // state.idState = 'new';
+                // state.cronogramas.map(e=>{
+                //     e.
+                //     const crons = state.cronogramas.find(cronograma => cronograma.cron_id === state.current_cron.cron[0].cron_id);   
+                // })
+                // state.cronogramas.
+
+                // state.idState='db';
+                // state.state='found';
+                state.sendDb = false;
+                return state;
 
             })
             .addCase(createCronogramas.rejected, (state, action) => {
@@ -230,8 +413,10 @@ export const cronogramaSlice = createSlice({
             .addCase(updateCronogramas.pending, (state, action) => {
                 console.log("Updatecronogramas Pending");
             })
-            .addCase(updateCronogramas.fulfilled, (state, { payload }) => {
+            .addCase(updateCronogramas.fulfilled, (state, action) => {
                 console.log("Updatecronogramas FullFilled");
+                console.log(action);
+
             })
             .addCase(updateCronogramas.rejected, (state, { payload }) => {
                 console.log("Updatecronogramas Rejected");
@@ -249,6 +434,7 @@ export const cronogramaSlice = createSlice({
             })
     },
 })
-export const { addCronograma, deleteCronograma, updateCronograma, agregarCronograma, 
-    changeIdState,resetCronograma, changeHideCronograma, changeProjectName, changeCron_done,changeStatecron} = cronogramaSlice.actions
+export const { iniciarCronograma, addCronograma, deleteCronograma, updateCronograma, agregarCronograma,
+    changeIdState, resetCronograma, changeHideCronograma, changeProjectName, changeCron_done, changeStatecron,iniciarNuevoCron,
+    resetCurrentCronograma, checkCronogramaLocal, findCronogramaLocal, reset } = cronogramaSlice.actions
 export default cronogramaSlice.reducer;

@@ -31,7 +31,11 @@ const initialState = {
 const userSlice = createSlice({
     name: 'usuarios',
     initialState,
-    reducers: {        
+    reducers: { 
+        reset:(state,action) => {
+            state=initialState;
+            return state;
+        },
         changeSuccessRegister: (state, action) => {
             state.successRegister = action.payload;
             return state;
@@ -52,9 +56,17 @@ const userSlice = createSlice({
         },
         updateLoading: (state, action) => {
             state.loading = action.payload;
+            return state;
         },
         updateAuth: (state, action) => {
+            console.log("update Auth Action.payload");
+            console.log(typeof(action.payload));
             state.auth = action.payload;
+            if(action.payload===true){
+                console.log(sessionStorage.getItem('usr_dt'))
+                sessionStorage.setItem('auth', state.auth);
+            }
+            
             return state;
         },
         setDataFromLocalSave: {
@@ -70,7 +82,7 @@ const userSlice = createSlice({
                         user_apellido: userInfo.user_apellido,
                         access_token: userInfo.access_token,
                         access_type: userInfo.token_type
-                    }, auth: sessionStorage.getItem('auth') ? true : false,
+                    }, auth: sessionStorage.getItem('auth') ? JSON.parse(sessionStorage.getItem('auth')) : false,
                 };
                 console.log("State CHANGED");
                 console.log(state);
@@ -110,8 +122,7 @@ const userSlice = createSlice({
                     errores: [{}]
                 }
                 sessionStorage.setItem('usr_dt', JSON.stringify(state.userInfo));
-                console.log(sessionStorage.getItem('usr_dt'))
-                sessionStorage.setItem('auth', state.auth);
+                
                 OpLogIn();
                 return state;
             })
@@ -187,6 +198,16 @@ const userSlice = createSlice({
             })
             .addCase(checkLoggedIn.rejected, (state, { payload }) => {
                 state.loading = false
+                state = {
+                    ...state,
+                    loading: false,
+                    userInfo: { user_name: '', user_id: '', user_apellido: '', access_token: '', access_type: '' },
+                    userToken: null,
+                    error: null,
+                    errores: [{ id: '', msg: '' }],
+                    auth: false
+                };
+                return state;
             })
             //check if user is loggout
             .addCase(logOutSession.pending, (state, action) => {
@@ -218,6 +239,6 @@ const userSlice = createSlice({
 });
 
 export const { logout, updateLoading, setDataFromLocalSave, updateAuth, 
-    changeSuccessLogin,changeSuccessRegister,changeSuccessLogout } = userSlice.actions
+    changeSuccessLogin,changeSuccessRegister,changeSuccessLogout,reset } = userSlice.actions
 export const getauth = (state) => state.usuarios.auth;
 export default userSlice.reducer;

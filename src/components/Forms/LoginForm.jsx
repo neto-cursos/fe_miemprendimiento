@@ -11,6 +11,7 @@ import LoadingScreen from "./../LoadingScreen/LoadingScreen"
 import SetTimeOut from "../../utils/SetTimeOut";
 import {updateAuth, changeSuccessLogin} from './../../redux/reducers/userSlice';
 import SuccessMessage from "../MessagesBox/SuccessMessage";
+import ResetAllReducers from "../../services/ResetAllReducers";
 const fields = loginFields;
 let fieldsState = {};
 fields.forEach(field => fieldsState[field.id] = '');
@@ -66,9 +67,10 @@ const LoginForm = (props) => {
             </div>
             <FormExtra />
             <FormAction action={'submit'} text="Iniciar Sesión" disabled={loading} />
-        </form>:<LoadingScreen/>:
+        </form>:<LoadingScreen/>:<><ResetAllReducers/>
         <SetTimeOut condition={successLogin} timeDelay={1000} changeSuccess={updateAuth} changeCondition={changeSuccessLogin} value={true}>
-           <SuccessMessage></SuccessMessage> </SetTimeOut>}</>
+           <SuccessMessage></SuccessMessage> </SetTimeOut></>}
+           </>
     );
 }
 

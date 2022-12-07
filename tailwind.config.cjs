@@ -6,6 +6,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        'fondosidebar2': "url('/src/assets/images/FondoMenuSidebar2.jpg')",
+        
+      },
       fontFamily: {
         'poppins': '"poppins",sans-serif',
         'krona': '"KronaOneRegular", sans-serif',

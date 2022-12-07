@@ -25,7 +25,7 @@ const NavBar = ({ showLogin }) => {
     return (
         <nav className='font-krona  pt-0 md:pt-2 bg-gradient-to-r from-naranja-fondo 
         via-rojo to-naranja-fondo text-whitish relative' >
-            <SideBar2></SideBar2>            
+                       
             <div className='flex justify-between'>
                 {/* style={{backgroundImage: `url(data:image/svg+xml;base64,${btoa(navbarfondo)})`}} */}
                 {/* <div className="relative flex">
@@ -33,14 +33,15 @@ const NavBar = ({ showLogin }) => {
 
                 <BrandLink>
                 </BrandLink>
-                <div className='hidden items-center  lg:flex lg:flex-row'>
+                <div className='hidden items-center  md:flex md:flex-row'>
                     <NavLinks></NavLinks>
                     <div className='flex'>
                         {/* <BriefcaseIcon color="redish"></BriefcaseIcon> */}
-                        {window.navigator.onLine?<WifiIcon/>:<WifiOffIcon/>}
+                        {/* {window.navigator.onLine?<WifiIcon/>:<WifiOffIcon/>} */}
                     </div>
                 </div>
-                <div className='flex items-center flex-col justify-center md:flex-row'>
+                <SideBar2></SideBar2> 
+                <div className='hidden md:flex md:items-center md:flex-col md:justify-center lg:flex-row'>
                     {showLogin ? <NavBarLogout userName={userName} userApellido={userApellido}></NavBarLogout>/*<NavLink className='mr-2 text-xs' to="/logout">
                     cerrar sesión*/
                         : <NavBarSession></NavBarSession>}

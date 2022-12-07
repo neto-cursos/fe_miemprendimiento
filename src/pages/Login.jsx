@@ -1,7 +1,15 @@
+import React, { useEffect } from 'react';
 import {Header} from './../components/Forms/Elements';
 import LoginForm from './../components/Forms/LoginForm';
 import {motion} from 'framer-motion';
+import { changeMenu } from '../redux/reducers/menuSlice';
+import { useDispatch, useSelector } from 'react-redux';
 const Login = (props) => {
+    
+    const dispatch=useDispatch();
+    useEffect(() => {
+        dispatch(changeMenu({title:'MENU_UNAUTH',empr_id:''}))
+      }, [])
     return (
         <>
             <motion.div className=" flex items-center justify-center my-10 md:my-0 pb-12 pt-6 px-4 sm:px-6 lg:px-8"

@@ -18,6 +18,7 @@ downlImage}) => {
             <div className={`text-lg font-black text-center rounded-lg ${classExtra}`}>
                 <div className='flex flex-row pr-2 text-left pb-2 pt-1 pl-1'>
                     <h3 className='w-4/5'>
+                        <span className='text-3xl'>{moduloDB}&nbsp;</span>
                         {nameModulo}
                     </h3>
                     {/*'icon'*/}

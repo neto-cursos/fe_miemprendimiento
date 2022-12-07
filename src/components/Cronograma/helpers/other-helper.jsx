@@ -46,8 +46,8 @@ function getChildren(taskList, task) {
 }
 
 export const sortTasks = (taskA, taskB) => {
-  const orderA = taskA.displayOrder || Number.MAX_VALUE;
-  const orderB = taskB.displayOrder || Number.MAX_VALUE;
+  const orderA = taskA.displayorder || Number.MAX_VALUE;
+  const orderB = taskB.displayorder || Number.MAX_VALUE;
   if (orderA > orderB) {
     return 1;
   } else if (orderA < orderB) {

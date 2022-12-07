@@ -1,8 +1,15 @@
 import Header from "./../components/Forms/Elements/Header";
 import SignUpForm from "./../components/Forms/SignUpForm";
-import React from 'react';
+import React, { useEffect } from 'react';
 import {motion} from 'framer-motion';
+import { changeMenu } from '../redux/reducers/menuSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
 const Signup = () => {
+    const dispatch=useDispatch();
+    useEffect(() => {
+        dispatch(changeMenu({title:'MENU_UNAUTH',empr_id:''}))
+      }, [])
     //min-h-full h-screen
     return (
         <>

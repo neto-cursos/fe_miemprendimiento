@@ -12,6 +12,10 @@ export const preguntaSlice = createSlice({
     //initialState:[],
     initialState: initialState,
     reducers: {
+        reset:(state,action) => {
+            state=initialState;
+            return state;
+        },
         setPregunta: (state, action) => {
             console.log(state, action);
             action.payload.map(data => {
@@ -122,5 +126,5 @@ export const preguntaSlice = createSlice({
             })
     },
 })
-export const { addPregunta, deletePregunta, updatePregunta } = preguntaSlice.actions
+export const { addPregunta, deletePregunta, updatePregunta,reset } = preguntaSlice.actions
 export default preguntaSlice.reducer;

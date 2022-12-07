@@ -1,10 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ViewMode, Gantt } from "./../Cronograma/Cronograma";
 import { ViewSwitcher } from "./view-switcher";
 import { getStartEndDateForProject, initTasks } from "./CronogramsHelper";
 import "./Cronograma.css";
 import { useDispatch, useSelector } from "react-redux";
-import { addCronograma, changeHideCronograma, changeProjectName, changeStatecron, deleteCronograma, updateCronograma } from "./../../redux/reducers/cronogramaSlice";
+import {
+    addCronograma, changeHideCronograma, changeProjectName,
+    changeStatecron, checkCronogramaLocal, deleteCronograma,
+    updateCronograma, findCronogramaLocal, resetCurrentCronograma,iniciarNuevoCron,
+} from "./../../redux/reducers/cronogramaSlice";
 import {
     Autocomplete,
     Box,
@@ -31,34 +35,37 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { nanoid } from "nanoid";
 import { ConstructionOutlined, VerticalAlignTopRounded } from "@mui/icons-material";
-import { listCronogramas, updateCronogramas, deleteCronogramas, createCronogramas } from './../../redux/actions/cronogramaActions';
+import {
+    listCronogramas, listAllCronogramas, updateCronogramas,
+    deleteCronogramas, createCronogramas, checkIfCronReg
+} from './../../redux/actions/cronogramaActions';
 import Notifications from './../Notifications';
 import ConfirmDialog from './../Dialog';
 import { getSchema } from '../../utils/Validation/Validation';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import { msgNotif } from "../../constants/messageNotifications";
 
 // import { set } from "date-fns";
-const padTo2Digits = (num) => {
-    return num.toString().padStart(2, '0');
+function getValidationErrors(err) {
+    const validationErrors = {};
+    err.inner.forEach(error => {
+        if (error.path) {
+            validationErrors[error.path] = error.message;
+        }
+    });
+
+    return validationErrors;
 }
 
-
-const formatDate = (date) => {
-    return [
-        padTo2Digits(date.getDate()),
-        padTo2Digits(date.getMonth() + 1),
-        date.getFullYear(),
-    ].join('/');
-}
 const CronogramaData = () => {
-    const msgNotif = ["La actividad se ha creado correctamente",
-        "la actividad se ha modificado exitosamente",
-        "la actividad se ha eliminado correctamente"
-    ];
     const [showNotif, setShowNotif] = useState(false);
     const [errores, setErrores] = useState(null);
-    const [dataReceived, setDatareceived] = useState(false);
+    // const [dataReceived, setDatareceived] = useState(false);
     const [dataSubmitted, setDataSubmitted] = useState();
-    const [accepted, setAccepted] = useState(false);
+    // const [accepted, setAccepted] = useState(false);
+    const { empr_id } = useParams();
+    dayjs.locale('es');
     /**
      * FORMS
      */
@@ -69,6 +76,88 @@ const CronogramaData = () => {
     // const [valueDate2, setValueDate2] = React.useState(dayjs('2014-08-18T21:11:54'));
     const [valueDate2, setValueDate2] = React.useState(dayjs(`${fecha.getFullYear()}-
      ${fecha.getMonth() + 1}-${fecha.getDate()}`));
+    /*** Modal */
+    const [isOpen, setIsOpen] = React.useState(false);
+    const [idActiva, setIdActiva] = useState('');
+    const [tareaActiva, setTareaActiva] = useState();
+    const [hadErrors, setHadErrors] = useState(false);
+    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
+    /**Cronogrmas Selector */
+    const cronos = useSelector(state => state.cronogramas);
+    const crons = useSelector(state => state.cronogramas.current_cron);
+    const dispatch = useDispatch();
+    const [tareas, setTareas] = useState([]);
+    const [sendAction, setSendAction] = useState(false);
+    const [isChecked, setIsChecked] = React.useState(true);
+    const task = [];
+    // const flag = useRef(false);
+    const [flag, setFlag] = useState(false);
+    //view state , tareas gotten from initTasks(), isChecked; 
+    const [view, setView] = React.useState(ViewMode.Day);
+
+    useEffect(() => {
+        if (cronos.sendDb === true)
+            dispatch(createCronogramas(crons.cron[0]));
+    }, [cronos.sendDb])
+    
+    useLayoutEffect(() => {
+        
+        if (cronos.list === '') {
+            const userid = sessionStorage.getItem('usr_dt') ?
+                JSON.parse(sessionStorage.getItem('usr_dt'))['user_id'] : '';
+            if (userid !== '') {
+                dispatch(listAllCronogramas({ id: userid }))       
+            }
+            //obtiene los cronogramas asociados al usuario cambia list to ready
+        }
+        
+    }, [])
+
+    useEffect(() => {
+        dispatch(resetCurrentCronograma());
+        if(cronos.list==='ready')
+            dispatch(checkCronogramaLocal(empr_id));//does not depend on currentid
+    }, [])
+    
+
+
+    useEffect(() => {
+        if (cronos.state === 'found') {
+            dispatch(findCronogramaLocal())
+        } else if (cronos.state === 'not found') {
+            const dateNow = new Date();
+            dispatch(iniciarNuevoCron({
+                id: '1',
+                empr_id: empr_id,
+                start: `${dateNow.getDate()}/${dateNow.getMonth() + 1}/${dateNow.getFullYear()}`,
+                end: `${dateNow.getDate()}/${dateNow.getMonth() + 1}/${dateNow.getFullYear()}`,
+                name: "Mi nuevo proyecto",
+                progress: 0,
+                type: "project",
+                hideChildren: false,
+                displayorder: 1,
+                crond_done: false,
+                cron_id: nanoid(),
+            }))
+            if (sessionStorage.getItem("emprendimientos")) {
+                const emprendimientos = JSON.parse(sessionStorage.getItem("emprendimientos"))
+                emprendimientos.map(emprend => {
+                    if (emprend.empr_id == empr_id) {
+                        dispatch(changeProjectName({ project_name: emprend.empr_nomb, project_id: emprend.empr_id }));
+                    }
+                });
+            }
+            // dispatch(checkIfCronReg({empr_id:empr_id}));
+        }
+    }, [cronos.state]);
+
+    useEffect(() => {
+        if (cronos.list === 'ready') {
+            dispatch(checkCronogramaLocal(empr_id));
+            //determines if state=found or not found
+        }
+    }, [cronos.list]);
+
 
     const handleChangeDatePicker = (newValue) => {
         setValueDate(newValue);
@@ -92,71 +181,23 @@ const CronogramaData = () => {
         },
     });
 
-    // let schema = yup.object().shape({
-    //     id:yup.string(),
-    //     name: yup.string().required(),
-    //     //password: yup.number().positive().integer().required(),
-    //     // start: yup.date().required().typeError('Debe ser una fecha válida'),
-    //     // end: yup.date().required().typeError('Debe ser una fecha válida'),
-    //     responsable: yup.string().required().typeError('Debe ingresar un responsable de la actividad'),
-    //     cantidad: yup.number().min(0),
-    //     unidad: yup.string().typeError,
-    //     costounitario: yup.number().min(0),
-    // })
-
-    //.required();
-
-    //  const { control, handleSubmit, formState: { errors } } = useForm({
-    //      resolver: yupResolver(schema)
-    //  });
-
-    //  const {
-    //      fields: members,
-    //      append: appendMemberRow,
-    //      remove: removeMemberRow
-    //  } = useFieldArray({
-    //      control,
-    //      name: "members"
-    //  });
-
-
-    const { empr_id } = useParams();
-    /**form handler */
-    // const { control, handleSubmit } = useForm({
-    //     reValidateMode: "onBlur"
-    //   });
-    dayjs.locale('es');
-
-    //const dateNow = new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate());
-    // console.log("FECHAAAAAA");
-    // console.log(dateNow);
-
-    /**
-     * MODAL state functions
-     */
-    const [isOpen, setIsOpen] = React.useState(false);
-    const [idActiva, setIdActiva] = useState('');
-    const [tareaActiva, setTareaActiva] = useState();
-    const [hadErrors,setHadErrors]=useState(false);
     const handleOpen = () => {
         setIdActiva('');
         setIsOpen(true);
     }
+
     const handleClose = () => {
         setIdActiva('');
         setTareaActiva();
         setIsOpen(false);
         setErrores(null);
     };
+
     const handleEdit = (id) => {
         console.log("entro handleedit");
         console.log(id);
-
-        //setIdActiva('');
         setIdActiva(id);
     };
-
-    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
 
     const handleDelete = (id) => {
         setConfirmDialog({
@@ -167,18 +208,10 @@ const CronogramaData = () => {
                 handleDeleteConfirmation(id);
             }
         })
-        // const conf = window.confirm(`está seguro de eliminar la tarea  + ${() => {
-        //     const cronogramaTask = tareas.find(cronograma => cronograma.id === id)
-        //     return cronogramaTask.name;
-        // }}`)
-        // if (conf) {
-        //     //setTareas(tareas.filter(t => t.id !== task.id));
-
-        // }
-        //return conf;
         console.log("deleteid");
         console.log(id);
     }
+
     const handleDeleteConfirmation = (id) => {
         dispatch(deleteCronograma(id));
         dispatch(changeStatecron('deleted'));
@@ -187,22 +220,15 @@ const CronogramaData = () => {
             isOpen: false
         })
     }
+
     useEffect(() => {
         if (idActiva !== '') {
             tareas.map(t => {
                 if (t.id == idActiva) {
-                    console.log("TTTTTT")
-                    console.log(t);
                     setTareaActiva(t);
                 }
-
             });
-
         }
-        // else if(idActiva===''){
-        //     setTareaActiva();
-        // }
-
     }, [idActiva]);
 
     useEffect(() => {
@@ -215,12 +241,6 @@ const CronogramaData = () => {
     /**
      * 
      */
-    const crons = useSelector(state => state.cronogramas);
-
-    const [predecesor, setPredecesor] = useState([]);
-    const [sucesor, setsucesor] = useState([]);
-    const [simultaneo, setsimultaneo] = useState([]);
-
 
     const padTo2Digits = (num) => {
         return num.toString().padStart(2, '0');
@@ -246,12 +266,9 @@ const CronogramaData = () => {
             return (new Date(year, month - 1, day, 23, 59, 59))
         return (new Date(year, month - 1, day))
     }
-    const dispatch = useDispatch();
-    const [tareas, setTareas] = useState([]);
-    const [sendAction, setSendAction] = useState(false);
-    const task = [];
-    // const flag = useRef(false);
-    const [flag, setFlag] = useState(false);
+
+
+
     const updateTable = () => {
         //is not necessary to JSON.stringify since Axios takes charge of that
         setSendAction(true);
@@ -269,6 +286,8 @@ const CronogramaData = () => {
                 if (!task.find(cronograma => cronograma.id === t.id))
                     task.push(t);
             })
+            console.log("TASK : ");
+            console.log(task);
             setTareas(task);
         }
     }, [crons.cron]);
@@ -281,23 +300,15 @@ const CronogramaData = () => {
                     if (emprend.empr_id == empr_id) {
                         dispatch(changeProjectName({ project_name: emprend.empr_nomb, project_id: emprend.empr_id }));
                     }
-                })
+                });
             }
             setFlag(true);
         } else {
             setFlag(false);
         }
-
     }, [tareas])
+    //tareas es un useState
 
-    //view state , tareas gotten from initTasks(), isChecked; 
-    const [view, setView] = React.useState(ViewMode.Day);
-    // console.log("ViewMode: " + ViewMode.Day);
-    // tareas.map(task=>{
-    //     console.log( task);    
-    // })
-
-    const [isChecked, setIsChecked] = React.useState(true);
 
     let columnWidth = 65;
     if (view === ViewMode.Year) {
@@ -359,47 +370,48 @@ const CronogramaData = () => {
         console.log("On expander click Id:" + task.id);
         console.log(task);
     };
-    useEffect(() => {
-        console.log("ERRORES:");
-        console.log(errores);
-        console.log("DATARECEIVED:");
-        console.log(dataReceived)
-        if (errores != null){
-        if(errores.length>0){
-            setAccepted(false);
-        }
-        else if(dataReceived===true)
-            if (errores.length === 0) {
-                console.log("USEEFFECT entro cond errores")
-                setAccepted(true);
-            }
-        }
-        return setDatareceived(false);
-    }, [errores])
+    // useEffect(() => {
+    //     console.log("ERRORES:");
+    //     console.log(errores);
+    //     // console.log("DATARECEIVED:");
+    //     // console.log(dataReceived)
+    //     if (errores != null) {
+    //         if (errores.length > 0) {
+    //             setAccepted(false);
+    //         }
+    //         // else if (dataReceived === true)
+    //         if (errores.length === 0) {
+    //             console.log("USEEFFECT entro cond errores")
+    //             setAccepted(true);
+    //             }
+    //         }
+    //         // return setDatareceived(false);
+    //     }, [errores])
 
     useEffect(() => {
-        if(hadErrors)
-        setAccepted(false)
+        // if (hadErrors)
+        // setAccepted(false)
     }, [hadErrors]);
 
     useEffect(() => {
         console.log("******USEFORM+++++");
         console.log(dataSubmitted);
         if (errores != null) {
-            console.log("USEEFFECT entro cond errores !=null")
-            console.log("accepted" + accepted);
+            // console.log("USEEFFECT entro cond errores !=null")
+            // console.log("accepted" + accepted);
             console.log("errores length" + errores.length);
-            if (accepted && errores.length === 0) {
+            // if (accepted && errores.length === 0) {
+            if (errores.length === 0) {
                 const fechaInicio = `${dataSubmitted.start.$D}/${(dataSubmitted.start.$M) + 1}/${dataSubmitted.start.$y}`;
                 const fechaFin = `${dataSubmitted.end.$D}/${(dataSubmitted.end.$M) + 1}/${dataSubmitted.end.$y}`;
-                const displayOrder = crons.cron.map(object => {
-                    return object.displayOrder;
+                const displayorder = crons.cron.map(object => {
+                    return object.displayorder;
                 });
-                let max = Math.max(...displayOrder);
+                let max = Math.max(...displayorder);
                 let vectorDep;
                 if (dataSubmitted.dependencies === "predecesora") {
                     vectorDep = (crons.cron.map(object => {
-                        if (object.displayOrder === max)
+                        if (object.displayorder === max)
                             return object.id;
                     }));
                 }
@@ -412,10 +424,10 @@ const CronogramaData = () => {
                     const task = {
                         id: nanoid(),
                         empr_id: empr_id,
-                        type: "task",
+                        type: dataSubmitted.type,
                         //project: crons.project,
                         project: '1',
-                        displayOrder: max + 1,
+                        displayorder: max + 1,
                         name: dataSubmitted.name,
                         start: fechaInicio,
                         end: fechaFin,
@@ -437,7 +449,7 @@ const CronogramaData = () => {
                     const task = {
                         id: dataSubmitted.id,
                         empr_id: empr_id,
-                        type: "task",
+                        type: dataSubmitted.type,
                         //project: crons.project,
                         project: '1',
                         name: dataSubmitted.name,
@@ -458,42 +470,90 @@ const CronogramaData = () => {
                     dispatch(changeStatecron('updated'));
 
                 }
-                return setAccepted(false);
+                // return setAccepted(false);
             }
 
         }
 
-    }, [dataSubmitted, accepted]);
+    }, [dataSubmitted]);
+    // }, [dataSubmitted, accepted]);
+
     let flag2 = false;
+    let erroresAux = [];
+    const schema = yup.object().shape({
+        name: yup.string().required(),
+        responsable: yup.string().required(),
+        unidad: yup.string().required(),
+        cantidad: yup.number().min(0),
+        costounitario: yup.number().min(0),
+    });
     const submitForm = (data) => {
+
         flag2 = false;
-        setDataSubmitted(data);
+        // setDataSubmitted(data);
+        Object.keys(data).forEach(key => {
+            if (typeof (data[key]) === 'string') {
+                data[key] = (data[key]).trimStart();
+                data[key] = (data[key]).trimEnd();
+            }
+        });
+        // data.map(e=>{if(typeof(e)==='string'||typeof(e)==='number'){e=e.trimStart();e=e.trimEnd();}});
         console.log("DATTA TYPE....")
         console.log(data);
-        let erroresAux = [];
-        Object.keys(data).forEach(key => {
+        erroresAux.length = 0;
+        // setDatareceived(true);
 
-            getSchema(key)
-                .validate({
-                    [key]: data[key],
-                }
-                ).then((res)=>{})
-                .catch(function (err) {
-                    // console.log(err.name);
-                    erroresAux.push({
-                        errorKey: key,
-                        errorValue: data[key],
-                        errorMsg: err.errors,
-                        errorExtra: '',
-                    })
-                })
-            flag2 = true;
-        });
-        setDatareceived(true);
-        if (flag2 === true)
+        schema.validate(data, { abortEarly: false }).then(function () {
+            // Success
+            console.log("No error YAY")
             setErrores(erroresAux);
+            setDataSubmitted(data);
+        }).catch(function (err) {
+            console.log("errores");
+            console.log(err.inner);
+            console.log("Get validation Errors");
+            console.log(getValidationErrors(err));
+            err.inner.forEach(e => {
+                // console.log(e.message, e.path);
+                erroresAux.push({
+                    errorKey: e.path,
+                    errorValue: data[e.path],
+                    errorMsg: e.errors,
+                    errorExtra: '',
+                })
+            });
+            // flag2 = true;
+            console.log("ERRORES AUX");
+            console.log(erroresAux);
+
+            // setDatareceived(true);
+            setErrores(erroresAux);
+        });
+
+        // Object.keys(data).forEach(key => {
+
+        //     getSchema(key)
+        //         .validate({
+        //             [key]: data[key],
+        //         }
+        //         ).then((res) => { })
+        //         .catch(function (err) {
+        //             // console.log(err.name);
+        //             erroresAux.push({
+        //                 errorKey: key,
+        //                 errorValue: data[key],
+        //                 errorMsg: err.errors,
+        //                 errorExtra: '',
+        //             })
+        //         })
+        //     flag2 = true;
+        // });
+
+        // if (flag2 === true)
+        //     setErrores(erroresAux);
     }
     const [idmsg, setIdmsg] = useState(-1);
+
     useEffect(() => {
 
         if (crons.statecron === 'updated') {
@@ -526,7 +586,7 @@ const CronogramaData = () => {
 
     return (<>
         {showNotif && <Notifications msgNotif={msgNotif[idmsg]} showNotif={showNotif} setShowNotif={setShowNotif} severity="info" />}
-        <div className="Wrapper">
+        <div className="Wrapper relative">
             <ViewSwitcher
                 onViewModeChange={viewMode => setView(viewMode)}
                 onViewListChange={setIsChecked}
@@ -590,6 +650,11 @@ const CronogramaData = () => {
                 ganttHeight={300}
                 columnWidth={columnWidth}
             /> */}
+            <div className='text-center flex md:absolute z-0 md:z-0 lg:absolute lg:right-10 lg:top-10 lg:z-0 text-lg text-canvas4Txt'>
+                <span className="bg-violeta text-whitish m-2 p-1 rounded-md" aria-label="Actualizar Cronograma" onClick={() => dispatch(updateCronogramas(crons.cron))}>
+                    <AddIcon> </AddIcon> <span className="text-xs">Guardar Cronograma</span>
+                    </span>
+            </div>
         </div>
         <ConfirmDialog
             confirmDialog={confirmDialog}

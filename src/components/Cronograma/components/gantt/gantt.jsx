@@ -22,6 +22,7 @@ import { HorizontalScroll } from "../other/horizontal-scroll";
 import { removeHiddenTasks, sortTasks } from "../../helpers/other-helper";
 import styles from "./gantt.module.css";
 
+
 export const Gantt = ({
   tasks,
   headerHeight = 50,
@@ -544,7 +545,13 @@ export const Gantt = ({
         rtl={rtl}
         onScroll={handleScrollX}
       />}
+
       
+      {/* <div className='text-center fixed left-4 top-[120px] z-50 text-lg text-canvas4Txt'>
+        <Fab color="secondary" variant="extended" aria-label="Actualizar Canvas" onClick={() => updateTable()}>
+          <AddIcon sx={{ fontSize: 20 }}> </AddIcon>
+        </Fab><br />
+      </div> */}
       <p className='md:mb-16 md:pb-16' />
       <p className='md:mb-16 md:pb-16' />
     </div>

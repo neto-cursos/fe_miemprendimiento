@@ -18,6 +18,10 @@ export const sugerenciasSlice=createSlice({
     //initialState:[],
     initialState:initialState,
     reducers:{
+        reset:(state,action) => {
+            state=initialState;
+            return state;
+        },
         addSugerencia:(state,action) => {
             //action.type or 
             //action.payload
@@ -107,5 +111,5 @@ export const sugerenciasSlice=createSlice({
             })
     },
 })
-export const {addSugerencia,deleteSugerencia,updateSugerencia}=sugerenciasSlice.actions
+export const {addSugerencia,deleteSugerencia,updateSugerencia,reset}=sugerenciasSlice.actions
 export default sugerenciasSlice.reducer;

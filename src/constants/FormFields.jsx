@@ -86,7 +86,7 @@ export const emprendimientoFields=[
         name:"empr_nomb",
         type:"text",
         autoComplete:"emprendimiento",
-        isRequired:true,
+        isRequired:false,
         placeholder:"nombre de su emprendimiento"   
     }
 ]

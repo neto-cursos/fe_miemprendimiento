@@ -54,6 +54,10 @@ export const emprendSlice = createSlice({
     //initialState:[],
     initialState: initialState,
     reducers: {
+        reset:(state,action) => {
+            state=initialState;
+            return state;
+        },
         addEmprend: {
             reducer(state, action) {
                 console.log(state, action);
@@ -114,7 +118,7 @@ export const emprendSlice = createSlice({
             })
             .addCase(fetchEmprs.fulfilled, (state, action) => {
                 action.payload.map(emprs => {
-                    console.log(emprs);
+                    // console.log(emprs);
                     if (state.operation === 'updated') {
                         const emprendTask = state.emprs.find(emprend => emprend.empr_id ===Number( emprs.empr_id))
                         if (emprendTask) {
@@ -248,5 +252,5 @@ export const getEmprsStatus = (state) => state.emprendimientos.status;
 export const getEmprsError = (state) => state.emprendimientos.error;
 
 export const { addEmprend, deleteEmprend, updateEmprend, resetEmprendActiva,
-    setEmprStatus } = emprendSlice.actions
+    setEmprStatus,reset } = emprendSlice.actions
 export default emprendSlice.reducer;

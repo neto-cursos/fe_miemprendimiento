@@ -2,8 +2,8 @@ import React from "react";
 import styles from "./task-list-header.module.css";
 
 export const TaskListHeaderDefault = ({ headerHeight, fontFamily, fontSize, rowWidth }) => {
-  return (
-    <div
+  return (<>
+    {/*<div
       className={styles.ganttTable}
       style={{
         fontFamily: fontFamily,
@@ -12,170 +12,111 @@ export const TaskListHeaderDefault = ({ headerHeight, fontFamily, fontSize, rowW
     >
       <div
         className={styles.ganttTable_Header}
-        style={{
-          height: headerHeight - 2,
-        }}
-      >
+      // style={{
+      //   height: headerHeight - 2,
+      // }}
+    >*/}
+        
         <div
-          className={`pl-2 ${styles.ganttTable_HeaderItem}`}
-          style={{
-            minWidth: rowWidth,
-          }}
+          className={`pl-8 ${styles.ganttTable_HeaderItem}`}
         >
-          &nbsp;Actividad
+          Actividad
         </div>
-        <div
+        {/* <div
           className={styles.ganttTable_HeaderSeparator}
           style={{
             height: headerHeight * 0.5,
             marginTop: headerHeight * 0.2,
           }}
-        />
+        /> */}
         <div
           className={`text-center ${styles.ganttTable_HeaderItem}`}
-          style={{
-            //minWidth: rowWidth,
-            minWidth: '90px',
-          }}
+
         >
-          &nbsp;Inicio
+          Inicio
         </div>
-        <div
+        {/* <div
           className={styles.ganttTable_HeaderSeparator}
           style={{
             height: headerHeight * 0.5,
             marginTop: headerHeight * 0.25,
           }}
-        />
+        /> */}
         <div
           className={`text-center ${styles.ganttTable_HeaderItem}`}
-          style={{
-            minWidth: '90px',
-          }}
+
         >
-          &nbsp;Fin
+          Fin
         </div>
-        <div
+        {/* <div
           className={styles.ganttTable_HeaderSeparator}
           style={{
             height: headerHeight * 0.5,
             marginTop: headerHeight * 0.25,
           }}
-        />
+        /> */}
         <div
           className={`text-center ${styles.ganttTable_HeaderItem}`}
-          style={{
-            minWidth: '155px',
-          }}
+
         >
-          &nbsp;Responsable
+          Responsable
         </div>
-        <div
+        {/* <div
           className={styles.ganttTable_HeaderSeparator}
           style={{
             height: headerHeight * 0.5,
             marginTop: headerHeight * 0.25,
           }}
-        />
-        <div
+        /> */}
+        {/* <div
           className={`text-center ${styles.ganttTable_HeaderItem}`}
           style={{
             minWidth: '70px',
           }}
         >
           &nbsp;Act. Req
-        </div>
-        <div
-          className={styles.ganttTable_HeaderSeparator}
-          style={{
-            height: headerHeight * 0.5,
-            marginTop: headerHeight * 0.25,
-          }}
-        />
+        </div> */}
+        
         <div
           className={`text-center ${styles.ganttTable_HeaderItem}`}
-          style={{
-            minWidth: '70px',
-          }}
+
         >
-          &nbsp;Cantidad
+          Cantidad
         </div>
-        <div
-          className={styles.ganttTable_HeaderSeparator}
-          style={{
-            height: headerHeight * 0.5,
-            marginTop: headerHeight * 0.25,
-          }}
-        />
+
         <div
           className={`text-center ${styles.ganttTable_HeaderItem}`}
-          style={{
-            minWidth: '100px',
-          }}
+
         >
-          &nbsp;Unidad
+          Unidad
         </div>
-        <div
-          className={styles.ganttTable_HeaderSeparator}
-          style={{
-            height: headerHeight * 0.5,
-            marginTop: headerHeight * 0.25,
-          }}
-        />
+
         <div
           className={`text-center ${styles.ganttTable_HeaderItem}`}
-          style={{
-            minWidth: '100px',
-          }}
+
         >
-          &nbsp;Monto
+          Monto
         </div>
-        <div
-          className={styles.ganttTable_HeaderSeparator}
-          style={{
-            height: headerHeight * 0.5,
-            marginTop: headerHeight * 0.25,
-          }}
-        />
+
         <div
           className={`text-center ${styles.ganttTable_HeaderItem}`}
-          style={{
-            minWidth: '250px',
-          }}
         >
-          &nbsp;Observación
+          Observación
         </div>
-        <div
-          className={styles.ganttTable_HeaderSeparator}
-          style={{
-            height: headerHeight * 0.5,
-            marginTop: headerHeight * 0.25,
-          }}
-        />
+
         <div
           className={`text-center ${styles.ganttTable_HeaderItem}`}
-          style={{
-            minWidth: '50px',
-          }}
         >
-          &nbsp;C
+          C
         </div>
-        <div
-          className={styles.ganttTable_HeaderSeparator}
-          style={{
-            height: headerHeight * 0.5,
-            marginTop: headerHeight * 0.25,
-          }}
-        />
+
         <div
           className={`text-center ${styles.ganttTable_HeaderItem}`}
-          style={{
-            minWidth: '30px',
-          }}
         >
-          &nbsp;B
+          B
         </div>
-      </div>
-    </div>
+      {/*</div>
+    </div>*/}
+    </>
   );
 };

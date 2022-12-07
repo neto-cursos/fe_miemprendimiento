@@ -3,13 +3,17 @@ import { listRespuestas,updateRespuestas,
     deleteRespuestas,createRespuestas} from './../actions/respuesta2Actions'
 
 const initialState=[
-    {}
+    // {}
 ]
 export const respuestaSlice=createSlice({
     name:'respuestas',
     //initialState:[],
     initialState:initialState,
     reducers:{
+        reset:(state,action) => {
+            state=initialState;
+            return state;
+        },
         addRespuesta:(state,action) => {
             console.log(state);
             state.push(action.payload);
@@ -94,6 +98,7 @@ export const respuestaSlice=createSlice({
             })
             .addCase(updateRespuestas.fulfilled, (state, { payload }) => {
                 console.log("Updaterespuestas FullFilled");
+                
             })
             .addCase(updateRespuestas.rejected, (state, { payload }) => {
                 console.log("Updaterespuestas Rejected");
@@ -111,5 +116,5 @@ export const respuestaSlice=createSlice({
             })
     },
 })
-export const {addRespuesta,deleteRespuesta,updateRespuesta,agregarRespuesta,resetRespuesta}=respuestaSlice.actions
+export const {addRespuesta,deleteRespuesta,updateRespuesta,agregarRespuesta,resetRespuesta,reset}=respuestaSlice.actions
 export default respuestaSlice.reducer;

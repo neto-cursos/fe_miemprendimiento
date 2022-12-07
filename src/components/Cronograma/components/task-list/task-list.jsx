@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
-
+import styles from "./task-list.module.css";
+import { nanoid } from "@reduxjs/toolkit";
 export const TaskList = ({
   headerHeight,
   fontFamily,
@@ -61,16 +62,21 @@ export const TaskList = ({
   };
 
   return (
-    <div ref={taskListRef}>
+    <div className={styles.ganttWrapper} ref={taskListRef}>
+      <div className={styles.ganttTable}>
       <TaskListHeader {...headerProps} />
-      <div
+      </div>
+      {/* <div
         ref={horizontalContainerRef}
         className={horizontalContainerClass}
         style={ganttHeight ? { height: ganttHeight } : {}}
-      >
-        <TaskListTable {...tableProps} handleEdit={handleEdit}
-        handleDelete={handleDelete}/>
-      </div>
+      > */}
+      {/* <div key={nanoid()} className={styles.ganttTable} ref={horizontalContainerRef}> */}
+        <TaskListTable {...tableProps} handleEdit={handleEdit }
+        handleDelete={handleDelete} horizontalContainerRef={horizontalContainerRef}/>
+      {/* </div> */}
+      {/* </div> */}
+      
     </div>
   );
 };

@@ -3,7 +3,7 @@ import ApiAuth from '../../services/ApiAuth';
 
 export const listCronogramas = createAsyncThunk('cronogramas/list',
     async (datos) => {
-        const data = await ApiAuth().post('/listcronogramas', datos).then(response => {
+        const data = await ApiAuth().post('/listcron', datos).then(response => {
             /**
              * console log para mostrar la respuesta
              */
@@ -14,7 +14,19 @@ export const listCronogramas = createAsyncThunk('cronogramas/list',
         return data
     }
 )
-
+export const listAllCronogramas = createAsyncThunk('cronogramas/listall',
+    async (datos) => {
+        const data = await ApiAuth().post('/listallcron', datos).then(response => {
+            /**
+             * console log para mostrar la respuesta
+             */
+            console.log("response cronogramasActions List:")
+            console.log(response);
+            return response.data;
+        })
+        return data
+    }
+)
 
 export const checkIfCronReg = createAsyncThunk('cronogramas/checkifcronreg',
     async (datos) => {
@@ -59,7 +71,7 @@ export const createCronogramas = createAsyncThunk(
 
 export const updateCronogramas = createAsyncThunk('cronogramas/update',
     async (datos) => {
-        const data = await ApiAuth().post('/updatecronogramas', datos).then(response => {
+        const data = await ApiAuth().post('/updatecron', datos).then(response => {
             console.log("response cronogramaActions update:")
             console.log(response);
             return response.data;

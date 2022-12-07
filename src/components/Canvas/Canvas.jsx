@@ -12,7 +12,7 @@ import revenue_streams from './../../assets/images/revenue_streams.svg';
 import value_propositions from './../../assets/images/value_propositions.svg';
 import DownloadIcon from '@mui/icons-material/Download';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteRespuesta, resetRespuesta } from './../../redux/reducers/respuestaSlice';
+import { agregarRespuesta, deleteRespuesta, resetRespuesta } from './../../redux/reducers/respuestaSlice';
 import ModuleBox from './ModuleBox/ModuleBox';
 import { useParams, useNavigate } from 'react-router-dom';
 import { listRespuestas, updateRespuestas } from './../../redux/actions/respuesta2Actions';
@@ -26,14 +26,36 @@ import EditIcon from '@mui/icons-material/Edit';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import NavigationIcon from '@mui/icons-material/Navigation';
 import * as htmlToImage from 'html-to-image';
-
+import Notifications from '../Notifications';
+import { msgCanvasNotif } from '../../constants/canvasNotifications';
+import { reset as resetRespAsist } from './../../redux/reducers/respuestaAsistSlice';
+/**function to adapt to screen size */
 function getWindowSize() {
     const { innerWidth, innerHeight } = window;
     return { innerWidth, innerHeight };
 }
-const Canvas = () => {
 
+
+const Canvas = ({ }) => {
+    const currentCanvas = useRef(null);
+    const { empr_id } = useParams();
+    /**
+     * Selectors
+     */
+    const dispatch = useDispatch();
+    const canvasSelect = useSelector(state => state.canvas)
+    const respuestas = useSelector(state => state.respuestas)
+    const preguntas = useSelector(state => state.preguntas);
+    const respuestasAsist = useSelector(state => state.respuestasAsistidas);
+    console.log("canvasInitial value: ")
+    console.log(canvasSelect);
+    console.log("respuestasInitial value: ")
+    console.log(respuestas);
+    //show notification when success of failing
+    const [showNotif, setShowNotif] = useState(false);
+    //useState for managin window size
     const [windowSize, setWindowSize] = React.useState(getWindowSize());
+    //useEffect for managing resizing window
     React.useEffect(() => {
         function handleWindowResize() {
             setWindowSize(getWindowSize());
@@ -43,46 +65,39 @@ const Canvas = () => {
             window.removeEventListener('resize', handleWindowResize);
         };
     }, []);
-
+    //useRef for image
     const domEl = useRef(null);
+    //usestate for DownloadImage
     const [downlImage, setDownlImage] = useState(false);
+    //function for download Image
     const convertToImg = () => {
         console.log("convert to img")
         setDownlImage(true);
     }
+    //useEffect for download Image
     useEffect(() => {
         if (downlImage === true)
             downloadImage();
     }, [downlImage])
-
+    //function for download Image
     const downloadImage = async () => {
         const copyCanvas = domEl.current.cloneNode(
             true
         );
         console.log(copyCanvas);
-
-
         const dataUrl = await htmlToImage.toPng(domEl.current);
-
         // download image
         const link = document.createElement('a');
-        link.download = "html-to-img.png";
+        link.download = "MiModeloDeNegocios.png";
         link.href = dataUrl;
         link.click();
         setDownlImage(false);
     }
-
-
-    const navigate = useNavigate();
     //when using back button key in the browser
     window.onpopstate = () => {
         //navigate("/");
         dispatch(resetEstado());
     }
-
-
-
-    const { empr_id } = useParams();
     // console.log('*******************empr_id********************');
     // console.log(empr_id);
     /**
@@ -98,17 +113,7 @@ const Canvas = () => {
     const onMouseLeave = (id) => {
         setButtonActiveHovering(0);
     }
-    /**
-     * Selectors
-     */
-    const dispatch = useDispatch();
-    const canvasSelect = useSelector(state => state.canvas)
-    const respuestas = useSelector(state => state.respuestas)
-    const preguntas = useSelector(state => state.preguntas);
-    console.log("canvasInitial value: ")
-    console.log(canvasSelect);
-    console.log("respuestasInitial value: ")
-    console.log(respuestas);
+
     /**
      * Handle respuesta
      */
@@ -133,7 +138,6 @@ const Canvas = () => {
 
     const updateTable = () => {
         //is not necessary to JSON.stringify since Axios takes charge of that
-
         if (canvasSelect.idState === 'new') {
             dispatch(createCanvas(canvasSelect.datos));
         }
@@ -144,8 +148,13 @@ const Canvas = () => {
      * use effects */
 
     useLayoutEffect(() => {
+        if (sessionStorage.getItem('current_canvas')) {
+            currentCanvas.current = JSON.parse(sessionStorage.getItem('current_canvas'));
+            // if(currentCanvas.empr_id!=empr_id){
+            //     dispatch(resetEstado());    
+            // }
+        }
         dispatch(resetEstado());
-
     }, [])
 
     useEffect(() => {
@@ -155,7 +164,9 @@ const Canvas = () => {
             dispatch(getCanvas({ empr_id: empr_id }));//change idState to new or db y estado to loaded
         }
         if (canvasSelect.estado === 'loading') {
-            dispatch(resetRespuesta());
+            if (currentCanvas.current != null)
+                if (currentCanvas.current.empr_id != empr_id)
+                    dispatch(resetRespuesta());
             dispatch(setEmpr_id(empr_id));//this put estado in ready
             if (preguntas.loaded === false)
                 dispatch(listPreguntas());
@@ -164,18 +175,35 @@ const Canvas = () => {
 
     useEffect(() => {
         //dispatch(resetRespuesta());
-        if (canvasSelect.estado === 'loadedCanvasID' && canvasSelect.idState === 'db' && canvasSelect.datos.empr_id==empr_id) {
+        if (canvasSelect.estado === 'loadedCanvasID' && canvasSelect.idState === 'db' && canvasSelect.datos.empr_id == empr_id) {
             //    console.log("canvas ... loading when canvasSelect changes")
             console.log(canvasSelect);
             dispatch(listRespuestas({ canv_id: canvasSelect.datos.canv_id }))
+            if (respuestasAsist.respAsist.length > 0 && respuestasAsist.empr_id == empr_id) {
+                dispatch(agregarRespuesta(respuestasAsist.respAsist));
+            }
+            // dispatch(resetRespAsist())
         }
+        if (canvasSelect.idState === 'new') {
+            dispatch(createCanvas(canvasSelect.datos));
+
+        }
+        console.log("respuestas::::::")
+            console.log(respuestas.length)
+        if (canvasSelect.idState === 'alreadyLoaded'&&respuestas.length===0){
+            
+            console.log("entro wey")
+            dispatch(listRespuestas({ canv_id: canvasSelect.datos.canv_id }))
+        }
+            
+
     }, [canvasSelect.estado, canvasSelect.idState])
 
-    useEffect(() => {       
+    useEffect(() => {
     }, [respuestas]);
 
     useEffect(() => {
-        if (canvasSelect.idState === 'db' && sendAction === true) {
+        if ((canvasSelect.idState === 'db' || canvasSelect.idState === 'alreadyLoaded') && sendAction === true) {
             if (respuestas.length === 0) {
                 console.log("entro a actualizar canvas vacio")
                 dispatch(updateRespuestas([{
@@ -184,6 +212,7 @@ const Canvas = () => {
                 }]))
             } else
                 dispatch(updateRespuestas((respuestas)));
+            setShowNotif(true);
             dispatch(resetRespuesta());
             dispatch(listRespuestas({ canv_id: canvasSelect.datos.canv_id }));
             return (setSendAction(false));
@@ -194,9 +223,10 @@ const Canvas = () => {
 
     return (
         canvasSelect.datos.canv_id !== "" && preguntas.preguntas.length > 0 && <>
+            {showNotif && <Notifications msgNotif={msgCanvasNotif[0]} showNotif={showNotif} setShowNotif={setShowNotif} severity="info" />}
             {downlImage === true ?
                 <div id="micanvas" ref={domEl} className="w-[1280px]  grid gap-1
-        grid-cols-5 h-[40rem]">
+        grid-cols-5 ">
                     <ModuleBox respuestas={respuestas}
                         onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}
                         handleDelete={handleDelete} handleEdit={handleEdit}
@@ -310,7 +340,7 @@ const Canvas = () => {
                 </div> :
                 <div id="micanvas" ref={domEl} className="grid grid-cols-1 gap-1 md:grid-cols-2 
         lg:grid-cols-5  md:gap-1 lg:gap-1 pr-2
-        sm:grid-cols-1 md:h-[40rem]">
+        sm:grid-cols-1">
                     <ModuleBox respuestas={respuestas}
                         onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}
                         handleDelete={handleDelete} handleEdit={handleEdit}
@@ -407,7 +437,7 @@ const Canvas = () => {
 
 
             {windowSize.innerWidth > 640 ?
-                <div className='text-center absolute right-5 top-10 z-40 text-lg text-canvas4Txt'>
+                <div className='text-center absolute right-5 top-10 z-10 text-lg text-canvas4Txt'>
                     <Fab color="secondary" variant="extended" aria-label="Actualizar Canvas" onClick={() => updateTable()}>
                         <AddIcon> </AddIcon> <span className="text-xs">Actualizar Canvas</span>
                     </Fab>
@@ -415,7 +445,7 @@ const Canvas = () => {
                         <DownloadIcon> </DownloadIcon>
                     </Fab>
                 </div> :
-                <div className='text-center fixed left-4 top-[120px] z-40 text-lg text-canvas4Txt'>
+                <div className='text-center fixed left-4 top-[120px] z-10 text-lg text-canvas4Txt'>
                     <Fab color="secondary" variant="extended" aria-label="Actualizar Canvas" onClick={() => updateTable()}>
                         <AddIcon sx={{ fontSize: 20 }}> </AddIcon>
                     </Fab><br />

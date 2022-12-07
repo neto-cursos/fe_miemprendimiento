@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import ApiAuth from '../../services/ApiAuth';
 
-export const listActvidades = createAsyncThunk('actividades/list',
+export const listActividades = createAsyncThunk('actividades/list',
     async (datos) => {
         const data = await ApiAuth().post('/listactividades', datos).then(response => {
             /**

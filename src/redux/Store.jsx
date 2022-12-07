@@ -7,6 +7,7 @@ import preguntaReducer from './reducers/preguntaSlice';
 import canvasReducer from './reducers/canvasSlice';
 import sugerenciasReducer from './reducers/sugerenciasSlice';
 import cronogramasReducer from './reducers/cronogramaSlice';
+import menuReducer from './reducers/menuSlice';
 export const Store = configureStore({
     reducer:{
         emprendimientos:emprendReducer,
@@ -17,6 +18,7 @@ export const Store = configureStore({
         canvas:canvasReducer,
         sugerencias:sugerenciasReducer,
         cronogramas:cronogramasReducer,
+        menus:menuReducer,
     }
     
 })

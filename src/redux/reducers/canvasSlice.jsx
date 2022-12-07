@@ -1,22 +1,27 @@
-import { createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { createCanvas, deleteCanvas, updateCanvas, getCanvas } from "./../actions/CanvaActions";
-import {customAlphabet} from "nanoid"
+import { customAlphabet } from "nanoid"
 
 const initialState = {
-    loading:false,
-    successLoading:false,
-    estado:'loading',
-    idState:'pending',
-    datos:{
-    canv_id: "",
-    empr_id: "",
-    canv_esta: 1,}
+    loading: false,
+    successLoading: false,
+    estado: 'loading',
+    idState: 'pending',
+    datos: {
+        canv_id: "",
+        empr_id: "",
+        canv_esta: 1,
+    }
 }
 export const canvasSlice = createSlice({
     name: 'canvas',
     //initialState:[],
     initialState: initialState,
     reducers: {
+        reset: (state, action) => {
+            state = initialState;
+            return state;
+        },
         addCanva: (state, action) => {
             console.log(state, action);
             state.datos.push(action.payload);
@@ -37,12 +42,12 @@ export const canvasSlice = createSlice({
             }
         },
         setEmpr_id: (state, action) => {
-            state.datos.empr_id=action.payload;
-            state.estado='ready';
+            state.datos.empr_id = action.payload;
+            state.estado = 'ready';
 
         },
-        resetEstado:(state,action)=>{
-            state=initialState;
+        resetEstado: (state, action) => {
+            state = initialState;
             console.log("resetEstado Canva")
             console.log(state);
             return state;
@@ -62,16 +67,34 @@ export const canvasSlice = createSlice({
                     state.datos.canv_esta = action.payload.canv_esta;
                     console.log("state last")
                     console.log(state);
-                    state.idState='db'
+                    if (sessionStorage.getItem('current_canvas')) {
+                        const items = JSON.parse(sessionStorage.getItem('current_canvas'));
+                        console.log("-------items----------")
+                        console.log(items);
+                        if (items.canv_id == action.payload.canv_id) {
+                            state.idState = 'alreadyLoaded';
+                            console.log("already loaded");
+                        } else {
+                            state.idState = 'db';
+                            sessionStorage.setItem('current_canvas', JSON.stringify(state.datos));
+                            console.log("no coincide");
+                        }
+                    } else {
+                        state.idState = 'db';
+                        sessionStorage.setItem('current_canvas', JSON.stringify(state.datos));
+                        console.log("not session called current_canvas")
+                    }
                 }
                 else {
                     console.log("error has happened");
-                    const nanoid=customAlphabet('123456789', 9);
+                    const nanoid = customAlphabet('123456789', 9);
                     state.datos.canv_id = nanoid();
                     console.log(state.datos.canv_id);
-                    state.idState='new'
+                    state.idState = 'new'
+                    sessionStorage.setItem('current_canvas', JSON.stringify(state.datos));
                 }
-                state.estado='loadedCanvasID';
+                state.estado = 'loadedCanvasID';
+                return state;
             })
             .addCase(getCanvas.rejected, (state, action) => {
                 console.log("Getcanvas Rejected");
@@ -82,7 +105,7 @@ export const canvasSlice = createSlice({
             })
             .addCase(createCanvas.fulfilled, (state, action) => {
                 console.log("createCanvas FullFilled");
-                state.idState='db';
+                state.idState = 'db';
                 return state;
             })
             .addCase(createCanvas.rejected, (state, action) => {
@@ -111,5 +134,5 @@ export const canvasSlice = createSlice({
             })
     },
 })
-export const { addCanva, deleteCanva, updateCanva,setEmpr_id,resetEstado } = canvasSlice.actions
+export const { addCanva, deleteCanva, updateCanva, setEmpr_id, resetEstado, reset } = canvasSlice.actions
 export default canvasSlice.reducer;

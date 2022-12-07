@@ -50,13 +50,24 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 600,
+    width: '50%',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
     pl: 6,
-
+};
+const style2 = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '90%',
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+    pl: 6,
 };
 const ColorButton = styled(Button)(({ theme }) => ({
     color: theme.palette.getContrastText(purple[500]),
@@ -67,6 +78,11 @@ const ColorButton = styled(Button)(({ theme }) => ({
     fontSize: '1.3rem',
 }));
 
+function getWindowSize() {
+    const { innerWidth, innerHeight } = window;
+    return { innerWidth, innerHeight };
+}
+
 const ActivitiesModal = forwardRef(({ isOpen, handleClose, handleSubmit2, valueDate, valueDate2,
     valueNotas, handleChangeDatePicker, handleChangeDatePicker2, handleChangeNotas,
     control2, submitForm, schema, tareaActiva, idActiva,
@@ -75,6 +91,20 @@ const ActivitiesModal = forwardRef(({ isOpen, handleClose, handleSubmit2, valueD
     // console.log(tareaActiva);
     // console.log(idActiva);
     // console.log(valueDate);
+
+    //useState for managin window size
+    const [windowSize, setWindowSize] = React.useState(getWindowSize());
+    //useEffect for managing resizing window
+    React.useEffect(() => {
+        function handleWindowResize() {
+            setWindowSize(getWindowSize());
+        }
+        window.addEventListener('resize', handleWindowResize);
+        return () => {
+            window.removeEventListener('resize', handleWindowResize);
+        };
+    }, []);
+
     console.log("ERRORESLLEGADODE");
     console.log(errores);
     let fechaInicio = valueDate;
@@ -154,7 +184,7 @@ const ActivitiesModal = forwardRef(({ isOpen, handleClose, handleSubmit2, valueD
 
 
 
-            <Box sx={style} component="form" onSubmit={handleSubmit(submitForm)}>
+            <Box sx={windowSize.innerWidth > 640?style:style2} component="form" onSubmit={handleSubmit(submitForm)}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
                     Registro de Actividad
                 </Typography>
@@ -183,6 +213,7 @@ const ActivitiesModal = forwardRef(({ isOpen, handleClose, handleSubmit2, valueD
                 {errores !== null && errores.find(index => index.errorKey === 'name')?.errorMsg.map(t => {
                     return <span className='text-red-700'>{t}</span>
                 })}
+
                 <Controller
                     control={control}
                     name="name"
@@ -200,6 +231,29 @@ const ActivitiesModal = forwardRef(({ isOpen, handleClose, handleSubmit2, valueD
                         />
                     )}
                 />
+                <div className='flex justify-center'>
+                    <Controller
+                        control={control}
+                        name="type"
+                        defaultValue="task"
+                        render={({ field }) => (
+                            <RadioGroup {...field} sx={{ display: 'inline-flex', flexDirection: 'row', p: 1 }}>
+                                <FormControlLabel
+                                    value="task"
+                                    control={<Radio />}
+                                    label="Tarea"
+                                //sx={{display:'flex'}}
+                                />
+                                <FormControlLabel
+                                    value="milestone"
+                                    control={<Radio />}
+                                    label="Hito"
+                                //sx={{display:'flex'}}
+                                />
+                            </RadioGroup>
+                        )}
+                    />
+                </div>
                 <div className="pt-4 flex justify-between pr-8">
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         {/* <Stack spacing={3}> */}
@@ -248,6 +302,7 @@ const ActivitiesModal = forwardRef(({ isOpen, handleClose, handleSubmit2, valueD
                 {errores !== null && errores.find(index => index.errorKey === 'responsable')?.errorMsg.map(t => {
                     return <span key={nanoid()} className='text-red-700'>{t}</span>
                 })}
+
                 <Controller
                     control={control}
                     name="responsable"
@@ -259,7 +314,7 @@ const ActivitiesModal = forwardRef(({ isOpen, handleClose, handleSubmit2, valueD
                             variant="standard"
                             label="responsable"
                             id="responsable"
-                            sx={{ pb: 1}}
+                            sx={{ pb: 1 }}
                         // variant="standard"
                         // sx={{ width: '31rem' }}
                         />

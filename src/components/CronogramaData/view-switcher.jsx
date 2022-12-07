@@ -7,7 +7,7 @@ export const ViewSwitcher = ({
   isChecked,
 }) => {
   return (
-    <div className="ViewContainer">
+    <div className="flex justify-center items-center pr-0 py-2 md:pr-32">
       {/* <button
         className="Button"
         onClick={() => onViewModeChange(ViewMode.Hour)}

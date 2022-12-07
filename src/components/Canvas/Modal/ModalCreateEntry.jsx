@@ -6,6 +6,7 @@ import { modulos } from './../../../constants/modulos'
 import { nanoid } from "@reduxjs/toolkit";
 import SelectCustom from "../../Forms/Elements/SelectCustom";
 
+
 const ModalCreateEntry = ({ message, isOpen, onClose, modulo, idRespuesta, setIdRespuesta, idCanvas, preguntas,readySelect,setReadySelect}) => {
     const [pregSel,setPregSel]=useState({
         preg_id:'',

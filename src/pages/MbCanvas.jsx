@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Canvas from '../components/Canvas';
 import InputLabel from '@mui/material/InputLabel';
@@ -8,7 +8,14 @@ import Select from '@mui/material/Select';
 import { nanoid } from '@reduxjs/toolkit';
 import { modulos } from './../constants/modulos'
 import {motion} from 'framer-motion';
+import { useDispatch } from 'react-redux';
+import { changeMenu } from '../redux/reducers/menuSlice';
 const MbCanvas = () => {
+    const { empr_id } = useParams();
+    const dispatch=useDispatch();
+    useEffect(() => {
+        dispatch(changeMenu({title:'MENU_CANVAS',empr_id:empr_id}))
+      }, [])
 
     const [select, setSelect] = React.useState({
         id: 1, value: `Módulo 1 
@@ -22,10 +29,9 @@ const MbCanvas = () => {
             value: `Módulo ${e.target.value} 
         ${modulos.find((nodo => nodo.modu_id == Number(e.target.value))).modulo}`,
         });
-    }
-    const { empr_id } = useParams();
+    }    
     return (
-        <motion.div className='flex relative flex-col my-2 pl-2'
+        <motion.div className='flex relative flex-col my-2 pl-2 mb-16'
         initial={{width:0,opacity:0}} animate={{width:"100%",opacity:2}} exit={{x:window.innerWidth, transition:{duration:0.1}}}
         >
 
@@ -64,7 +70,7 @@ const MbCanvas = () => {
             <Canvas>
 
             </Canvas>
-
+            <div></div>
         </motion.div>
     );
 }

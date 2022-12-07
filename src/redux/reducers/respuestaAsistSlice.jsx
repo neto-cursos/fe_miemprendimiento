@@ -1,33 +1,48 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit';
-import { getRespuestas,updateRespuestas,
-    deleteRespuestas,createRespuestas} from './../actions/respuestaActions'
+import {
+    getRespuestas, updateRespuestas,
+    deleteRespuestas, createRespuestas
+} from './../actions/respuestaActions'
 
-const initialState = [{}
-]
+const initialState = {
+    empr_id: '',
+    estado: '',
+    respAsist: [{}],
+}
+
 export const respuestaAsistSlice = createSlice({
     name: 'respuestasAsistidas',
     //initialState:[],
     initialState: initialState,
     reducers: {
+        respAsistChgEmprId: (state, action) => {
+            if (action.payload !== null || action.payload !== '')
+                state.empr_id = action.payload;
+            return state;
+        },
+        reset: (state, action) => {
+            state = initialState;
+            return state;
+        },
         getRespuesta: (state, action) => {
             console.log(state, action);
-            state.push(action.payload);
+            state.respAsist.push(action.payload);
         },
         addRespuesta: (state, action) => {
             console.log(state, action);
-            state.push(action.payload);
+            state.respAsist.push(action.payload);
         },
         deleteRespuesta: (state, action) => {
             console.log(action.payload);
             //fin devuelve undefined si no lo encuentra
-            const nodo = state.find(respuesta => respuesta.resp_id === action.payload)
+            const nodo = state.respAsist.find(respuesta => respuesta.resp_id === action.payload)
             if (nodo) {
-                state.splice(state.indexOf(nodo), 1)
+                state.respAsist.splice(state.respAsist.indexOf(nodo), 1)
             }
         },
         updateRespuesta: (state, action) => {
             const { id, preg_id, modu_nume, canv_id, resp_nume, resp_text, resp_desc, resp_esta } = action.payload;
-            const respuestaTask = state.find(respuesta => respuesta.id === id)
+            const respuestaTask = state.respAsist.find(respuesta => respuesta.id === id)
             if (respuestaTask) {
                 respuestaTask.preg_id = preg_id;
                 respuestaTask.modu_nume = modu_nume;
@@ -38,8 +53,9 @@ export const respuestaAsistSlice = createSlice({
                 respuestaTask.resp_esta = resp_esta;
             }
         },
-        resetRespuestaAsistida:(state,action)=>{
-            state.length=0;
+        resetRespuestaAsistida: (state, action) => {
+            state.respAsist.length = 0;
+            return state;
         }
     },
     extraReducers(builder) {
@@ -87,5 +103,5 @@ export const respuestaAsistSlice = createSlice({
             })
     },
 })
-export const { addRespuesta, deleteRespuesta, updateRespuesta,resetRespuestaAsistida } = respuestaAsistSlice.actions
+export const { addRespuesta, deleteRespuesta, updateRespuesta, resetRespuestaAsistida, reset,respAsistChgEmprId } = respuestaAsistSlice.actions
 export default respuestaAsistSlice.reducer;

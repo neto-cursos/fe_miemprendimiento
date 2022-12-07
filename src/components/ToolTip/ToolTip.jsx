@@ -5,9 +5,9 @@ const ToolTip = ({initialValue=false,currentValue,title='',msg=''}) => {
     const [showButton,setShowButton]=React.useState(initialValue);
     return (
         <>
-            <div className="flex focus:outline-none focus:ring-gray-300 rounded-full focus:ring-offset-2 focus:ring-2 focus:bg-gray-200 relative mt-6 md:mt-0"
+            <div className="ml-2 flex focus:outline-none focus:ring-gray-300 rounded-full focus:ring-offset-2 focus:ring-2 focus:bg-gray-200 relative mt-6 md:mt-0"
                 onClick={() => setShowButton(currentValue)}>
-                <div class="cursor-pointer">
+                <div className="cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-info-circle" width="25" height="25" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#A0AEC0" fill="none" strokeLinecap="round" strokeLinejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" />
                         <circle cx="12" cy="12" r="9" />
@@ -31,7 +31,7 @@ const ToolTip = ({initialValue=false,currentValue,title='',msg=''}) => {
                                 </g>
                             </svg>
                             <p className="text-sm font-bold text-gray-800 pb-1">{title}</p>
-                            <p className="text-xs leading-4 text-gray-600 pb-3">{msg}</p>
+                            <p className="text-xs leading-4 text-gray-600 pb-3 text-justify">{msg}</p>
                             {/* <div className="flex justify-between">
                                 <div className="flex items-center">
                                     <span className="text-xs font-bold text-indigo-700">Step 1 of 4</span>

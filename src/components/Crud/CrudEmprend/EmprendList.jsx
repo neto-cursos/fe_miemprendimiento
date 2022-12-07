@@ -9,13 +9,20 @@ import EditCard from './../../../assets/icons/editCard';
 import RemoveCard from './../../../assets/icons/removeCard';
 import Button from '@mui/material/Button';
 import Notifications from '../../Notifications';
+import { changeMenu } from '../../../redux/reducers/menuSlice';
 
 const EmprendList = () => {
+    const dispatch = useDispatch();
+    /**Menu auth */
+    useEffect(() => {
+        dispatch(changeMenu({title:'MENU_AUTH',empr_id:''}))
+      }, [])
+      /**fin Menu auth */
     const msgNotif = "Su lista de emprendimientos se ha cargado correctamente";
     const [showNotif, setShowNotif] = useState(false);
 
     const { user_id } = useParams();
-    const dispatch = useDispatch();
+    
     //const emprends = useSelector(state => state.emprendimientos)
     const emprends = useSelector(state => state.emprendimientos.emprs);
     const emprsStatus = useSelector(getEmprsStatus);
