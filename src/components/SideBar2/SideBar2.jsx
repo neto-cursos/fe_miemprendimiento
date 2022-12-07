@@ -3,7 +3,7 @@ import OutsideAlerter from "../../utils/OutsideAlerter";
 // import { menuPrincipal } from "../../constants/MenuSideBar";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import logofundacion from './../../assets/images/LogoFundvida.png';
+import logofundacion from './../../assets/images/logoFundvida.png';
 import FondoMenuSidebar2 from './../../assets/images/FondoMenuSidebar2.jpg';
 
 const SideBar2 = () => {

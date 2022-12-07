@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 // import LogoFundVida from '../../assets/svg/LogoFundVida';
 //import logofundacion from './../../assets/images/logofundvidatransp.png';
-import logofundacion from './../../assets/images/LogoFundvida.png';
+import logofundacion from './../../assets/images/logoFundvida.png';
 
 const BrandLink = ({classes=''}) => {
     return (
