@@ -1,4 +1,6 @@
 /api/* http://54.159.149.82/public/api/:splat 200
+/welcome/api/* http://54.159.149.82/public/api/:splat 200!
+/emprendimiento/:empr_id/cronograma/api/* http://54.159.149.82/public/api/:splat 200!
 /misemprendimientos/api/* http://54.159.149.82/public/api/:splat 200!
 /emprendimiento/api/* http://54.159.149.82/public/api/:splat 200!
 /emprendimiento/:id/api/* http://54.159.149.82/public/api/:splat 200!

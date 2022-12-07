@@ -651,7 +651,7 @@ const CronogramaData = () => {
                 columnWidth={columnWidth}
             /> */}
             <div className='text-center flex md:absolute z-0 md:z-0 lg:absolute lg:right-10 lg:top-10 lg:z-0 text-lg text-canvas4Txt'>
-                <span className="bg-violeta text-whitish m-2 p-1 rounded-md" aria-label="Actualizar Cronograma" onClick={() => dispatch(updateCronogramas(crons.cron))}>
+                <span className="bg-violeta text-whitish m-2 p-1 rounded-md cursor-pointer" aria-label="Actualizar Cronograma" onClick={() => dispatch(updateCronogramas(crons.cron))}>
                     <AddIcon> </AddIcon> <span className="text-xs">Guardar Cronograma</span>
                     </span>
             </div>
