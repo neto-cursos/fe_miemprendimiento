@@ -465,7 +465,7 @@ const ModelCanvasPreguntas = () => {
 
         >
             
-                <div className='pl-64 pt-16 text-center'>
+                <div className='pl-16 pt-32 md:pl-32 lg:pl-64 md:pt-16 text-center'>
                     <div className='text-whitish pl-32 text-2xl cursor-pointer' onClick={handleClose}>X</div>
                     <iframe
                         id="video"

@@ -28,8 +28,8 @@ const VideoModal = ({ videoDatos, isOpen, handleClose }) => {
 
         >
             
-                <div className='pl-64 pt-16 text-center'>
-                    <div className='text-whitish pl-32 text-2xl cursor-pointer' onClick={handleClose}>X</div>
+                <div className='pl-0 md:pl-32 xl:pl-64 pt-16 text-center'>
+                    <div className='text-whitish pl-0 md:pl-32 text-2xl cursor-pointer' onClick={handleClose}>X</div>
                     <iframe
                         id="video"
                         width={windowSize.innerWidth > 640 ? "640" : "230"}
