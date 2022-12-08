@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { queryEmpr } from '../redux/reducers/emprendSlice';
 import { motion } from 'framer-motion';
 import canvasImagen2 from './../assets/images/Canvas2.png';
@@ -10,6 +10,11 @@ import { changeMenu } from '../redux/reducers/menuSlice';
 
 const SecondMenu = () => {
     /** Menu*/
+    const navigate=useNavigate();
+    window.onpopstate = () => {
+        navigate("/welcome");
+        // dispatch(resetEstado());
+    }
     const { empr_id } = useParams();
     useEffect(() => {
         if(empr_id!=null)
