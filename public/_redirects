@@ -1,6 +1,5 @@
 /api/* http://44.202.165.26/public/api/:splat 200
 /welcome/api/* http://44.202.165.26/public/api/:splat 200!
-/loadingscreen/api/* http://44.202.165.26/public/api/:splat 200!
 /emprendimiento/:id/cronograma/api/* http://44.202.165.26/public/api/:splat 200!
 /misemprendimientos/api/* http://44.202.165.26/public/api/:splat 200!
 /emprendimiento/api/* http://44.202.165.26/public/api/:splat 200!
