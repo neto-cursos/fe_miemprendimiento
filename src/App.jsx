@@ -29,7 +29,7 @@ import Cronogramas from './pages/Cronogramas';
 import SideBar2 from './components/SideBar2/SideBar2';
 import ChkWindowSize from './components/ChkWindowSize';
 import { getWindowSize } from './utils/checkWindow';
-import PdfViewer from './pages/PdfViewer';
+// import PdfViewer from './pages/PdfViewer';
 import ContactForm from './pages/ContactForm';
 import AboutUs from './pages/AboutUs';
 import VideoModal from './components/VideoPlayer/VideoModal';
@@ -82,7 +82,7 @@ function App() {
               <Route exact path="/emprendimiento/:empr_id/update" element={<RequireAuth><EmprendUpdate /></RequireAuth>}></Route>
               <Route exact path="/emprendimiento/:empr_id/bmc" element={<RequireAuth><MbCanvas /></RequireAuth>}></Route>
               <Route exact path="/logout" element={<LogOut />} />
-              <Route exact path="/pdfview" element={<PdfViewer />} />
+              {/* <Route exact path="/pdfview" element={<PdfViewer />} /> */}
               <Route exact path="/misemprendimientos" element={<RequireAuth><MisEmprendimientos /></RequireAuth>} />
               <Route exact path="/emprendimiento/:empr_id/cronograma" element={<Cronogramas></Cronogramas>} />
               <Route exact path="/misemprendimientos/:user_id" element={<RequireAuth><EmprendList /></RequireAuth>} />
