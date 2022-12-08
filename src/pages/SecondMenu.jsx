@@ -12,7 +12,7 @@ const SecondMenu = () => {
     /** Menu*/
     const navigate=useNavigate();
     window.onpopstate = () => {
-        navigate("/welcome");
+        navigate("/");
         // dispatch(resetEstado());
     }
     const { empr_id } = useParams();
