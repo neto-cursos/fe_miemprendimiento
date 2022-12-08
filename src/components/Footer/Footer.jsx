@@ -20,7 +20,7 @@ const Footer = ({windowSize}) => {
                 </div>
             
 
-            <div className='containerFooter relative justify-between flex items-center py-4'>
+            <div className='container relative justify-between flex items-center py-4'>
             
             
                 <BrandLinkText classes='text-bglogotext' />
