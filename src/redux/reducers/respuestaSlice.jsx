@@ -41,7 +41,7 @@ export const respuestaSlice=createSlice({
             //fin devuelve undefined si no lo encuentra
             const nodo=state.respuestas.find(respuesta=>respuesta.resp_id===action.payload)
             if (nodo){
-                state.respuestas.splice(state.indexOf(nodo),1);
+                state.respuestas.splice(state.respuestas.indexOf(nodo),1);
             }
         },
         updateRespuesta:(state,action)=>{
