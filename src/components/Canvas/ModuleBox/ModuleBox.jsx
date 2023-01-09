@@ -48,7 +48,8 @@ downlImage}) => {
                                                   
                                 if (respuesta.modu_nume == moduloDB && respuesta.preg_id==pregunta.preg_id) {
                                     pregIdOld=pregIdOld+1;
-                                    return (<>{pregIdOld===1?<span key={nanoid()}>{pregunta.preg_text}</span>:''}                                            
+                                    return (
+                                    <>{pregIdOld===1?<span key={nanoid()}>{pregunta.preg_text}</span>:''}                                            
                                         <div key={respuesta.resp_id} className={`pt-1 py-1 ${bgcolor}`}>
                                             <div className='flex justify-between '>
                                                 <h3 className='hover:text-red-700 cursor-pointer focus:ring-blue-500 text-bluenavish' onClick={() => handleEdit(respuesta.resp_id,moduloDB)}>{respuesta.resp_text}</h3>
@@ -64,7 +65,8 @@ downlImage}) => {
                                             <div className='flex'>
                                                 <p>{respuesta.resp_desc}</p>
                                             </div>
-                                        </div></>)
+                                        </div>
+                                        </>)
                                 }
                             })
                             }</>

@@ -25,7 +25,7 @@ const SignUpform = () => {
   const dispatch = useDispatch();
   const submitForm = e => {
     // e.persist()
-    console.log(e);
+    // console.log(e);
     dispatch(registerUser(e));
     // setFormInput(prevState => ({ ...prevState, [e.target.name]: e.target.value }))
     // console.log(e.target.name + ":" + e.target.value)

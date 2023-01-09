@@ -4,8 +4,8 @@ import { NavLink } from 'react-router-dom';
 import logoPage from './../../assets/images/logoPage.png'
 const NavLinks = () => {
     const menuPrincipal = useSelector(state => state.menus);
-    console.log("MENU PRINCIPAL")
-    console.log(menuPrincipal);
+    // console.log("MENU PRINCIPAL")
+    // console.log(menuPrincipal);
     const LINKS = [
         {
             path: '/',

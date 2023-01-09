@@ -41,8 +41,8 @@ const menuSlice = createSlice({
                     break;
                 case 'MENU_CRONOS':
                     state = menuCronograma;
-                    console.log("YAY te quiero mucho")
-                    console.log(menuCronograma);
+                    // console.log("YAY te quiero mucho")
+                    // console.log(menuCronograma);
                     break;
                 default:
 

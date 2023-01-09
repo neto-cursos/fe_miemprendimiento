@@ -47,8 +47,8 @@ const EmprendUpdate = ({ id }) => {
     }, [])
 
     useEffect(() => {
-        console.log("EmprendActivo")
-        console.log(emprendActivo)
+        // console.log("EmprendActivo")
+        // console.log(emprendActivo)
         if (emprendActivo.empr_id) {
             setFormInput({
                 empr_id: emprendActivo.empr_id,
@@ -62,8 +62,8 @@ const EmprendUpdate = ({ id }) => {
 
     const updateEmpr = (e) => {
         e.preventDefault();
-        console.log("enviando datos");
-        console.log(formInput);
+        // console.log("enviando datos");
+        // console.log(formInput);
         dispatch(updateEmprs(formInput))
     }
     useEffect(() => {

@@ -89,7 +89,7 @@ export const TaskListTableDefault = ({
   const [checked, setChecked] = React.useState(false);
 
   const handleChange = (event) => {
-    console.log(event.target);
+    // console.log(event.target);
     dispatch(changeCron_done({ id: event.target.id, value: event.target.checked, }))
     setChecked(event.target.checked);
   };

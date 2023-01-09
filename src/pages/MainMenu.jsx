@@ -22,8 +22,8 @@ const MainMenu = ({ windowSize }) => {
     }, [])
     useEffect(() => {
         if (userInfo.user_id !== null &&userInfo.user_id!==''){
-            console.log("user_info");
-            console.log(userInfo.user_id);
+            // console.log("user_info");
+            // console.log(userInfo.user_id);
             dispatch(fetchEmprs(userInfo.user_id));
             dispatch(listAllCronogramas({ id: userInfo.user_id }))
         }            
@@ -64,10 +64,10 @@ const MainMenu = ({ windowSize }) => {
 
             crons.map(cr => {
                 cr.cron.map(tarea => {
-                    console.log("tarea mainmenu cronos:")
-                    console.log(tarea);
-                    console.log(formatDate(tarea.end));
-                    console.log(formatDate(tarea.end) < fechaActual);
+                    // console.log("tarea mainmenu cronos:")
+                    // console.log(tarea);
+                    // console.log(formatDate(tarea.end));
+                    // console.log(formatDate(tarea.end) < fechaActual);
                     if (formatDate(tarea.end) < fechaActual) {
                         if (tarea.type !== 'project') {
                             const t = {

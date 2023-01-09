@@ -48,7 +48,7 @@ function App() {
 
     if (sessionStorage.getItem('auth')) {
 
-      console.log("auth detected")
+      //console.log("auth detected")
       dispatch(setDataFromLocalSave());
     }
   }, [auth]);

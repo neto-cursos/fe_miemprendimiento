@@ -22,7 +22,7 @@ const EmprendimientoForm = () => {
     const updateFormInput = e => {
         e.persist()
         formInput.current[e.target.name]=e.target.value;
-        console.log(e.target.name + ":" + e.target.value)
+        // console.log(e.target.name + ":" + e.target.value)
     }
 
     useLayoutEffect(() => {
@@ -41,8 +41,8 @@ const EmprendimientoForm = () => {
         //     setFormInput({...formInput,empr_nomb:e.empr_nomb.placeholder});
         formInput.current.empr_nomb=emprIdOpt.current;
         }
-        console.log("enviando datos");
-        console.log(formInput)
+        // console.log("enviando datos");
+        // console.log(formInput)
         dispatch(addNewEmpr(formInput.current))
     }
     useEffect(() => {

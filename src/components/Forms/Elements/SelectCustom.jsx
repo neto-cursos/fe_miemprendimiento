@@ -54,18 +54,18 @@ const opciones = ["Mangoes", "Apples", "Oranges"];
 
 const SelectCustom = ({ options, modulo, respuesta, setRespuesta,
     idPreg, setIdPreg, idRespuesta}) => {
-    console.log("idRespuesta");
-    console.log(idRespuesta);
+    // console.log("idRespuesta");
+    // console.log(idRespuesta);
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(() => {
-        console.log("Respuesta");
-        console.log(respuesta);
-        console.log("idpreg");
-        console.log(idPreg);
+        // console.log("Respuesta");
+        // console.log(respuesta);
+        // console.log("idpreg");
+        // console.log(idPreg);
         if (idRespuesta !== 0 && idPreg !== '') {
             const pregunta = options.find(preg => preg.preg_id == idPreg && preg.modu_id == modulo);
-            console.log("pregunta first: ")
-            console.log(pregunta)
+            // console.log("pregunta first: ")
+            // console.log(pregunta)
             if (pregunta !== null)
                 return {
                     preg_id: pregunta.preg_id,
@@ -76,7 +76,7 @@ const SelectCustom = ({ options, modulo, respuesta, setRespuesta,
             // console.log(options)
             // console.log(modulo)
             const pregunta = options.find(preg => preg.modu_id == modulo)
-            console.log(pregunta);
+            // console.log(pregunta);
             return {
                 preg_id: pregunta.preg_id,
                 preg_text: pregunta.preg_text
@@ -91,7 +91,7 @@ const SelectCustom = ({ options, modulo, respuesta, setRespuesta,
             preg_id: preg_id,
             preg_text: text
         });
-        console.log(selectedOption);
+        // console.log(selectedOption);
     };
 
     React.useEffect(() => {

@@ -33,7 +33,7 @@ const SecondMenu = () => {
         empr_id: ''
     })
     
-    console.log("empr_id:" + empr_id)
+    // console.log("empr_id:" + empr_id)
     useEffect(() => {
         if (sessionStorage.getItem('usr_dt')) {
             const getData = JSON.parse(sessionStorage.getItem('usr_dt'));
@@ -44,17 +44,17 @@ const SecondMenu = () => {
                 user_id: getData.user_id,
                 auth: getData.auth,
             })
-            console.log("userData:" + userData.user_name);
+            // console.log("userData:" + userData.user_name);
         }
     }, []);
     useEffect(() => {
         setDatos({ ...datos, empr_id: empr_id })
-        console.log("entrouseeffect1:" + datos.empr_id)
+        // console.log("entrouseeffect1:" + datos.empr_id)
 
     }, [empr_id]);
 
     useEffect(() => {
-        console.log("secondmenu datosuseeffect:" + datos.empr_id)
+        // console.log("secondmenu datosuseeffect:" + datos.empr_id)
         if (datos.empr_id !== '')
             dispatch(queryEmpr(datos));
     }, [datos])

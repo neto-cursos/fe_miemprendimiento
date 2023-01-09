@@ -10,8 +10,8 @@ const MisEmprendimientos = () => {
     const { empr_id,user_id,params } = useParams();
     const location = useLocation();
     const addrReq1 = '/misemprendimientos/';
-    console.log("empr user: " + userInfo.user_name)
-    console.log("empr auth: " + auth)
+    // console.log("empr user: " + userInfo.user_name)
+    // console.log("empr auth: " + auth)
     if (loading) {
         return (<><Spinner></Spinner></>)
     }

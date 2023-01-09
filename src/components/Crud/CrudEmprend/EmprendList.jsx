@@ -34,7 +34,7 @@ const EmprendList = () => {
         // return <Navigate to={`/emprendimiento/${id}/update`} />;
     }
     const handleDelete = (id) => {
-        console.log(id)
+        // console.log(id)
         dispatch(deleteEmprend(id));
         dispatch(removeEmpr({ empr_id: id }));
     }
@@ -44,7 +44,7 @@ const EmprendList = () => {
             let items = {}; let dataid = 0;
             if (sessionStorage.getItem('usr_dt')) {
                 items = JSON.parse(sessionStorage.getItem('usr_dt'));
-                console.log("userData:" + items.user_name);
+                // console.log("userData:" + items.user_name);
                 dataid = items.user_id;
             }
             dispatch(fetchEmprs(dataid))

@@ -37,11 +37,11 @@ const Menu = ({ targetRef, children, className }) => {
     let repositionX = targetLeft;
 
     // top
-    console.log(targetTop, "targetTop");
-    console.log(contentHeight, "contentHeight");
-    console.log(windowHeight, "windowHeight");
+    // console.log(targetTop, "targetTop");
+    // console.log(contentHeight, "contentHeight");
+    // console.log(windowHeight, "windowHeight");
     if (targetTop + contentHeight > windowHeight) {
-      console.log("top");
+      // console.log("top");
       repositionY = scrollTop + targetTop - contentHeight;
     }
 

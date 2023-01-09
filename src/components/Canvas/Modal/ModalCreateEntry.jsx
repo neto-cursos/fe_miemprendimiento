@@ -41,10 +41,10 @@ const ModalCreateEntry = ({ message, isOpen, onClose, modulo, idRespuesta, setId
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('idrespuesta: ', idRespuesta);
+        // console.log('idrespuesta: ', idRespuesta);
         if (idRespuesta !== 0) {
-            console.log("ModalCreateEntry .. updateRespuesta")
-            console.log(respuesta);
+            // console.log("ModalCreateEntry .. updateRespuesta")
+            // console.log(respuesta);
             setIsReadyToSend(true);
             onClicAccion();
         } else {
@@ -61,18 +61,18 @@ const ModalCreateEntry = ({ message, isOpen, onClose, modulo, idRespuesta, setId
         }
     }
     useEffect(() => {
-        console.log("readytoSelect2323:");
-        console.log(readySelect);
+        // console.log("readytoSelect2323:");
+        // console.log(readySelect);
         if (idRespuesta !== 0) {
             const resp=respuestas.find(resp => resp.resp_id === idRespuesta && resp.modu_nume == modulo);
             setRespuesta(resp);
             setIdPreg(resp.preg_id);
-            console.log("ModalcreateEntry .. Respuestas ")
-            console.log(respuestas)
-            console.log("ModalcreateEntry .. Modulo ")
-            console.log(modulo)
-            console.log("ModalcreateEntry .. respuesta encontrada ")
-            console.log(respuestas.find(resp => resp.resp_id === idRespuesta && resp.modu_nume == modulo))
+            // console.log("ModalcreateEntry .. Respuestas ")
+            // console.log(respuestas)
+            // console.log("ModalcreateEntry .. Modulo ")
+            // console.log(modulo)
+            // console.log("ModalcreateEntry .. respuesta encontrada ")
+            // console.log(respuestas.find(resp => resp.resp_id === idRespuesta && resp.modu_nume == modulo))
         }
     }, [idRespuesta, modulo, respuestas])
 
@@ -80,8 +80,8 @@ const ModalCreateEntry = ({ message, isOpen, onClose, modulo, idRespuesta, setId
         if (idRespuesta !== 0) {
             inputTitle.current.value = respuesta.resp_text;
             //inputDesc.current.value = respuesta.resp_desc;            
-            console.log("ModalCreateEntry .. valor de st respuesta")
-            console.log(respuesta);
+            // console.log("ModalCreateEntry .. valor de st respuesta")
+            // console.log(respuesta);
             if (isReadyToSend) {
                 dispatch(updateRespuesta(respuesta));
                 setIsReadyToSend(false)
@@ -90,7 +90,7 @@ const ModalCreateEntry = ({ message, isOpen, onClose, modulo, idRespuesta, setId
         }
         if(respuesta.resp_id===idRespuesta){
             setReadySelect(true);
-            console.log("readytoselect: " + readySelect);
+            // console.log("readytoselect: " + readySelect);
         }
     }, [respuesta, idRespuesta, isReadyToSend, dispatch])
 

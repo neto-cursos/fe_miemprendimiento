@@ -164,7 +164,7 @@ const CronogramaData = () => {
     };
     const handleChangeDatePicker2 = (newValue) => {
         // setValueDate2(newValue);
-        console.log(newValue);
+        // console.log(newValue);
     };
     const handleChangeNotas = (event) => {
         setValueNotas(event.target.value);
@@ -194,8 +194,8 @@ const CronogramaData = () => {
     };
 
     const handleEdit = (id) => {
-        console.log("entro handleedit");
-        console.log(id);
+        // console.log("entro handleedit");
+        // console.log(id);
         setIdActiva(id);
     };
 
@@ -208,8 +208,8 @@ const CronogramaData = () => {
                 handleDeleteConfirmation(id);
             }
         })
-        console.log("deleteid");
-        console.log(id);
+        // console.log("deleteid");
+        // console.log(id);
     }
 
     const handleDeleteConfirmation = (id) => {
@@ -234,7 +234,7 @@ const CronogramaData = () => {
     useEffect(() => {
         if (idActiva != '') {
             setIsOpen(true);
-            console.log(isOpen)
+            // console.log(isOpen)
         }
 
     }, [tareaActiva]);
@@ -286,8 +286,8 @@ const CronogramaData = () => {
                 if (!task.find(cronograma => cronograma.id === t.id))
                     task.push(t);
             })
-            console.log("TASK : ");
-            console.log(task);
+            // console.log("TASK : ");
+            // console.log(task);
             setTareas(task);
         }
     }, [crons.cron]);
@@ -320,7 +320,7 @@ const CronogramaData = () => {
     }
 
     const handleTaskChange = (task) => {
-        console.log("On date change Id:" + task.id);
+        // console.log("On date change Id:" + task.id);
         let newTasks = tareas.map(t => (t.id === task.id ? task : t));
         if (task.project) {
             const [start, end] = getStartEndDateForProject(newTasks, task.project);
@@ -348,7 +348,7 @@ const CronogramaData = () => {
 
     const handleProgressChange = async (task) => {
         setTareas(tareas.map(t => (t.id === task.id ? task : t)));
-        console.log("On progress change Id:" + task.id);
+        // console.log("On progress change Id:" + task.id);
     };
 
     const handleDblClick = (task) => {
@@ -356,19 +356,19 @@ const CronogramaData = () => {
     };
 
     const handleClick = (task) => {
-        console.log("On Click event Id:" + task.id);
+        // console.log("On Click event Id:" + task.id);
     };
 
     const handleSelect = (task, isSelected) => {
-        console.log(task.name + " has " + (isSelected ? "selected" : "unselected"));
+        // console.log(task.name + " has " + (isSelected ? "selected" : "unselected"));
     };
 
     const handleExpanderClick = (task) => {
         // setTareas(tareas.map(t => (t.id === task.id ? task : t)));
         //crons.cron.map(t => (t.id === task.id ? task : t))
         dispatch(changeHideCronograma({ id: task.id, hideChildren: task.hideChildren }));
-        console.log("On expander click Id:" + task.id);
-        console.log(task);
+        // console.log("On expander click Id:" + task.id);
+        // console.log(task);
     };
     // useEffect(() => {
     //     console.log("ERRORES:");
@@ -394,12 +394,12 @@ const CronogramaData = () => {
     }, [hadErrors]);
 
     useEffect(() => {
-        console.log("******USEFORM+++++");
-        console.log(dataSubmitted);
+        // console.log("******USEFORM+++++");
+        // console.log(dataSubmitted);
         if (errores != null) {
             // console.log("USEEFFECT entro cond errores !=null")
             // console.log("accepted" + accepted);
-            console.log("errores length" + errores.length);
+            // console.log("errores length" + errores.length);
             // if (accepted && errores.length === 0) {
             if (errores.length === 0) {
                 const fechaInicio = `${dataSubmitted.start.$D}/${(dataSubmitted.start.$M) + 1}/${dataSubmitted.start.$y}`;
@@ -416,10 +416,10 @@ const CronogramaData = () => {
                     }));
                 }
                 max = max === 0 ? 1 : max;
-                console.log(max);
-                console.log(idActiva);
-                console.log(fechaInicio);
-                console.log(fechaFin);
+                // console.log(max);
+                // console.log(idActiva);
+                // console.log(fechaInicio);
+                // console.log(fechaFin);
                 if (dataSubmitted.id === "") {
                     const task = {
                         id: nanoid(),
@@ -498,21 +498,21 @@ const CronogramaData = () => {
             }
         });
         // data.map(e=>{if(typeof(e)==='string'||typeof(e)==='number'){e=e.trimStart();e=e.trimEnd();}});
-        console.log("DATTA TYPE....")
-        console.log(data);
+        // console.log("DATTA TYPE....")
+        // console.log(data);
         erroresAux.length = 0;
         // setDatareceived(true);
 
         schema.validate(data, { abortEarly: false }).then(function () {
             // Success
-            console.log("No error YAY")
+            // console.log("No error YAY")
             setErrores(erroresAux);
             setDataSubmitted(data);
         }).catch(function (err) {
-            console.log("errores");
-            console.log(err.inner);
-            console.log("Get validation Errors");
-            console.log(getValidationErrors(err));
+            // console.log("errores");
+            // console.log(err.inner);
+            // console.log("Get validation Errors");
+            // console.log(getValidationErrors(err));
             err.inner.forEach(e => {
                 // console.log(e.message, e.path);
                 erroresAux.push({
@@ -523,8 +523,8 @@ const CronogramaData = () => {
                 })
             });
             // flag2 = true;
-            console.log("ERRORES AUX");
-            console.log(erroresAux);
+            // console.log("ERRORES AUX");
+            // console.log(erroresAux);
 
             // setDatareceived(true);
             setErrores(erroresAux);

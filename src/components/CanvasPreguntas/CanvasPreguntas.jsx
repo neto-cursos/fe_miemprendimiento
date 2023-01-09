@@ -60,7 +60,7 @@ const ModelCanvasPreguntas = () => {
 
     const { empr_id, user_id, modu_nume, bmc_type = '' } = useParams();
 
-    console.log("modu_nume:", modu_nume);
+    // console.log("modu_nume:", modu_nume);
     const modu_nomb2 = modulosConDesc.find((nodo => nodo.modu_id == modu_nume))
     
     const input1 = useRef(null);
@@ -130,12 +130,12 @@ const ModelCanvasPreguntas = () => {
     const updateFormInput = (suge, preguntaid) => {
         setRelInputRef(auxInput);
         setDatosInput({ preg_id: preguntaid, sugerencia: suge, })
-        console.log(relInputRef);
-        console.log(preguntaid);
-        console.log(input1);
+        // console.log(relInputRef);
+        // console.log(preguntaid);
+        // console.log(input1);
     }
     useEffect(() => {
-        console.log(relInputRef);
+        // console.log(relInputRef);
         if (datosInput.preg_id == relInputRef.input1)
             input1.current.value = datosInput.sugerencia;
         if (datosInput.preg_id == relInputRef.input2)
@@ -147,7 +147,7 @@ const ModelCanvasPreguntas = () => {
     }, [relInputRef]);
     const updateFormInput2 = e => {
         e.persist();
-        console.log(e.target.value);
+        // console.log(e.target.value);
         setFormInput2(prevState => ({ ...prevState, resp_text: input2.current.value }))
     }
     const updateFormInput3 = e => {
@@ -195,7 +195,7 @@ const ModelCanvasPreguntas = () => {
     }, [txtActive]);
     useEffect(() => {
         //if (isReady === true)
-        console.log(formInput);
+        // console.log(formInput);
     }, [formInput]);
 
 
@@ -222,8 +222,8 @@ const ModelCanvasPreguntas = () => {
     };
 
     const handleSubmit = () => {
-        console.log("handle submit SALIDA de datos ")
-        console.log(respuestas);
+        // console.log("handle submit SALIDA de datos ")
+        // console.log(respuestas);
         dispatch(agregarRespuesta(respuestas));
         setRedirect(true);
     };
@@ -245,7 +245,7 @@ const ModelCanvasPreguntas = () => {
     }
     const updateAuxInputs = (input) => {
         auxInput = input;
-        console.log(auxInput)
+        // console.log(auxInput)
     }
     const updateInputs = () => {
         setRelInputRef(auxInput);

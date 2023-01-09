@@ -23,11 +23,11 @@ export const canvasSlice = createSlice({
             return state;
         },
         addCanva: (state, action) => {
-            console.log(state, action);
+            // console.log(state, action);
             state.datos.push(action.payload);
         },
         deleteCanva: (state, action) => {
-            console.log(action.payload);
+            // console.log(action.payload);
             const canvFound = state.datos.find(task => task.canv_id === action.payload)
             if (canvFound) {
                 state.datos.splice(state.datos.indexOf(canvFound), 1)
@@ -48,8 +48,8 @@ export const canvasSlice = createSlice({
         },
         resetEstado: (state, action) => {
             state = initialState;
-            console.log("resetEstado Canva")
-            console.log(state);
+            // console.log("resetEstado Canva")
+            // console.log(state);
             return state;
         }
     },
@@ -57,39 +57,39 @@ export const canvasSlice = createSlice({
         // login user
         builder
             .addCase(getCanvas.pending, (state, action) => {
-                console.log("Getcanvas Pending");
+                // console.log("Getcanvas Pending");
             })
             .addCase(getCanvas.fulfilled, (state, action) => {
-                console.log("Getcanvas Fullfilled");
+                // console.log("Getcanvas Fullfilled");
                 if ('canv_id' in action.payload) {
                     state.datos.canv_id = action.payload.canv_id;
                     state.datos.empr_id = action.payload.empr_id;
                     state.datos.canv_esta = action.payload.canv_esta;
-                    console.log("state last")
-                    console.log(state);
+                    // console.log("state last")
+                    // console.log(state);
                     if (sessionStorage.getItem('current_canvas')) {
                         const items = JSON.parse(sessionStorage.getItem('current_canvas'));
-                        console.log("-------items----------")
-                        console.log(items);
+                        // console.log("-------items----------")
+                        // console.log(items);
                         if (items.canv_id == action.payload.canv_id) {
                             state.idState = 'alreadyLoaded';
-                            console.log("already loaded");
+                            // console.log("already loaded");
                         } else {
                             state.idState = 'db';
                             sessionStorage.setItem('current_canvas', JSON.stringify(state.datos));
-                            console.log("no coincide");
+                            // console.log("no coincide");
                         }
                     } else {
                         state.idState = 'db';
                         sessionStorage.setItem('current_canvas', JSON.stringify(state.datos));
-                        console.log("not session called current_canvas")
+                        // console.log("not session called current_canvas")
                     }
                 }
                 else {
-                    console.log("error has happened");
+                    // console.log("error has happened");
                     const nanoid = customAlphabet('123456789', 9);
                     state.datos.canv_id = nanoid();
-                    console.log(state.datos.canv_id);
+                    // console.log(state.datos.canv_id);
                     state.idState = 'new'
                     sessionStorage.setItem('current_canvas', JSON.stringify(state.datos));
                 }
@@ -97,40 +97,40 @@ export const canvasSlice = createSlice({
                 return state;
             })
             .addCase(getCanvas.rejected, (state, action) => {
-                console.log("Getcanvas Rejected");
+                // console.log("Getcanvas Rejected");
             })
             // register user
             .addCase(createCanvas.pending, (state, action) => {
-                console.log("createCanvas Pending");
+                // console.log("createCanvas Pending");
             })
             .addCase(createCanvas.fulfilled, (state, action) => {
-                console.log("createCanvas FullFilled");
+                // console.log("createCanvas FullFilled");
                 state.idState = 'db';
                 return state;
             })
             .addCase(createCanvas.rejected, (state, action) => {
-                console.log("createCanvas Rejected");
+                // console.log("createCanvas Rejected");
             })
             // get user details
             .addCase(updateCanvas.pending, (state, action) => {
-                console.log("updateCanvas Pending");
+                // console.log("updateCanvas Pending");
             })
             .addCase(updateCanvas.fulfilled, (state, { payload }) => {
-                console.log("updateCanvas FullFilled");
+                // console.log("updateCanvas FullFilled");
             })
             .addCase(updateCanvas.rejected, (state, { payload }) => {
-                console.log("updateCanvas Rejected");
+                // console.log("updateCanvas Rejected");
             })
             // check if user is loggedIn
             .addCase(deleteCanvas.pending, (state, action) => {
-                console.log("DeleteCanvas Pending");
+                // console.log("DeleteCanvas Pending");
             })
             .addCase(deleteCanvas.fulfilled, (state, { payload }) => {
-                console.log("DeleteCanvas FullFilled");
+                // console.log("DeleteCanvas FullFilled");
 
             })
             .addCase(deleteCanvas.rejected, (state, { payload }) => {
-                console.log("DeleteCanvas Rejected");
+                // console.log("DeleteCanvas Rejected");
             })
     },
 })

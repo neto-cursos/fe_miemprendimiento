@@ -3,16 +3,16 @@ import { sub } from "date-fns";
 import { listActividades, updateActividades, deleteActividades, createActividades } from './../actions/ActividadActions'
 
 const formatDate = (date) => {
-    console.log("DATE");console.log(date); 
+    // console.log("DATE");console.log(date); 
     let end=0;
     end=date.indexOf("/");
     const day=date.slice(0,end);
     date=date.slice(end+1);
-    console.log("DATE2");console.log(date);  
+    // console.log("DATE2");console.log(date);  
     end=date.indexOf("/");
     const month=date.slice(0,end);
     date=date.slice(end+1);
-    console.log("DATE3");console.log(date);
+    // console.log("DATE3");console.log(date);
     const year=date.slice(0);
     const fecha=new Date(year,month,day);
     return (fecha)
@@ -89,17 +89,17 @@ export const Actividadeslice = createSlice({
         },
         agregarCronograma: (state, action) => {
             action.payload.map(data => {
-                console.log("data from add respuestas:")
-                console.log(data);
+                // console.log("data from add respuestas:")
+                // console.log(data);
                 if (!state.cron.find(cronograma => cronograma.id === data.id))
                     state.cron.push(data);
                 return state;
             });
-            console.log("state last")
-            console.log(state);
+            // console.log("state last")
+            // console.log(state);
         },
         deleteCronograma: (state, action) => {
-            console.log(action.payload);
+            // console.log(action.payload);
             //fin devuelve undefined si no lo encuentra
             const nodo = state.cron.find(cronograma => cronograma.id === action.payload)
             if (nodo) {
@@ -139,8 +139,8 @@ export const Actividadeslice = createSlice({
             state.cron.length = 0;
         },
         changeHideCronograma: (state, action) => {
-            console.log("ACTION changehidecronograma");
-            console.log(action);
+            // console.log("ACTION changehidecronograma");
+            // console.log(action);
             const cronogramaTask = state.cron.find(cronograma => cronograma.id === action.payload.id)
             if(cronogramaTask){
                 cronogramaTask.hideChildren=action.payload.hideChildren
@@ -169,7 +169,7 @@ export const Actividadeslice = createSlice({
                 console.log("GetCronograma Pending");
             })
             .addCase(listActividades.fulfilled, (state, action) => {
-                console.log("GetCronograma Fullfilled");
+                // console.log("GetCronograma Fullfilled");
                 action.payload.map(data => {
                     console.log("data from add respuestas:")
                     console.log(data);
@@ -177,8 +177,8 @@ export const Actividadeslice = createSlice({
                         state.cron.push(data);
                     return state;
                 });
-                console.log("state last")
-                console.log(state);
+                // console.log("state last")
+                // console.log(state);
 
             })
             .addCase(listActividades.rejected, (state, action) => {

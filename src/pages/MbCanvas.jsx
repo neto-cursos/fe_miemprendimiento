@@ -23,7 +23,7 @@ const MbCanvas = () => {
     });
 
     const handleChange = (e) => {
-        console.log(e.target);
+        // console.log(e.target);
         setSelect({
             id: e.target.value,
             value: `Módulo ${e.target.value} 

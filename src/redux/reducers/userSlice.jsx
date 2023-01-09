@@ -59,11 +59,11 @@ const userSlice = createSlice({
             return state;
         },
         updateAuth: (state, action) => {
-            console.log("update Auth Action.payload");
-            console.log(typeof(action.payload));
+            // console.log("update Auth Action.payload");
+            // console.log(typeof(action.payload));
             state.auth = action.payload;
             if(action.payload===true){
-                console.log(sessionStorage.getItem('usr_dt'))
+                // console.log(sessionStorage.getItem('usr_dt'))
                 sessionStorage.setItem('auth', state.auth);
             }
             
@@ -84,9 +84,9 @@ const userSlice = createSlice({
                         access_type: userInfo.token_type
                     }, auth: sessionStorage.getItem('auth') ? JSON.parse(sessionStorage.getItem('auth')) : false,
                 };
-                console.log("State CHANGED");
-                console.log(state);
-                console.log("CHANGED FINISHED");
+                // console.log("State CHANGED");
+                // console.log(state);
+                // console.log("CHANGED FINISHED");
                 return state;
             }
         }
@@ -95,7 +95,7 @@ const userSlice = createSlice({
         // login user
         builder
             .addCase(userLogin.pending, (state, action) => {
-                console.log('USERLOGIN PENDING');
+                // console.log('USERLOGIN PENDING');
                 state.loading = true;
                 state.error = null;
                 state.auth = false;
@@ -105,7 +105,7 @@ const userSlice = createSlice({
 
             })
             .addCase(userLogin.fulfilled, (state, action) => {
-                console.log('USERLOGIN FULLFLLLED');
+                // console.log('USERLOGIN FULLFLLLED');
                 state = {
                     ...state,
                     loading: false,
@@ -127,13 +127,13 @@ const userSlice = createSlice({
                 return state;
             })
             .addCase(userLogin.rejected, (state, action) => {
-                console.log('USERLOGIN REJECTEDS');
-                console.log(action);
+                // console.log('USERLOGIN REJECTEDS');
+                // console.log(action);
                 sessionStorage.removeItem('usr_dt');
                 sessionStorage.setItem('auth', state.auth);
-                console.log('STATEERROR')
+                // console.log('STATEERROR')
                 if (action.error)
-                    console.log(action);
+                    // console.log(action);
                 if (action.error.message === 'Request failed with status code 401') {
                     state = {
                         ...state, successLogin: false, loading: false,
@@ -158,18 +158,18 @@ const userSlice = createSlice({
             })
             .addCase(registerUser.fulfilled, (state, action) => {
                 state.successRegister = true // registration successful
-                console.log('USERLOGIN FULLFLLLED');
+                // console.log('USERLOGIN FULLFLLLED');
                 state.loading = false;
             })
             .addCase(registerUser.rejected, (state, action) => {
-                console.log('USERLOGIN REJECTEDS');
-                console.log(action);
+                // console.log('USERLOGIN REJECTEDS');
+                // console.log(action);
                 state.successRegister = false;
                 state.loading = false;
                 state.error = action.error;
-                console.log('STATEERROR')
+                // console.log('STATEERROR')
                 if (action.error)
-                    console.log(action);
+                    // console.log(action);
                 if (action.error.message)
                     state.errores = [{ id: nanoid(), msg: action.error.message }]
 
@@ -212,10 +212,10 @@ const userSlice = createSlice({
             //check if user is loggout
             .addCase(logOutSession.pending, (state, action) => {
                 state.loading = true
-                console.log("LOGOUT SESSION PENDIENTE");
+                // console.log("LOGOUT SESSION PENDIENTE");
             })
             .addCase(logOutSession.fulfilled, (state, { payload }) => {
-                console.log("LOGOUT SESSION EXITOSA");
+                // console.log("LOGOUT SESSION EXITOSA");
                 state = {
                     ...state,
                     loading: false,
@@ -225,13 +225,13 @@ const userSlice = createSlice({
                     errores: [{ id: '', msg: '' }],
                     auth: false
                 };
-                console.log("USERSLICE STATE");
-                console.log(state);
+                // console.log("USERSLICE STATE");
+                // console.log(state);
                 return state;
             })
             .addCase(logOutSession.rejected, (state, { payload }) => {
                 state = { ...state, loading: false, auth: false };
-                console.log("LOGOUT SESSION FALLÍDA");
+                // console.log("LOGOUT SESSION FALLÍDA");
                 return state;
             })
     },

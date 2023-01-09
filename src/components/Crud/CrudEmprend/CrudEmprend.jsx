@@ -9,14 +9,14 @@ const CrudEmprend = (linkaddr, id) => {
     let isEdit = false;
     let editId = '';
     const emprendState = useSelector(state => state.emprendimientos)
-    console.log(emprendState);
-    console.log("linksaddr:" + linkaddr)
+    // console.log(emprendState);
+    // console.log("linksaddr:" + linkaddr)
     const addrReq1 = '/misemprendimientos/edit/';
     if (location.pathname.startsWith(addrReq1)) {
         isEdit = true;
         editId = location.pathname.slice(addrReq1.length);
-        console.log("length:" + addrReq1.length)
-        console.log("editId:" + editId)
+        // console.log("length:" + addrReq1.length)
+        // console.log("editId:" + editId)
     }
     return (
         <>

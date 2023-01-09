@@ -14,11 +14,11 @@ import WifiIcon from '@mui/icons-material/Wifi';
 import WifiOffIcon from '@mui/icons-material/WifiOff';
 const NavBar = ({ showLogin }) => {
     const { auth, userInfo } = useSelector(state => state.usuarios);
-    console.log("NavBar .. auth from useRedux:" + auth);
+    // console.log("NavBar .. auth from useRedux:" + auth);
     const userName = userInfo.user_name;
     const userApellido = userInfo.user_apellido;
     const islogged = isLoggedIn();
-    console.log("NavBar .. Shows islogged()?:" + islogged)
+    // console.log("NavBar .. Shows islogged()?:" + islogged)
     
     const [isConnected, setIsConnected]=React.useState(false);
 

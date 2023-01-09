@@ -14,8 +14,8 @@ const LogOut = ({ children }) => {
   const { loading } = useSelector(state => state.usuarios);
   //const usuarios = useSelector(state => state.usuarios);
   const auth = useSelector(getauth);
-  console.log("auth logout");
-  console.log(auth);
+  // console.log("auth logout");
+  // console.log(auth);
   const dispatch = useDispatch();
   const location = useLocation();
   const [isLogOut, setIsLogOut] = useState(false);

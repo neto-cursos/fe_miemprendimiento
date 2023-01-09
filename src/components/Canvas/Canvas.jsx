@@ -47,10 +47,10 @@ const Canvas = ({ }) => {
     const respuestas = useSelector(state => state.respuestas)
     const preguntas = useSelector(state => state.preguntas);
     const respuestasAsist = useSelector(state => state.respuestasAsistidas);
-    console.log("canvasInitial value: ")
-    console.log(canvasSelect);
-    console.log("respuestasInitial value: ")
-    console.log(respuestas);
+    // console.log("canvasInitial value: ")
+    // console.log(canvasSelect);
+    // console.log("respuestasInitial value: ")
+    // console.log(respuestas);
     //show notification when success of failing
     const [showNotif, setShowNotif] = useState(false);
     //useState for managin window size
@@ -71,7 +71,7 @@ const Canvas = ({ }) => {
     const [downlImage, setDownlImage] = useState(false);
     //function for download Image
     const convertToImg = () => {
-        console.log("convert to img")
+        // console.log("convert to img")
         setDownlImage(true);
     }
     //useEffect for download Image
@@ -84,7 +84,7 @@ const Canvas = ({ }) => {
         const copyCanvas = domEl.current.cloneNode(
             true
         );
-        console.log(copyCanvas);
+        // console.log(copyCanvas);
         const dataUrl = await htmlToImage.toPng(domEl.current);
         // download image
         const link = document.createElement('a');
@@ -132,7 +132,7 @@ const Canvas = ({ }) => {
     }
 
     const handleDelete = (id) => {
-        console.log(id);
+        // console.log(id);
         dispatch(deleteRespuesta(id));
     }
 
@@ -177,7 +177,7 @@ const Canvas = ({ }) => {
         //dispatch(resetRespuesta());
         if (canvasSelect.estado === 'loadedCanvasID' && canvasSelect.idState === 'db' && canvasSelect.datos.empr_id == empr_id) {
             //    console.log("canvas ... loading when canvasSelect changes")
-            console.log(canvasSelect);
+            // console.log(canvasSelect);
             dispatch(listRespuestas({ canv_id: canvasSelect.datos.canv_id }))
             if (respuestasAsist.respAsist.length > 0 && respuestasAsist.empr_id == empr_id) {
                 dispatch(agregarRespuesta(respuestasAsist.respAsist));
@@ -188,11 +188,11 @@ const Canvas = ({ }) => {
             dispatch(createCanvas(canvasSelect.datos));
 
         }
-        console.log("respuestas::::::")
-            console.log(respuestas.length)
+        // console.log("respuestas::::::")
+            // console.log(respuestas.length)
         if (canvasSelect.idState === 'alreadyLoaded'&&respuestas.length===0){
             
-            console.log("entro wey")
+            // console.log("entro wey")
             dispatch(listRespuestas({ canv_id: canvasSelect.datos.canv_id }))
         }
             
@@ -205,7 +205,7 @@ const Canvas = ({ }) => {
     useEffect(() => {
         if ((canvasSelect.idState === 'db' || canvasSelect.idState === 'alreadyLoaded') && sendAction === true) {
             if (respuestas.length === 0) {
-                console.log("entro a actualizar canvas vacio")
+                // console.log("entro a actualizar canvas vacio")
                 dispatch(updateRespuestas([{
                     canv_id: canvasSelect.datos.canv_id,
                     resp_id: '',

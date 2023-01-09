@@ -7,8 +7,8 @@ export const listActividades = createAsyncThunk('actividades/list',
             /**
              * console log para mostrar la respuesta
              */
-            console.log("response actividadesActions List:")
-            console.log(response);
+            // console.log("response actividadesActions List:")
+            // console.log(response);
             return response.data;
         })
         return data
@@ -21,8 +21,8 @@ export const getActividades = createAsyncThunk('actividades/get',
             /**
              * console log para mostrar la respuesta
              */
-            console.log("response actividadesActions Get:")
-            console.log(response);
+            // console.log("response actividadesActions Get:")
+            // console.log(response);
             return response.data;
         })
         return data
@@ -34,8 +34,8 @@ export const createActividades = createAsyncThunk(
     'actividades/create',
     async (datos) => {
         const data = await ApiAuth().post('/createactividades', datos).then(response => {
-            console.log("response actividadesActions create:")
-            console.log(response);
+            // console.log("response actividadesActions create:")
+            // console.log(response);
             return response.data;
         })
         return data
@@ -45,8 +45,8 @@ export const createActividades = createAsyncThunk(
 export const updateActividades = createAsyncThunk('actividades/update',
     async (datos) => {
         const data = await ApiAuth().post('/updateactividades', datos).then(response => {
-            console.log("response actividadesActions update:")
-            console.log(response);
+            // console.log("response actividadesActions update:")
+            // console.log(response);
             return response.data;
         })
         return data
@@ -56,8 +56,8 @@ export const deleteActividades = createAsyncThunk(
     'actividades/delete',
     async (datos) => {
         const data = await ApiAuth().post('/deleteactividades', datos).then(response => {
-            console.log("response actividadesActions delete:")
-            console.log(response);
+            // console.log("response actividadesActions delete:")
+            // console.log(response);
             return response.data;
         })
         return data
