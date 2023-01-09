@@ -4,7 +4,7 @@ const ApiAuth = () => {
     //window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     let token = '';
     token = sessionStorage.getItem('bearertoken') ? sessionStorage.getItem('bearertoken') : '';
-    console.log('token: ' + token);
+    // console.log('token: ' + token);
 
     const api = axios.create({
         // baseURL: 'http://localhost:8000/api',

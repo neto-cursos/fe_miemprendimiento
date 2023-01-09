@@ -2,28 +2,35 @@ import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
 import { listRespuestas,updateRespuestas,
     deleteRespuestas,createRespuestas} from './../actions/respuesta2Actions'
 
-const initialState=[
-    // {}
-]
+const initialState={
+    stateResp:'void',
+    respuestas:[],
+}
 export const respuestaSlice=createSlice({
     name:'respuestas',
     //initialState:[],
     initialState:initialState,
     reducers:{
+        resetStateResp:(state,action) => {
+            state.stateResp=action.payload;
+            console.log(action.payload);
+            return state;
+        },
         reset:(state,action) => {
             state=initialState;
             return state;
         },
         addRespuesta:(state,action) => {
-            console.log(state);
-            state.push(action.payload);
+            state.respuestas.push(action.payload);
+            console.log(state.respuestas);
+            return state;
         },
         agregarRespuesta:(state,action)=>{
             action.payload.map(data => {
                 console.log("data from add respuestas:")
                 console.log(data);
-                if(!state.find(respuesta => respuesta.resp_id === data.resp_id))
-                state.push(data);
+                if(!state.respuestas.find(respuesta => respuesta.resp_id === data.resp_id))
+                state.respuestas.push(data);
                 return state;
             });
             console.log("state last")
@@ -32,14 +39,14 @@ export const respuestaSlice=createSlice({
         deleteRespuesta:(state,action)=>{
             console.log(action.payload);
             //fin devuelve undefined si no lo encuentra
-            const nodo=state.find(respuesta=>respuesta.resp_id===action.payload)
+            const nodo=state.respuestas.find(respuesta=>respuesta.resp_id===action.payload)
             if (nodo){
-                state.splice(state.indexOf(nodo),1);
+                state.respuestas.splice(state.indexOf(nodo),1);
             }
         },
         updateRespuesta:(state,action)=>{
             const {resp_id,preg_id, modu_nume, canv_id, resp_nume, resp_text,resp_desc, resp_esta}=action.payload;
-            const respuestaTask=state.find(respuesta=>respuesta.resp_id===resp_id)
+            const respuestaTask=state.respuestas.find(respuesta=>respuesta.resp_id===resp_id)
             if(respuestaTask){
                 respuestaTask.preg_id=preg_id;
                 respuestaTask.modu_nume=modu_nume;
@@ -52,10 +59,10 @@ export const respuestaSlice=createSlice({
         },
         resetRespuesta:(state,action) => {
             console.log("STATE RESETBEFORE RESPUESTA: ");
-            console.log(state);
-            state.length=0;
+            console.log(state.respuestas);
+            state.respuestas.length=0;
             console.log("STATE RESET RESPUESTA: ");
-            console.log(state);
+            console.log(state.respuestas);
             return state;
         },
 
@@ -71,13 +78,14 @@ export const respuestaSlice=createSlice({
                 action.payload.map(data => {
                     // console.log("data from add respuestas:")
                     // console.log(data);
-                    if(!state.find(respuesta => respuesta.resp_id === data.resp_id))
-                    state.push(data);
+                    if(!state.respuestas.find(respuesta => respuesta.resp_id === data.resp_id))
+                    state.respuestas.push(data);
                     return state;
                 });
                 console.log("state last")
-                console.log(state);
-
+                console.log(state.respuestas);
+                state.stateResp='void';
+                return state;
             })
             .addCase(listRespuestas.rejected, (state, action) => {
                 console.log("Getrespuestas Rejected");
@@ -98,7 +106,8 @@ export const respuestaSlice=createSlice({
             })
             .addCase(updateRespuestas.fulfilled, (state, { payload }) => {
                 console.log("Updaterespuestas FullFilled");
-                
+                state.stateResp='loaded';
+                return state;
             })
             .addCase(updateRespuestas.rejected, (state, { payload }) => {
                 console.log("Updaterespuestas Rejected");
@@ -116,5 +125,5 @@ export const respuestaSlice=createSlice({
             })
     },
 })
-export const {addRespuesta,deleteRespuesta,updateRespuesta,agregarRespuesta,resetRespuesta,reset}=respuestaSlice.actions
+export const {addRespuesta,deleteRespuesta,updateRespuesta,agregarRespuesta,resetRespuesta,resetStateResp,reset}=respuestaSlice.actions
 export default respuestaSlice.reducer;

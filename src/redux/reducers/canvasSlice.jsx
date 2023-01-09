@@ -60,7 +60,8 @@ export const canvasSlice = createSlice({
                 // console.log("Getcanvas Pending");
             })
             .addCase(getCanvas.fulfilled, (state, action) => {
-                // console.log("Getcanvas Fullfilled");
+                console.log("Getcanvas action.payload");
+                console.log(action.payload);
                 if ('canv_id' in action.payload) {
                     state.datos.canv_id = action.payload.canv_id;
                     state.datos.empr_id = action.payload.empr_id;

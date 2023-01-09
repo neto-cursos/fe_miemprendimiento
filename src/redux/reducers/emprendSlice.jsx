@@ -15,8 +15,8 @@ const initialState = {
 export const fetchEmprs = createAsyncThunk('emprs/fetchEmprs', async (datoid) => {
 
     const response = await ApiAuth().post(POSTS_URL, { id: datoid }).then(response => {
-        console.log("HOLIS");
-        console.log(response);
+        // console.log("HOLIS");
+        // console.log(response);
         return response.data
     }).catch(error => {
         console.log(error)
@@ -60,7 +60,7 @@ export const emprendSlice = createSlice({
         },
         addEmprend: {
             reducer(state, action) {
-                console.log(state, action);
+                // console.log(state, action);
                 state.emprs.push(action.payload);
             },
             prepare(nombre, rubro, tipo, descripcion) {
@@ -80,7 +80,7 @@ export const emprendSlice = createSlice({
             state.emprs.concat(action.payload);
         },
         deleteEmprend: (state, action) => {
-            console.log(action.payload);
+            // console.log(action.payload);
             //fin devuelve undefined si no lo encuentra
             const emprendFound = state.emprs.find(empr => empr.empr_id === action.payload)
             if (emprendFound) {
@@ -114,7 +114,7 @@ export const emprendSlice = createSlice({
         builder
             .addCase(fetchEmprs.pending, (state, action) => {
                 state.status = 'loading'
-                console.log("PENDING")
+                console.log("EmprendimientoSlice Pending")
             })
             .addCase(fetchEmprs.fulfilled, (state, action) => {
                 action.payload.map(emprs => {
@@ -138,22 +138,22 @@ export const emprendSlice = createSlice({
             })
             .addCase(fetchEmprs.rejected, (state, action) => {
                 state.status = 'failed'
-                console.log("FAILED")
+                console.log("FetchEmprs Failed")
                 state.error = action.error.message
             })
             .addCase(addNewEmpr.rejected, (state, action) => {
                 state.status = 'failed'
-                console.log("FAILED")
-                console.log(action)
+                console.log("AddNewEmpr Failed")
+                // console.log(action)
                 //state.error = action.error.message
             })
             .addCase(addNewEmpr.pending, (state, action) => {
                 state.status = 'pending'
-                console.log("pending")
+                console.log("AddNewEmpr pending")
                 //state.error = action.error.message
             })
             .addCase(addNewEmpr.fulfilled, (state, action) => {
-                console.log("FULLFILLED")
+                console.log("AddNewEmpr Fulfilled")
                 state.status='fulfilled';
                 state.errores.length = 0;
                 if (action.payload.errores) {
@@ -184,18 +184,18 @@ export const emprendSlice = createSlice({
             })
             .addCase(removeEmpr.pending, (state, action) => {
                 state.status = 'pending'
-                console.log("Pending")
+                console.log("RemoveEmpr Pending")
             })
             .addCase(removeEmpr.fulfilled, (state, action) => {
                 state.status = 'fulfilled'
-                console.log("fulfilled")
+                console.log("RemoveEmpr fulfilled")
 
             })
             .addCase(removeEmpr.rejected, (state, action) => {
                 state.status = 'failed'
-                console.log("FAILED")
+                console.log("RemoveEmpr Failed")
                 state.error = action.error;
-                console.log('STATEERROR')
+                // console.log('STATEERROR')
                 if (action.error)
                     console.log(action);
                 if (action.error.message)
@@ -204,11 +204,11 @@ export const emprendSlice = createSlice({
             })
             .addCase(updateEmprs.pending, (state, action) => {
                 state.status = 'pending'
-                console.log("PENDING")
+                console.log("UndateEmprs PENDING")
             })
             .addCase(updateEmprs.fulfilled, (state, action) => {
                 state.status = 'fulfilled'
-                console.log("fulfilled")
+                console.log("updateEmprs fulfilled")
                 state.errores.length = 0;
                 if (action.payload.errores) {
 
@@ -236,7 +236,7 @@ export const emprendSlice = createSlice({
             })
             .addCase(updateEmprs.rejected, (state, action) => {
                 state.status = 'failed'
-                console.log("FAILED")
+                console.log("UpdateEmprs FAILED")
 
             })
             .addCase(queryEmpr.fulfilled,(state,action)=>{

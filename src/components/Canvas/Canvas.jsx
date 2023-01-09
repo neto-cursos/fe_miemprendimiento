@@ -12,7 +12,7 @@ import revenue_streams from './../../assets/images/revenue_streams.svg';
 import value_propositions from './../../assets/images/value_propositions.svg';
 import DownloadIcon from '@mui/icons-material/Download';
 import { useDispatch, useSelector } from 'react-redux';
-import { agregarRespuesta, deleteRespuesta, resetRespuesta } from './../../redux/reducers/respuestaSlice';
+import { agregarRespuesta, deleteRespuesta, resetRespuesta,resetStateResp } from './../../redux/reducers/respuestaSlice';
 import ModuleBox from './ModuleBox/ModuleBox';
 import { useParams, useNavigate } from 'react-router-dom';
 import { listRespuestas, updateRespuestas } from './../../redux/actions/respuesta2Actions';
@@ -34,25 +34,7 @@ function getWindowSize() {
     const { innerWidth, innerHeight } = window;
     return { innerWidth, innerHeight };
 }
-
-
 const Canvas = ({ }) => {
-    const currentCanvas = useRef(null);
-    const { empr_id } = useParams();
-    /**
-     * Selectors
-     */
-    const dispatch = useDispatch();
-    const canvasSelect = useSelector(state => state.canvas)
-    const respuestas = useSelector(state => state.respuestas)
-    const preguntas = useSelector(state => state.preguntas);
-    const respuestasAsist = useSelector(state => state.respuestasAsistidas);
-    // console.log("canvasInitial value: ")
-    // console.log(canvasSelect);
-    // console.log("respuestasInitial value: ")
-    // console.log(respuestas);
-    //show notification when success of failing
-    const [showNotif, setShowNotif] = useState(false);
     //useState for managin window size
     const [windowSize, setWindowSize] = React.useState(getWindowSize());
     //useEffect for managing resizing window
@@ -65,6 +47,19 @@ const Canvas = ({ }) => {
             window.removeEventListener('resize', handleWindowResize);
         };
     }, []);
+    const currentCanvas = useRef(null);
+    const {empr_id} = useParams();
+    /**
+     * Selectors
+     */
+    const dispatch = useDispatch();
+    const canvasSelect = useSelector(state => state.canvas);
+    const { stateResp } = useSelector(state => state.respuestas);
+    const respuestas = useSelector(state => state.respuestas.respuestas);
+    const preguntas = useSelector(state => state.preguntas);
+    const respuestasAsist = useSelector(state => state.respuestasAsistidas);
+    //show notification when success of failing
+    const [showNotif, setShowNotif] = useState(false);
     //useRef for image
     const domEl = useRef(null);
     //usestate for DownloadImage
@@ -81,10 +76,7 @@ const Canvas = ({ }) => {
     }, [downlImage])
     //function for download Image
     const downloadImage = async () => {
-        const copyCanvas = domEl.current.cloneNode(
-            true
-        );
-        // console.log(copyCanvas);
+        const copyCanvas = domEl.current.cloneNode(true);
         const dataUrl = await htmlToImage.toPng(domEl.current);
         // download image
         const link = document.createElement('a');
@@ -98,8 +90,6 @@ const Canvas = ({ }) => {
         //navigate("/");
         dispatch(resetEstado());
     }
-    // console.log('*******************empr_id********************');
-    // console.log(empr_id);
     /**
      * estados para controlar modals y hoverings
      */
@@ -113,7 +103,6 @@ const Canvas = ({ }) => {
     const onMouseLeave = (id) => {
         setButtonActiveHovering(0);
     }
-
     /**
      * Handle respuesta
      */
@@ -124,18 +113,15 @@ const Canvas = ({ }) => {
         setOpenp(true);
         setNumeModulo(number);
     }
-
     const handleEdit = (id, moduloDB) => {
         setIdRespuesta(id);
         setNumeModulo(moduloDB);
         setOpenp(true);
     }
-
     const handleDelete = (id) => {
         // console.log(id);
         dispatch(deleteRespuesta(id));
     }
-
     const updateTable = () => {
         //is not necessary to JSON.stringify since Axios takes charge of that
         if (canvasSelect.idState === 'new') {
@@ -143,10 +129,8 @@ const Canvas = ({ }) => {
         }
         setSendAction(true);
     }
-
     /**
      * use effects */
-
     useLayoutEffect(() => {
         if (sessionStorage.getItem('current_canvas')) {
             currentCanvas.current = JSON.parse(sessionStorage.getItem('current_canvas'));
@@ -156,12 +140,11 @@ const Canvas = ({ }) => {
         }
         dispatch(resetEstado());
     }, [])
-
+    
     useEffect(() => {
         if (canvasSelect.estado === 'ready') {
-            //      console.log("canvas ... loading first")
-            //      console.log(empr_id);
-            dispatch(getCanvas({ empr_id: empr_id }));//change idState to new or db y estado to loaded
+            dispatch(getCanvas({ empr_id: empr_id }));
+            //change idState to new or db y estado to loaded
         }
         if (canvasSelect.estado === 'loading') {
             if (currentCanvas.current != null)
@@ -176,8 +159,6 @@ const Canvas = ({ }) => {
     useEffect(() => {
         //dispatch(resetRespuesta());
         if (canvasSelect.estado === 'loadedCanvasID' && canvasSelect.idState === 'db' && canvasSelect.datos.empr_id == empr_id) {
-            //    console.log("canvas ... loading when canvasSelect changes")
-            // console.log(canvasSelect);
             dispatch(listRespuestas({ canv_id: canvasSelect.datos.canv_id }))
             if (respuestasAsist.respAsist.length > 0 && respuestasAsist.empr_id == empr_id) {
                 dispatch(agregarRespuesta(respuestasAsist.respAsist));
@@ -186,40 +167,36 @@ const Canvas = ({ }) => {
         }
         if (canvasSelect.idState === 'new') {
             dispatch(createCanvas(canvasSelect.datos));
-
         }
         // console.log("respuestas::::::")
             // console.log(respuestas.length)
         if (canvasSelect.idState === 'alreadyLoaded'&&respuestas.length===0){
-            
             // console.log("entro wey")
             dispatch(listRespuestas({ canv_id: canvasSelect.datos.canv_id }))
         }
-            
-
     }, [canvasSelect.estado, canvasSelect.idState])
-
-    useEffect(() => {
-    }, [respuestas]);
 
     useEffect(() => {
         if ((canvasSelect.idState === 'db' || canvasSelect.idState === 'alreadyLoaded') && sendAction === true) {
             if (respuestas.length === 0) {
-                // console.log("entro a actualizar canvas vacio")
+                console.log("entro a actualizar canvas vacio")
                 dispatch(updateRespuestas([{
                     canv_id: canvasSelect.datos.canv_id,
                     resp_id: '',
                 }]))
             } else
                 dispatch(updateRespuestas((respuestas)));
+        }
+    }, [canvasSelect.idState, sendAction]);
+
+    useEffect(() => {
+        if(stateResp==='loaded'){
             setShowNotif(true);
             dispatch(resetRespuesta());
             dispatch(listRespuestas({ canv_id: canvasSelect.datos.canv_id }));
-            return (setSendAction(false));
+            return setSendAction(false);
         }
-
-    }, [canvasSelect.idState, sendAction]);
-
+    }, [stateResp]);
 
     return (
         canvasSelect.datos.canv_id !== "" && preguntas.preguntas.length > 0 && <>

@@ -79,7 +79,7 @@ const ModelCanvasPreguntas = () => {
     const respuestas = useSelector(state => state.respuestasAsistidas.respAsist);
     const canvasSelect = useSelector(state => state.canvas);
     const sugerencias = useSelector(state => state.sugerencias);
-    const respuestasOriginales = useSelector(state => state.respuestas);
+    const respuestasOriginales = useSelector(state => state.respuestas.respuestas);
     const dispatch = useDispatch();
     const [formInput, setFormInput] = useState({
         resp_id: '',

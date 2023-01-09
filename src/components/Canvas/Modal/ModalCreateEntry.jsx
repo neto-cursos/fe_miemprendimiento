@@ -16,7 +16,7 @@ const ModalCreateEntry = ({ message, isOpen, onClose, modulo, idRespuesta, setId
     const modu_nomb2 = modulos.find((nodo => nodo.modu_id == modulo))
     const inputTitle = useRef(null);
     const dispatch = useDispatch();
-    const respuestas = useSelector(state => state.respuestas);
+    const respuestas = useSelector(state => state.respuestas.respuestas);
     const [isReadyToSend, setIsReadyToSend] = useState(false);
 
     const [respuesta, setRespuesta] = useState({
