@@ -8,7 +8,7 @@ import Input from './Elements/Input';
 import ToolTip from '../ToolTip/ToolTip';
 import {helpRubro,helpTipo,helpNombreEmpr} from './../../constants/helpToolTip';
 import { nanoIdNumbers } from '../../utils/nanoIdCustom';
-
+import { rubros } from '../../constants/rubros';
 const fields = emprendimientoFields;
 let fieldsState = {};
 
@@ -28,7 +28,6 @@ const EmprendimientoForm = () => {
     useLayoutEffect(() => {
         
         dispatch(resetEmprendActiva());
-        //console.log("LOLOl:"+aux1.user_id)
     }, []);
     useEffect(()=>{
         const aux1 = JSON.parse(sessionStorage.getItem('usr_dt'));
@@ -89,15 +88,9 @@ const EmprendimientoForm = () => {
                     name="empr_rubro" defaultValue={'Comercial'} onChange={updateFormInput}
                 >
                     <optgroup label="Rubro al que pertenece"></optgroup>
-                    <option>Comercial</option>
-                    <option>Financiero</option>
-                    <option>Manufactura</option>
-                    <option>Industrial</option>
-                    <option>Tecnológico</option>
-                    <option>Online</option>
-                    <option>Ganadería</option>
-                    <option>Pescadería</option>
-                    <option>minería</option>
+                    {rubros.map((r)=>{
+                        return <option key={r.rubro_id}>{r.nomb_rubro}</option>    
+                    })}
                 </select>
                 <span className='flex flex-row py-2'>
                 <label className='relative block'>Tipo:</label>

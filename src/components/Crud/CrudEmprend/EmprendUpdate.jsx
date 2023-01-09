@@ -6,7 +6,9 @@ import { emprendimientoFields } from '../../../constants/FormFields'
 import FormAction from './../../Forms/Elements/FormAction';
 import Input from './../../Forms/Elements/Input';
 import Header from '../../Forms/Elements/Header';
-
+import ToolTip from '../../ToolTip/ToolTip';
+import { helpRubro, helpTipo, helpNombreEmpr } from './../../../constants/helpToolTip';
+import { rubros } from '../../../constants/rubros';
 const fields = emprendimientoFields;
 let fieldsState = {};
 
@@ -76,7 +78,7 @@ const EmprendUpdate = ({ id }) => {
         //console.log(axios.defaults.headers.common['Authorization'])
         return <Navigate to={`/misemprendimientos`} />;
     }
-    
+
     return (
         <>
             <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -110,18 +112,20 @@ const EmprendUpdate = ({ id }) => {
 
                                 )
                             }
-                            <label className='py-3'>Rubro:</label>
+                            <span className='flex flex-row py-2'><label className=''>Rubro:</label>
+                                <ToolTip initialValue={""} currentValue={helpRubro.id} title={helpRubro.id} msg={helpRubro.msg} /></span>
                             <select
                                 className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600"
                                 name="empr_rubro" defaultValue={`${emprendActivo.empr_rubro}`} onChange={updateFormInput}
                             >
                                 <optgroup label="Rubro al que pertenece"></optgroup>
-                                <option>Comercio</option>
-                                <option>Industrial</option>
-                                <option>Online</option>
-                                <option>Comercial</option>
+                                {rubros.map((r) => {
+                                    return <option key={r.rubro_id}>{r.nomb_rubro}</option>
+                                })}
                             </select>
-                            <label className='relative block py-3'>Tipo:</label>
+                            <span className='flex flex-row py-2'>
+                                <label className='relative block'>Tipo:</label>
+                                <ToolTip initialValue={""} currentValue={helpTipo.id} title={helpTipo.id} msg={helpTipo.msg} /></span>
                             <div className="flex flex-row">
 
                                 <div className="flex items-center mr-4">
