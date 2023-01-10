@@ -10,7 +10,7 @@ const ModelCanvasPreguntas = () => {
     const { empr_id } = useParams();
     const dispatch=useDispatch();
     useEffect(() => {
-        dispatch(changeMenu({title:'MENU_CANVAS',empr_id:empr_id}))
+        dispatch(changeMenu({title:'MENU_CANVAS_ASISTENTE',empr_id:empr_id,modu_nume:1,bmc_type:'Industria'}))
       }, [])
 
     return (

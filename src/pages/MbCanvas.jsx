@@ -8,19 +8,24 @@ import Select from '@mui/material/Select';
 import { nanoid } from '@reduxjs/toolkit';
 import { modulos } from './../constants/modulos'
 import {motion} from 'framer-motion';
-import { useDispatch } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { changeMenu } from '../redux/reducers/menuSlice';
 const MbCanvas = () => {
     const { empr_id } = useParams();
     const dispatch=useDispatch();
-    useEffect(() => {
-        dispatch(changeMenu({title:'MENU_CANVAS',empr_id:empr_id}))
-      }, [])
-
+    // useEffect(() => {
+    //     dispatch(changeMenu({title:'MENU_CANVAS',empr_id:empr_id,modu_nume:1,bmc_type:'Industria'}))
+    //   }, [])
     const [select, setSelect] = React.useState({
         id: 1, value: `Módulo 1 
     ${modulos.find((nodo => nodo.modu_id == 1)).modulo}`
     });
+    
+    useEffect(() => {
+        console.log("selectid");
+        console.log(select.id);
+        dispatch(changeMenu({title:'MENU_CANVAS',empr_id:empr_id,modu_nume:select.id,bmc_type:'Industria'}));
+      }, [select]);
 
     const handleChange = (e) => {
         // console.log(e.target);

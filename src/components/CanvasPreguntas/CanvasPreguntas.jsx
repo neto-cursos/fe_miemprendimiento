@@ -29,7 +29,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import ToolTipBasic from '../ToolTip/ToolTipBasic';
 import VideoModal from '../VideoPlayer/VideoModal';
 import { Modal } from '@mui/material';
-
+import { asignFunctionName } from '../../redux/reducers/menuSlice';
 function getWindowSize() {
     const { innerWidth, innerHeight } = window;
     return { innerWidth, innerHeight };
@@ -46,7 +46,9 @@ const ModelCanvasPreguntas = () => {
             window.removeEventListener('resize', handleWindowResize);
         };
     }, []);
-
+    //funcion name of the menu for mobile
+    const { funcName } = useSelector(state => state.menus);
+    
     const videoDatos=useRef('');
     
     const [isOpen,setIsOpen]=useState(false);
@@ -81,6 +83,17 @@ const ModelCanvasPreguntas = () => {
     const sugerencias = useSelector(state => state.sugerencias);
     const respuestasOriginales = useSelector(state => state.respuestas.respuestas);
     const dispatch = useDispatch();
+    React.useEffect(() => {
+        if (funcName !== '') {
+            switch(funcName){
+                case 'saveAnswers':saveAnswers();break;
+                default:break;
+            }
+            dispatch(asignFunctionName(''));
+        }
+    }, [funcName]);
+
+
     const [formInput, setFormInput] = useState({
         resp_id: '',
         preg_id: '',
@@ -221,7 +234,7 @@ const ModelCanvasPreguntas = () => {
         dispatch(deleteRespuesta(id))
     };
 
-    const handleSubmit = () => {
+    const saveAnswers = () => {
         // console.log("handle submit SALIDA de datos ")
         // console.log(respuestas);
         dispatch(agregarRespuesta(respuestas));
@@ -449,7 +462,7 @@ const ModelCanvasPreguntas = () => {
                 </div>
 
                 <div className="col-span-6 text-center">
-                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-12 rounded" onClick={() => handleSubmit()}>GUARDAR</button>
+                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-12 rounded" onClick={() => saveAnswers()}>GUARDAR</button>
                 </div>
                 <p className="mb-8"></p>
             </section>

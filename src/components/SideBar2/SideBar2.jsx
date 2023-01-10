@@ -2,12 +2,14 @@ import React, { useEffect, useReducer, useState } from "react";
 import OutsideAlerter from "../../utils/OutsideAlerter";
 // import { menuPrincipal } from "../../constants/MenuSideBar";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import logofundacion from './../../assets/images/logoFundvida.png';
 import FondoMenuSidebar2 from './../../assets/images/FondoMenuSidebar2.jpg';
-
+import { asignFunctionName } from "../../redux/reducers/menuSlice";
 const SideBar2 = () => {
-    const menuPrincipal = useSelector(state => state.menus);
+    const dispatch = useDispatch();
+    
+    const menuPrincipal = useSelector(state => state.menus.menu);
     // <NavBar showLogin={true} auth={auth}></NavBar>
     const [showSidebar, setShowSidebar] = useState(false);
     return (
@@ -52,11 +54,20 @@ const SideBar2 = () => {
                         <div className="flex w-full">
                             <nav className="flex flex-col w-full ">
                                 {menuPrincipal.map((e) => {
-                                    return <Link key={e.id} to={e.enlace} className="text-darkish block py-3 px-2 font-bold" onClick={() => setShowSidebar(!showSidebar)}>{e.texto}</Link>
+                                    if (e.enlace !== 'null')
+                                        return <Link key={e.id} to={e.enlace} className="text-darkish block py-3 px-2 font-bold" onClick={() => setShowSidebar(!showSidebar)}>{e.texto}</Link>
+                                    else
+                                        return <span key={e.id} className="text-darkish block py-3 px-2 font-bold" onClick={() => {
+                                            //const fn = new Function(e.funcion);
+                                            //fn();
+                                            if (e.funcion)
+                                                dispatch(asignFunctionName(e.funcion))
+                                            setShowSidebar(!showSidebar);
+                                        }}>{e.texto}</span>
                                 })}
                             </nav>
                         </div>
-                        </div>
+                    </div>
                 </div>
             </OutsideAlerter >
         </div >

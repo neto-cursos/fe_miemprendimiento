@@ -12,7 +12,7 @@ import revenue_streams from './../../assets/images/revenue_streams.svg';
 import value_propositions from './../../assets/images/value_propositions.svg';
 import DownloadIcon from '@mui/icons-material/Download';
 import { useDispatch, useSelector } from 'react-redux';
-import { agregarRespuesta, deleteRespuesta, resetRespuesta,resetStateResp } from './../../redux/reducers/respuestaSlice';
+import { agregarRespuesta, deleteRespuesta, resetRespuesta, resetStateResp } from './../../redux/reducers/respuestaSlice';
 import ModuleBox from './ModuleBox/ModuleBox';
 import { useParams, useNavigate } from 'react-router-dom';
 import { listRespuestas, updateRespuestas } from './../../redux/actions/respuesta2Actions';
@@ -29,12 +29,15 @@ import * as htmlToImage from 'html-to-image';
 import Notifications from '../Notifications';
 import { msgCanvasNotif } from '../../constants/canvasNotifications';
 import { reset as resetRespAsist } from './../../redux/reducers/respuestaAsistSlice';
+import { asignFunctionName } from '../../redux/reducers/menuSlice';
 /**function to adapt to screen size */
 function getWindowSize() {
     const { innerWidth, innerHeight } = window;
     return { innerWidth, innerHeight };
 }
 const Canvas = ({ }) => {
+    //funcion name of the menu for mobile
+    const { funcName } = useSelector(state => state.menus);
     //useState for managin window size
     const [windowSize, setWindowSize] = React.useState(getWindowSize());
     //useEffect for managing resizing window
@@ -48,7 +51,7 @@ const Canvas = ({ }) => {
         };
     }, []);
     const currentCanvas = useRef(null);
-    const {empr_id} = useParams();
+    const { empr_id } = useParams();
     /**
      * Selectors
      */
@@ -140,7 +143,26 @@ const Canvas = ({ }) => {
         }
         dispatch(resetEstado());
     }, [])
-    
+    /**Menu Funcion*/
+    useEffect(() => {
+        if (funcName !== '') {
+            switch(funcName){
+                case 'convertToImg':convertToImg();break;
+                case 'updateTable':updateTable();break;
+                default:break;
+            }
+            // if (funcName == 'convertToImg')
+            //     convertToImg();
+
+            //console.log(funcName)
+            // const fn = new Function(funcName+'()');
+            // fn();
+            // funcName();
+            dispatch(asignFunctionName(''));
+        }
+
+    }, [funcName]);
+
     useEffect(() => {
         if (canvasSelect.estado === 'ready') {
             dispatch(getCanvas({ empr_id: empr_id }));
@@ -169,8 +191,8 @@ const Canvas = ({ }) => {
             dispatch(createCanvas(canvasSelect.datos));
         }
         // console.log("respuestas::::::")
-            // console.log(respuestas.length)
-        if (canvasSelect.idState === 'alreadyLoaded'&&respuestas.length===0){
+        // console.log(respuestas.length)
+        if (canvasSelect.idState === 'alreadyLoaded' && respuestas.length === 0) {
             // console.log("entro wey")
             dispatch(listRespuestas({ canv_id: canvasSelect.datos.canv_id }))
         }
@@ -190,7 +212,7 @@ const Canvas = ({ }) => {
     }, [canvasSelect.idState, sendAction]);
 
     useEffect(() => {
-        if(stateResp==='loaded'){
+        if (stateResp === 'loaded') {
             setShowNotif(true);
             dispatch(resetRespuesta());
             dispatch(listRespuestas({ canv_id: canvasSelect.datos.canv_id }));
